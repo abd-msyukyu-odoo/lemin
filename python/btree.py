@@ -66,6 +66,8 @@ class BTree:
 			self.right = new
 		if self.left is old:
 			self.left = new
+		if new is not None:
+			new.up = old.up
 
 	def __remove_direct_branch(self, elem):
 		self.__replace_direct_branch(elem, None)
@@ -97,3 +99,30 @@ class BTree:
 			min.up.__replace_direct_branch(min, min.right)
 			elem.data = min.data
 		return rm_data
+
+	def display(self):
+		if (self.left is not None):
+			self.left.display()
+		print(" " + self.data.name + " ")
+		if (self.right is not None):
+			self.right.display()
+
+
+# use :
+
+bt = BTree(Data("k"), strcmp)
+bt.add_data(Data("u"))
+bt.add_data(Data("z"))
+bt.add_data(Data("b"))
+bt.add_data(Data("n"))
+bt.add_data(Data("o"))
+bt.add_data(Data("x"))
+bt.add_data(Data("a"))
+bt.display()
+print()
+bt.remove_data("n")
+bt.remove_data("z")
+bt.display()
+print()
+bt.remove_data("k")
+bt.display()
