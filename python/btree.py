@@ -1,16 +1,18 @@
-# Node requirement
-class Node:
+# Data requirement
+class Data:
+	# name : any Comparable type
 	def __init__(self, name):
 		self.name = name
 
 # -> BTree comparison function
-# str1, str2 : string
-def strcmp(str1, str2):
-	return (str1 > str2) - (str1 < str2)
+# a, b : any Comparable type
+def strcmp(a, b):
+	return (a > b) - (a < b)
 
-# data : Node
-# f_cmp : comparison function
 class BTree:
+	# data : Data : Any type with "name" attribute : string -> by ext. : integer
+	# f_cmp : comparison function
+	# left, right : BTree
 	def __init__(self, data, f_cmp):
 		self.data = data
 		self.left = None
