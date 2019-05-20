@@ -1,3 +1,7 @@
+class Tools: 
+	def name_cmp(a, b):
+		return (a > b) - (a < b)
+
 class Room:
 
     def __init__(self, name, x=None, y=None):
@@ -33,7 +37,7 @@ class BTree:
 			return 1
 		cur = self
 		while True:
-			cmpr = self.f_cmp(data, cur.data)
+			cmpr = self.f_cmp(data.name, cur.data.name)
 			if cmpr < 0:
 				if cur.left is None:
 					cur.left = BTree(data, self.f_cmp, cur)
@@ -47,12 +51,12 @@ class BTree:
 			else:
 				return 0
 
-	def __get_elem(self, rToFind):
+	def __get_elem(self, name):
 		if self.data is None:
 			return None
 		cur = self
 		while True:
-			cmpr = self.f_cmp(rToFind, cur.data)
+			cmpr = self.f_cmp(name, cur.data.name)
 			if cmpr < 0:
 				if cur.left is None:
 					return None
@@ -65,7 +69,7 @@ class BTree:
 				return cur
 	
 	def get_data(self, name):
-		elem = self.__get_elem(Room(name))
+		elem = self.__get_elem(name)
 		return None if elem is None else elem.data
 	
 	def __replace_direct_branch(self, old, new):
