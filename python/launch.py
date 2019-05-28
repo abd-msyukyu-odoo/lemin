@@ -3,17 +3,18 @@ import os
 from reading import read_input
 from visu import Floor
 from vpython import *
+from globals import *
 
 input = os.popen("./../resources/generator --flow-one").read()
 
 print(input)
-rtree, nbAnts, start_name, end_name = read_input(input)
+rtree, nbAnts, Tools.start_name, Tools.end_name = read_input(input)
 
-visu = Floor([rtree.get_data(start_name)])
+visu = Floor([rtree.get_data(Tools.start_name)])
 visu.draw()
 
-scene.width = 800
-scene.height= 800
+scene.width = 1000
+scene.height= 1000
 
 cur_camera_pos = scene.camera.pos
 def move_camera(ev):
@@ -23,4 +24,4 @@ def move_camera(ev):
 	elif ev.event == "mousemove":
 		scene.camera.pos -= (ev.pos - cur_camera_pos ) / 10
 
-scene.bind('mouseup mousemove mousedown', move_camera)
+scene.bind('mousemove mousedown', move_camera)

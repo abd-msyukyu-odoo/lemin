@@ -13,10 +13,19 @@ class Floor:
 		if rTree is None:
 			self.rTree = BTree(None, Tools.name_cmp)
 
+	def assign_color(self, s, room):
+		if room.name == Tools.start_name:
+			s.color = color.green
+			s.radius = 2 * self.rradius
+		elif room.name == Tools.end_name:
+			s.color = color.red
+			s.radius = 2 * self.rradius
+
 	def draw(self):
 		if len(self.rooms) == 1:
 			self.rooms[0].pos = vector(self.index,0,0)
-			sphere(pos=self.rooms[0].pos, radius=self.rradius)
+			s = sphere(pos=self.rooms[0].pos, radius=self.rradius)
+			self.assign_color(s, self.rooms[0])
 			self.rTree.add_data(self.rooms[0])
 			self.draw_paths(self.rooms[0])
 		else:
@@ -46,7 +55,8 @@ class Floor:
 		for room in self.rooms:
 			room.pos = vector(self.index, torus_radius * cos(2 * pi * i / lr),
 				torus_radius * sin (2 * pi * i / lr))
-			sphere(pos=room.pos, radius=self.rradius)
+			s = sphere(pos=room.pos, radius=self.rradius)
+			self.assign_color(s, room)
 			self.rTree.add_data(room)
 			self.draw_paths(room)
 			i += 1

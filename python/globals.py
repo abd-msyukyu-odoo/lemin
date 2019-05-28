@@ -1,6 +1,9 @@
 class Tools: 
+	@staticmethod
 	def name_cmp(a, b):
 		return (a > b) - (a < b)
+	start_name = None
+	end_name = None
 
 class Room:
 
