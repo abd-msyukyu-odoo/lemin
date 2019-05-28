@@ -1,3 +1,4 @@
+from globals import Tools
 from globals import *
 
 
@@ -31,8 +32,9 @@ def read_input(input):
                     a = rtree.get_data(j[0])
                     b = rtree.get_data(j[1])
                     if a and b:
-                        a.add_tunnel(b)
-                        b.add_tunnel(a)
+                        tunnel = Tunnel(a, b)
+                        a.add_tunnel(tunnel)
+                        b.add_tunnel(tunnel)
                     else:
                         print("Error")
                         break

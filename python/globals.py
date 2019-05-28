@@ -8,10 +8,10 @@ class Room:
         self.x = x
         self.y = y
         self.name = name
-        self.tunnel = []
+        self.tunnels = []
 
-    def add_tunnel(self, other):
-        self.tunnel.append(other)
+    def add_tunnel(self, tunnel):
+        self.tunnels.append(tunnel)
 
     def cmp(self, other):
         if self.name > other.name:
@@ -19,6 +19,13 @@ class Room:
         elif self.name < other.name:
             return -1
         return 0
+
+class Tunnel:
+	def __init(self, room1, room2, direction = 0):
+		self.direction = direction
+		self.room1 = room1
+		self.room2 = room2
+		self.direction = direction
 
 class BTree:
 	# data : Data : Any type with "name" attribute : string -> by ext. : integer
