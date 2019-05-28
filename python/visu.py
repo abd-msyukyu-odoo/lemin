@@ -12,14 +12,14 @@ class Floor:
         if len(next_rooms) > 0: 
             nextFloor = Floor(next_rooms, self.index + 1)
             nextFloor.draw()
-        if len(rooms) == 1:
+        if len(self.rooms) == 1:
             sphere(pos=vector(self.index,0,0), radius=self.rradius)
         else:
-            draw_torus()
+            self.draw_torus()
 
     def next_rooms(self):
         next_rooms = []
-        for room in rooms:
+        for room in self.rooms:
             next_rooms += room.get_joint_rooms()
         return next_rooms
 
