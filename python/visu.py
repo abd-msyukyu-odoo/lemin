@@ -2,7 +2,7 @@ from vpython import *
 from math import pi
 
 class Floor:
-    def __init__(self, rooms, index):
+    def __init__(self, rooms, index = 0):
         self.rooms = rooms
         self.index = index
         self.rradius = 0.1
