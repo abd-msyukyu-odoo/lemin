@@ -1,6 +1,8 @@
 from vpython import *
 from math import pi
 from globals import *
+from math import cos
+from math import sin
 
 class Floor:
 	def __init__(self, rooms, index = 0, rTree = None):
@@ -33,7 +35,12 @@ class Floor:
 		return next_rooms
 
 	def draw_torus(self):
-		ring(pos=vector(self.index,0,0),
+		torus_radius = len(self.rooms) * 4 * self.rradius / pi
+		""" ring(pos=vector(self.index,0,0),
 			axis=vector(1,0,0),
-			radius=len(self.rooms) * 4 * self.rradius / pi,
-			thickness=self.rradius)
+			radius=torus_radius,
+			thickness=self.rradius * 0.1) """
+		lr = len(self.rooms)
+		for i in range(lr):
+			sphere(pos=vector(self.index, torus_radius * cos(2 * pi * i / lr),
+				torus_radius * sin (2 * pi * i / lr)), radius=self.rradius)
