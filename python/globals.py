@@ -87,6 +87,9 @@ class BTree:
 	def get_data(self, name):
 		elem = self.__get_elem(name)
 		return None if elem is None else elem.data
+
+	def contains(self, name):
+		return False if self.get_data(name) is None else True
 	
 	def __replace_direct_branch(self, old, new):
 		if self.right is old:
