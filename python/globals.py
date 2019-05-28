@@ -13,6 +13,12 @@ class Room:
     def add_tunnel(self, tunnel):
         self.tunnels.append(tunnel)
 
+	def get_joint_rooms(self):
+		rooms = []
+		for tunnel in tunnels:
+			rooms.append(tunnel.get_other(self))
+		return rooms
+
     def cmp(self, other):
         if self.name > other.name:
             return 1
@@ -21,11 +27,14 @@ class Room:
         return 0
 
 class Tunnel:
-	def __init(self, room1, room2, direction = 0):
+	def __init__(self, room1, room2, direction = 0):
 		self.direction = direction
 		self.room1 = room1
 		self.room2 = room2
 		self.direction = direction
+
+	def get_other(self, room):
+		return room1 if room is room2 else room2
 
 class BTree:
 	# data : Data : Any type with "name" attribute : string -> by ext. : integer
