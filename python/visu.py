@@ -12,16 +12,17 @@ class Floor:
 		self.rTree = rTree
 		if rTree is None:
 			self.rTree = BTree(None, Tools.name_cmp)
-		for room in rooms:
-			self.rTree.add_data(room)
 
 	def draw(self):
 		if len(self.rooms) == 1:
-			sphere(pos=vector(self.index,0,0), radius=self.rradius)
+			self.rooms[0].pos = vector(self.index,0,0)
+			sphere(pos=self.rooms[0].pos, radius=self.rradius)
+			self.rTree.add_data(self.rooms[0])
+			self.draw_paths(self.rooms[0])
 		else:
 			self.draw_torus()
 		next_rooms = self.next_rooms()
-		if len(next_rooms) > 0: 
+		if len(next_rooms) > 0:
 			nextFloor = Floor(next_rooms, self.index + 1, self.rTree)
 			nextFloor.draw()
 
@@ -41,6 +42,18 @@ class Floor:
 			radius=torus_radius,
 			thickness=self.rradius * 0.1) """
 		lr = len(self.rooms)
-		for i in range(lr):
-			sphere(pos=vector(self.index, torus_radius * cos(2 * pi * i / lr),
-				torus_radius * sin (2 * pi * i / lr)), radius=self.rradius)
+		i = 0
+		for room in self.rooms:
+			room.pos = vector(self.index, torus_radius * cos(2 * pi * i / lr),
+				torus_radius * sin (2 * pi * i / lr))
+			sphere(pos=room.pos, radius=self.rradius)
+			self.rTree.add_data(room)
+			self.draw_paths(room)
+			i += 1
+
+	def draw_paths(self, room):
+		joint_rooms = room.get_joint_rooms()
+		for subroom in joint_rooms:
+			if self.rTree.contains(subroom.name):
+				curve(room.pos, subroom.pos, radius=0.01)
+
