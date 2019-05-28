@@ -66,4 +66,3 @@ class Floor:
 		for subroom in joint_rooms:
 			if self.rTree.contains(subroom.name):
 				curve(room.pos, subroom.pos, radius=0.01)
-
