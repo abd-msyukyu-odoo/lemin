@@ -35,5 +35,5 @@ class Floor:
 	def draw_torus(self):
 		ring(pos=vector(self.index,0,0),
 			axis=vector(1,0,0),
-			radius=4 * self.rradius / pi,
+			radius=len(self.rooms) * 4 * self.rradius / pi,
 			thickness=self.rradius)
