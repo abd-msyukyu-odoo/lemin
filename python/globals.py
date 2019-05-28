@@ -4,27 +4,27 @@ class Tools:
 
 class Room:
 
-    def __init__(self, name, x=None, y=None):
-        self.x = x
-        self.y = y
-        self.name = name
-        self.tunnels = []
+	def __init__(self, name, x=None, y=None):
+		self.x = x
+		self.y = y
+		self.name = name
+		self.tunnels = []
 
-    def add_tunnel(self, tunnel):
-        self.tunnels.append(tunnel)
+	def add_tunnel(self, tunnel):
+		self.tunnels.append(tunnel)
 
 	def get_joint_rooms(self):
 		rooms = []
-		for tunnel in tunnels:
+		for tunnel in self.tunnels:
 			rooms.append(tunnel.get_other(self))
 		return rooms
 
-    def cmp(self, other):
-        if self.name > other.name:
-            return 1
-        elif self.name < other.name:
-            return -1
-        return 0
+	def cmp(self, other):
+		if self.name > other.name:
+			return 1
+		elif self.name < other.name:
+			return -1
+		return 0
 
 class Tunnel:
 	def __init__(self, room1, room2, direction = 0):
@@ -34,7 +34,7 @@ class Tunnel:
 		self.direction = direction
 
 	def get_other(self, room):
-		return room1 if room is room2 else room2
+		return self.room1 if room is self.room2 else self.room2
 
 class BTree:
 	# data : Data : Any type with "name" attribute : string -> by ext. : integer
