@@ -18,3 +18,5 @@ visu.draw()
 
 bfs = Bfs(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name))
 bfs.draw()
+
+ants = DisplayAnts([5], [bfs.start_path])
