@@ -41,6 +41,7 @@ class Tunnel:
 		self.direction = direction
 		self.room1 = room1
 		self.room2 = room2
+		self.cost = 1
 
 	def get_other(self, room):
 		return self.room1 if room is self.room2 else self.room2

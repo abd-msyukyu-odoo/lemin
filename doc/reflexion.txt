@@ -1,0 +1,46 @@
+conserver le graphe original
+
+-> suurballe :
+dupliquer tous les noeuds sauf l'entree et la sortie
+pour chaque duplication : 
+-> un noeud (in) recupere toutes les demi-aretes entrantes
+-> l'autre noeud (out) recupere toutes les demi-aretes sortantes
+-> liaison in -> out de cost 0
+-> pour le noeud de depart : transformer toutes les aretes en sortantes
+-> pour le noeud de fin : transformer toutes les aretes en entrantes
+
+implication : le graphe est maintenant completement oriente (plus aucune arete double sens)
+raison : l'algorithme de suurballe trouve les chemins disjoints par les aretes, or on
+	veut les chemins disjoints par les noeuds.
+		Si on obtient les chemins disjoints par les aretes dans le graphe modifie,
+	puisque chaque noeud est soit un noeud d'entree avec une seul sortie (vers lui meme) 
+	ou un noeud de sortie avec une seule entree (de lui meme), il ne sera
+	pas possible que deux chemins se croisent par ces noeuds.
+
+faire une copie du graphe modifie
+
+dans la copie :
+-> appliquer Dijkstra pour trouver, a partir du noeud de depart, toutes les distances vers les autres noeuds du graphe
+
+-> creer un graphe residuel a partir du Dijkstra de la facon suivante :
+
+-> modifier le poids de toutes les aretes selon la formule suivante :
+soit O l'origine du Dijkstra
+nouveau_poids(X, Y) = poids(X, Y) - dijkstra(O, Y) + dijkstra(O, X)
+	-> Remarque : si X = O, le nouveau poids vaut 0
+
+-> creer un graphe residuel en supprimant toutes les aretes opposees au chemin le plus court entre
+l'origine et la fin, et en inversant le sens de toutes les aretes de ce chemin (tous les poids des aretes de ce chemin valent 0)
+
+-> appliquer a nouveau Dijkstra pour trouver un autre chemin
+
+-> comparer les aretes des 2 chemins 2 a 2 et supprimer celles qui s'opposent
+	(chaque chemin prend alors la fin de son binome)
+
+-> continuation de suurballe :
+nous avons a present les 2 chemins dont la somme est la plus courte.
+
+-> postulat : pour continuer, il faut : ?
+
+		recreer un graphe residuel dont l'oppose de tous les chemins les plus courts sont mis a 0, et les chemins les plus courts retires du graphe ?
+		que donner comme nouveaux poids aux autres noeuds ?
