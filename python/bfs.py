@@ -43,7 +43,7 @@ class DisplayAnts:
 		for i in range(len(paths)):
 			for j in range(n_ants[i]):
 				self.stock.append(Ant(paths[i]))
-		deltat = 0.00001
+		deltat = 0.00005
 		t = 0
 		while True:
 			if len(self.stock) == 0 and len(self.ants) == 0:
