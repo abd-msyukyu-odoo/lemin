@@ -22,6 +22,13 @@ class Room:
 			rooms.append(tunnel.get_other(self))
 		return rooms
 
+	def get_tunnel(self, room):
+		for tunnel in self.tunnels:
+			other = tunnel.get_other(self)
+			if (other is room):
+				return tunnel
+		return None
+
 	def cmp(self, other):
 		if self.name > other.name:
 			return 1
@@ -34,7 +41,6 @@ class Tunnel:
 		self.direction = direction
 		self.room1 = room1
 		self.room2 = room2
-		self.direction = direction
 
 	def get_other(self, room):
 		return self.room1 if room is self.room2 else self.room2
