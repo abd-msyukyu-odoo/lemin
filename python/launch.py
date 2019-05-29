@@ -4,6 +4,7 @@ from reading import read_input
 from visu import *
 from vpython import *
 from globals import *
+from bfs import *
 
 input = os.popen("./../resources/generator --big").read()
 
@@ -14,3 +15,6 @@ config = Config()
 
 visu = Floor([rtree.get_data(Tools.start_name)])
 visu.draw()
+
+bfs = Bfs(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name))
+bfs.draw()
