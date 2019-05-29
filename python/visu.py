@@ -3,6 +3,8 @@ from math import pi
 from globals import *
 from math import cos
 from math import sin
+import os
+import signal
 
 class Config:
 	def __init__(self, width = 1000, height = 1000):
@@ -10,12 +12,18 @@ class Config:
 		scene.height= width
 		self.camera_pos = scene.camera.pos
 		scene.bind('mousemove mousedown', self.move_camera)
+		scene.bind('keyup', self.terminate)
 
 	def move_camera(self, ev):
 		if ev.event == "mousedown":
 			self.camera_pos = ev.pos
 		elif ev.event == "mousemove":
 			scene.camera.pos -= (ev.pos - self.camera_pos ) / 10
+	
+	def terminate(self, ev):
+		if ev.key == 'esc':
+			os.kill(os.getpid(), signal.SIGINT)
+		
 
 class Floor:
 	def __init__(self, rooms, index = 0, rTree = None):
