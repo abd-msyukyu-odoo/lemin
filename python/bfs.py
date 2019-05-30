@@ -1,5 +1,6 @@
 from globals import *
 from vpython import *
+import time
 
 class Path:
 	def __init__(self, room, previous):
@@ -52,9 +53,11 @@ class DisplayAnts:
 			if len(self.stock) > 0:
 				self.ants.append(self.stock.pop())
 			while t <= 1:
+				t_now = time.time()
 				for ant in self.ants:
 					ant.update_position(deltat)
 				t = t + deltat
+				deltat = Tools.time_multiplier * (time.time() - t_now)
 			i = 0
 			while i < len(self.ants):
 				ant = self.ants[i]

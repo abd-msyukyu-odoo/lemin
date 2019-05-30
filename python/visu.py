@@ -13,6 +13,8 @@ class Config:
 		self.camera_pos = scene.camera.pos
 		scene.bind('mousemove mousedown', self.move_camera)
 		scene.bind('keyup', self.terminate)
+		self.slide = slider(pos=scene.caption_anchor, bind=self.time_multiplier,
+			step=0.1, value=0.5, top=10)
 
 	def move_camera(self, ev):
 		if ev.event == "mousedown":
@@ -23,7 +25,14 @@ class Config:
 	def terminate(self, ev):
 		if ev.key == 'esc':
 			os.kill(os.getpid(), signal.SIGINT)
-		
+
+	def time_multiplier(self):
+		if self.slide.value == 0.5:
+			Tools.time_multiplier = 1
+		elif self.slide.value < 0.5:
+			Tools.time_multiplier = self.slide.value * 2
+		else:
+			Tools.time_multiplier = (self.slide.value - 0.5) * 10 + 1
 
 class Floor:
 	def __init__(self, rooms, index = 0, rTree = None):

@@ -4,6 +4,7 @@ class Tools:
 		return (a > b) - (a < b)
 	start_name = None
 	end_name = None
+	time_multiplier = 1
 
 class Room:
 
