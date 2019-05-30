@@ -147,6 +147,7 @@ class Ant:
 			self.sphere.velocity = self.path.previous.room.visu.pos
 			self.sphere.pos = self.origin.room.visu.pos
 			return False
+		self.sphere.pos = self.path.room.visu.pos
 		self.sphere.velocity = vector(self.path.previous.room.visu.pos.x - self.path.room.visu.pos.x, \
 			self.path.previous.room.visu.pos.y - self.path.room.visu.pos.y, \
 			self.path.previous.room.visu.pos.z - self.path.room.visu.pos.z)
@@ -165,7 +166,7 @@ class DisplayAnts:
 		for i in range(len(paths)):
 			for j in range(n_ants[i]):
 				self.stock.append(Ant(paths[i]))
-		deltat = 0.00005
+		deltat = 0.000005
 		t = 0
 		while True:
 			if len(self.stock) == 0 and len(self.ants) == 0:
