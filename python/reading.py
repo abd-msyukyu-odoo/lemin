@@ -3,7 +3,7 @@ from globals import *
 
 
 def read_input(input):
-	rtree = BTree(None, Tools.name_cmp)
+	rtree = BTree(None)
 	input = input.splitlines()
 	rooms = False
 	nbAnts = int(input.pop(0))

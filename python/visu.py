@@ -42,7 +42,7 @@ class Floor:
 		self.rradius = 0.1
 		self.rTree = rTree
 		if rTree is None:
-			self.rTree = BTree(None, Tools.name_cmp)
+			self.rTree = BTree(None)
 
 	def assign_color(self, s, room):
 		if room.name == Tools.start_name:
@@ -66,10 +66,10 @@ class Floor:
 			nextFloor.draw()
 
 	def next_rooms(self):
-		tmpTree = BTree(None, Tools.name_cmp)
+		tmpTree = BTree(None)
 		next_rooms = []
 		for room in self.rooms:
-			joint_rooms = room.get_joint_rooms()
+			joint_rooms = room.get_other_rooms()
 			for subroom in joint_rooms:
 				if not self.rTree.contains(subroom.name) and not tmpTree.contains(subroom.name):
 					next_rooms.append(subroom)
@@ -94,8 +94,8 @@ class Floor:
 			i += 1
 
 	def draw_paths(self, room):
-		joint_rooms = room.get_joint_rooms()
-		for subroom in joint_rooms:
+		other_rooms = room.get_other_rooms()
+		for subroom in other_rooms:
 			if self.rTree.contains(subroom.name):
 				tunnel = room.get_tunnel(subroom)
 				tunnel.visu = curve(room.visu.pos, subroom.visu.pos, radius=0.01)

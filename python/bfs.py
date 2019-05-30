@@ -5,7 +5,7 @@ class Bfs:
 	def __init__(self, s_room, e_room):
 		self.s_room = s_room
 		self.e_room = e_room
-		self.pTree = BTree(None, Tools.name_cmp)
+		self.pTree = BTree(None)
 		self.start_path = self.search_path()
 	
 	def search_path(self):

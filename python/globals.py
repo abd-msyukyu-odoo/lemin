@@ -1,3 +1,5 @@
+from enum import Enum
+
 class Tools: 
 	@staticmethod
 	def name_cmp(a, b):
@@ -17,10 +19,25 @@ class Room:
 	def add_tunnel(self, tunnel):
 		self.tunnels.append(tunnel)
 
+	def remove_tunnel(self, tunnel):
+		other = tunnel.get_other(self)
+		self.tunnels.remove(tunnel)
+		other.tunnels.remove(tunnel)
+
 	def get_joint_rooms(self):
 		rooms = []
 		for tunnel in self.tunnels:
-			rooms.append(tunnel.get_other(self))
+			other = tunnel.navigate(self)
+			if other is not None:
+				rooms.append(other)
+		return rooms
+
+	def get_other_rooms(self):
+		rooms = []
+		for tunnel in self.tunnels:
+			other = tunnel.get_other(self)
+			if other is not None:
+				rooms.append(other)
 		return rooms
 
 	def get_tunnel(self, room):
@@ -37,21 +54,41 @@ class Room:
 			return -1
 		return 0
 
+class Direction(Enum):
+	NATURAL = 1
+	REVERSE = -1
+	BOTH = 0
+
 class Tunnel:
-	def __init__(self, room1, room2, direction = 0):
+	def __init__(self, room1, room2, direction = Direction.BOTH, cost = 1):
 		self.direction = direction
 		self.room1 = room1
 		self.room2 = room2
-		self.cost = 1
+		self.cost = cost
 
 	def get_other(self, room):
-		return self.room1 if room is self.room2 else self.room2
+		if self.room1 is room:
+			return self.room2
+		elif self.room2 is room:
+			return self.room1
+		else:
+			return None
+
+	def navigate(self, room):
+		if self.room1 is room and (self.direction == Direction.BOTH or \
+			self.direction == Direction.NATURAL):
+			return self.room2
+		elif self.room2 is room and (self.direction == Direction.BOTH or \
+			self.direction == Direction.REVERSE):
+			return self.room1
+		else:
+			return None
 
 class BTree:
 	# data : Data : Any type with "name" attribute : string -> by ext. : integer
 	# f_cmp : comparison function
 	# left, right : BTree
-	def __init__(self, data, f_cmp, up = None):
+	def __init__(self, data, f_cmp = Tools.name_cmp, up = None):
 		self.data = data
 		self.left = None
 		self.right = None
@@ -105,10 +142,12 @@ class BTree:
 	def __replace_direct_branch(self, old, new):
 		if self.right is old:
 			self.right = new
-		if self.left is old:
+			if new is not None:
+				new.up = old.up
+		elif self.left is old:
 			self.left = new
-		if new is not None:
-			new.up = old.up
+			if new is not None:
+				new.up = old.up
 
 	def __remove_direct_branch(self, elem):
 		self.__replace_direct_branch(elem, None)
@@ -131,15 +170,44 @@ class BTree:
 			return None
 		rm_data = elem.data
 		if elem.right is None and elem.left is None:
-			elem.up.__remove_direct_branch(elem, None)
-		elif elem.right is None or elem.left is None:
-			elem.up.__replace_direct_branch(elem, \
-				elem.right if elem.left is None else elem.left)
+			if elem.up is None:
+				elem.data = None
+			else:
+				elem.up.__remove_direct_branch(elem, None)
+		elif elem.right is None:
+			if elem.up is None:
+				elem.data = elem.left.data
+				elem.right = elem.left.right
+				elem.left = elem.left.left
+				if elem.right is not None:
+					elem.right.up = elem
+				if elem.left is not None:
+					elem.left.up = elem
+			else:
+				elem.up.__replace_direct_branch(elem, elem.left)
+		elif elem.left is None:
+			if elem.up is None:
+				elem.data = elem.right.data
+				elem.left = elem.right.left
+				elem.right = elem.right.right
+				if elem.right is not None:
+					elem.right.up = elem
+				if elem.left is not None:
+					elem.left.up = elem
+			else:
+				elem.up.__replace_direct_branch(elem, elem.right)
 		else:
-			min = elem.right.__get_min_elem()
-			min.up.__replace_direct_branch(min, min.right)
-			elem.data = min.data
+			min_e = elem.right.__get_min_elem()
+			min_e.up.__replace_direct_branch(min_e, min_e.right)
+			elem.data = min_e.data
 		return rm_data
+
+	def fill_copy(self, bTree):
+		bTree.add_data(self.data)
+		if self.left is not None:
+			self.left.fill_copy(bTree)
+		if self.right is not None:
+			self.right.fill_copy(bTree)
 
 	def __str__(self):
 		s = ""
