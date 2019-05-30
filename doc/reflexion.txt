@@ -40,7 +40,5 @@ l'origine et la fin, et en inversant le sens de toutes les aretes de ce chemin (
 -> continuation de suurballe :
 nous avons a present les 2 chemins dont la somme est la plus courte.
 
--> postulat : pour continuer, il faut : ?
+-> postulat : pour continuer, il faut : ? -> a priori, impossible
 
-		recreer un graphe residuel dont l'oppose de tous les chemins les plus courts sont mis a 0, et les chemins les plus courts retires du graphe ?
-		que donner comme nouveaux poids aux autres noeuds ?

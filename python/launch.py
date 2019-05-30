@@ -17,6 +17,6 @@ visu = Floor([rtree.get_data(Tools.start_name)])
 visu.draw()
 
 bfs = Bfs(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name))
-bfs.draw()
+bfs.start_path.draw(color.blue)
 
 ants = DisplayAnts([50], [bfs.start_path])
