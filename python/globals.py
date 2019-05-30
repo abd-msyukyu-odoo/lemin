@@ -54,6 +54,26 @@ class Room:
 			return -1
 		return 0
 
+class Status(Enum):
+	IN = 0
+	OUT = 1
+
+class SRoom(Room):
+	@staticmethod
+	def init(room):
+		rin = SRoom(room, Status.IN)
+		rout = SRoom(room, Status.OUT)
+		tunnel = Tunnel(rin, rout, Direction.NATURAL, 0)
+		rin.add_tunnel(tunnel)
+		rout.add_tunnel(tunnel)
+		return rin, rout
+
+	def __init__(self, room, status):
+		self.status = status
+		self.room = room
+		self.name = room.name + "#" + ("IN" if status == Status.IN else "OUT")
+		self.tunnels = []
+
 class Direction(Enum):
 	NATURAL = 1
 	REVERSE = -1
