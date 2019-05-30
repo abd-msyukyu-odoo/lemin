@@ -35,11 +35,11 @@ class Suurballe:
 		self.start_paths = self.search_paths()
 
 	def fill_srTree(self):
-		t = BTree(None)
-		self.resourceTree.fill_copy(t)
-		while t.data is not None:
-			room = t.data
-			t.remove_data(room.name)
+		a = []
+		self.resourceTree.fill_array(a)
+		while len(a) > 0:
+			room = a[0]
+			a.remove(room)
 			if room is self.s_room:
 				self.s_sroom = SRoom(room, Status.OUT)
 				self.srTree.add_data(self.s_sroom)
@@ -53,11 +53,11 @@ class Suurballe:
 
 	def fill_tunnels(self):
 		srDone = BTree(None)
-		t = BTree(None)
-		self.resourceTree.fill_copy(t)
-		while t.data is not None:
-			room = t.data
-			t.remove_data(room.name)
+		a = []
+		self.resourceTree.fill_array(a)
+		while len(a) > 0:
+			room = a[0]
+			a.remove(room)
 			rin = self.srTree.get_data(room.name + "#IN")
 			if rin is not None:
 				srDone.add_data(rin)

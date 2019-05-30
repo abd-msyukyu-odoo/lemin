@@ -209,6 +209,13 @@ class BTree:
 		if self.right is not None:
 			self.right.fill_copy(bTree)
 
+	def fill_array(self, arr):
+		arr.append(self.data)
+		if self.left is not None:
+			self.left.fill_array(arr)
+		if self.right is not None:
+			self.right.fill_array(arr)
+
 	def __str__(self):
 		s = ""
 		if (self.left is not None):
