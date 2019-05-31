@@ -1,4 +1,3 @@
-import os
 from reading import read_input
 from visu import *
 from vpython import *
@@ -6,13 +5,19 @@ from globals import *
 from bfs import *
 from suurballe import *
 from os.path import dirname, abspath
+import os
+from platform import system
 
-d = dirname(dirname(os.path.abspath(__file__)))
-d = os.path.join(d, "resources", "map.txt")
-#input = os.popen("./../resources/generator --big").read()
-input = open(d, 'r').read()
+parent = dirname(dirname(os.path.abspath(__file__)))
+f = os.path.join(parent, "resources", "map.txt")
 
-print(input)
+if system() == 'Darwin':
+	d = os.path.join(parent, "resources", "generator")
+	os.popen(d + " --big > " + f)
+
+input = open(f, 'r').read()
+
+#print(input)
 rtree, nbAnts, Tools.start_name, Tools.end_name = read_input(input)
 
 surb = Suurballe(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree)
