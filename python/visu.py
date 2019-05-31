@@ -166,28 +166,46 @@ class DisplayAnts:
 		self.finished_ants = []
 		self.stock = []
 		for i in range(len(paths)):
+			self.stock.append([])
+			self.ants.append([])
+			self.finished_ants.append([])
 			for j in range(n_ants[i]):
-				self.stock.append(Ant(paths[i]))
+				self.stock[i].append(Ant(paths[i]))
 		deltat = 0.000005
 		t = 0
 		while True:
-			if len(self.stock) == 0 and len(self.ants) == 0:
+			empty_stock = True
+			empty_on_trail = True
+			for i in range(len(paths)):
+				if len(self.stock[i]) != 0:
+					empty_stock = False
+				if len(self.ants[i]) != 0:
+					empty_on_trail = False
+				if not empty_on_trail and not empty_stock:
+					break
+			if empty_on_trail and empty_stock:
 				self.stock = self.finished_ants
 				self.finished_ants = []
-			if len(self.stock) > 0:
-				self.ants.append(self.stock.pop())
+				for i in range(len(paths)):
+					self.finished_ants.append([])
+			else:
+				for i in range(len(paths)):
+					if len(self.stock[i]) > 0:
+						self.ants[i].append(self.stock[i].pop())
 			while t <= 1:
 				t_now = time.time()
-				for ant in self.ants:
-					ant.update_position(deltat)
+				for i in range(len(paths)):
+					for ant in self.ants[i]:
+						ant.update_position(deltat)
 				t = t + deltat
 				deltat = Tools.time_multiplier * (time.time() - t_now)
-			i = 0
-			while i < len(self.ants):
-				ant = self.ants[i]
-				if not ant.update_velocity():
-					self.ants.remove(ant)
-					self.finished_ants.append(ant)
-				else:
-					i += 1
+			for i in range(len(paths)):
+				j = 0
+				while j < len(self.ants[i]):
+					ant = self.ants[i][j]
+					if not ant.update_velocity():
+						self.ants[i].remove(ant)
+						self.finished_ants[i].append(ant)
+					else:
+						j += 1
 			t = 0

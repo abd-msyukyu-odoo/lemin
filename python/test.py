@@ -27,7 +27,7 @@ config = Config()
 visu = Floor([bhandari.srTree.get_data(Tools.start_name + "#OUT")])
 visu.draw()
 
-if bhandari.bfs.start_path is not None and hasattr(bhandari.bfs.start_path.room, 'visu'):
-	bhandari.bfs.start_path.draw(color.blue)
-	bhandari.bellmanford.start_path.draw(color.purple)
-	ants = DisplayAnts([50, 50], [bhandari.bfs.start_path, bhandari.bellmanford.start_path])
+for path in bhandari.start_paths:
+	path.draw(color.blue)
+if len(bhandari.start_paths) == 2:
+	ants = DisplayAnts([50, 50], [bhandari.start_paths[0], bhandari.start_paths[1]])

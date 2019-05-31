@@ -11,14 +11,12 @@ class Bhandari:
 		self.resourceTree = BTree(None)
 		bTree_rooms.fill_copy(self.resourceTree)
 		self.fill_srTree(s_room, e_room)
+		self.bfs = None
+		self.start_paths = []
 		if self.s_sroom is not None and self.e_sroom is not None:
 			self.fill_tunnels()
 			self.bfs = Bfs(self.s_sroom, self.e_sroom)
 			self.start_paths = self.search_paths()
-			self.bellmanford = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
-		else:
-			self.bfs = None
-			self.start_paths = []
 
 	def fill_srTree(self, s_room, e_room):
 		a = []
@@ -66,4 +64,16 @@ class Bhandari:
 						rother.add_tunnel(stin)
 
 	def search_paths(self):
-		return []
+		paths = [self.bfs.start_path]
+		shortest = self.bfs.start_path
+		while shortest.previous is not None:
+			tunnel = shortest.room.get_tunnel(shortest.previous.room)
+			tunnel.direction = Direction.REVERSE
+			tunnel.cost = -1 * tunnel.cost
+			shortest = shortest.previous
+		bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
+		if bf.start_path is not None:
+			paths.append(bf.start_path)
+		else:
+			print("bellmanford failed")
+		return paths
