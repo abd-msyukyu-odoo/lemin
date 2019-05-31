@@ -3,7 +3,7 @@ from visu import *
 from vpython import *
 from globals import *
 from bfs import *
-from suurballe import *
+from bhandari import *
 from os.path import dirname, abspath
 import os
 from platform import system
@@ -20,7 +20,7 @@ input = open(f, 'r').read()
 #print(input)
 rtree, nbAnts, Tools.start_name, Tools.end_name = read_input(input)
 
-surb = Suurballe(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree)
+surb = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree)
 
 config = Config()
 

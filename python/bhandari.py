@@ -2,7 +2,7 @@ from globals import *
 from visu import Path
 from enum import Enum
 
-class Suurballe:
+class Bhandari:
 	def __init__(self, s_room, e_room, bTree_rooms):
 		self.s_room = s_room
 		self.e_room = e_room
