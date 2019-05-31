@@ -27,9 +27,7 @@ config = Config()
 visu = Floor([bha.srTree.get_data(Tools.start_name + "#OUT")])
 visu.draw()
 
-bfs = Bfs(bha.s_sroom, bha.e_sroom)
-if bfs.start_path is not None:
-	bfs.start_path.draw(color.blue)
-	ants = DisplayAnts([50], [bfs.start_path])
-else:
-	print("bfs failed")
+if bha.bfs.start_path is not None and hasattr(bha.bfs.start_path.room, 'visu'):
+	bha.bfs.start_path.draw(color.blue)
+	bha.bellmanford.start_path.draw(color.purple)
+	ants = DisplayAnts([50, 50], [bha.bfs.start_path, bha.bellmanford.start_path])

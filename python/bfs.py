@@ -27,7 +27,6 @@ class Bfs:
 						n_paths.append(path)
 						self.discovered_rooms.append(subroom)
 						if self.e_room is subroom and self.start_path is None:
-							print(path.index)
 							reverse_path = Path(path.room, None)
 							while path.previous is not None:
 								path = path.previous

@@ -1,28 +1,35 @@
 from globals import *
 from visu import Path
-from enum import Enum
+from bfs import Bfs
+from bellmanford import BellmanFord
 
 class Bhandari:
 	def __init__(self, s_room, e_room, bTree_rooms):
-		self.s_room = s_room
-		self.e_room = e_room
+		self.s_sroom = None
+		self.e_sroom = None
 		self.srTree = BTree(None)
 		self.resourceTree = BTree(None)
 		bTree_rooms.fill_copy(self.resourceTree)
-		self.fill_srTree()
-		self.fill_tunnels()
-		self.start_paths = self.search_paths()
+		self.fill_srTree(s_room, e_room)
+		if self.s_sroom is not None and self.e_sroom is not None:
+			self.fill_tunnels()
+			self.bfs = Bfs(self.s_sroom, self.e_sroom)
+			self.start_paths = self.search_paths()
+			self.bellmanford = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
+		else:
+			self.bfs = None
+			self.start_paths = []
 
-	def fill_srTree(self):
+	def fill_srTree(self, s_room, e_room):
 		a = []
 		self.resourceTree.fill_array(a)
 		while len(a) > 0:
 			room = a[0]
 			a.remove(room)
-			if room is self.s_room:
+			if room is s_room:
 				self.s_sroom = SRoom(room, Status.OUT)
 				self.srTree.add_data(self.s_sroom)
-			elif room is self.e_room:
+			elif room is e_room:
 				self.e_sroom = SRoom(room, Status.IN)
 				self.srTree.add_data(self.e_sroom)
 			else:

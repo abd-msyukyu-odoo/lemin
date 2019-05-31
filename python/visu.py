@@ -110,9 +110,11 @@ class Path:
 		self.room = room
 		self.previous = previous
 		if previous is None:
-			self.index = 0
+			self.cost = 0
 		else:
-			self.index = previous.index + 1
+			tunnel = self.room.get_tunnel(previous.room)
+			cost = tunnel.cost if tunnel.navigate(self.room) is not None else -1 * tunnel.cost
+			self.cost = previous.cost + cost
 
 	def draw(self, color):
 		p = self
@@ -123,7 +125,7 @@ class Path:
 				break
 			else:
 				tunnel = p.room.get_tunnel(p.previous.room)
-				if tunnel.visu:
+				if hasattr(tunnel, 'visu'):
 					self.__modify_curve(tunnel.visu, color)
 					p = p.previous
 				else:
