@@ -20,14 +20,14 @@ input = open(f, 'r').read()
 #print(input)
 rtree, nbAnts, Tools.start_name, Tools.end_name = read_input(input)
 
-bha = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree)
+bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree)
 
 config = Config()
 
-visu = Floor([bha.srTree.get_data(Tools.start_name + "#OUT")])
+visu = Floor([bhandari.srTree.get_data(Tools.start_name + "#OUT")])
 visu.draw()
 
-if bha.bfs.start_path is not None and hasattr(bha.bfs.start_path.room, 'visu'):
-	bha.bfs.start_path.draw(color.blue)
-	bha.bellmanford.start_path.draw(color.purple)
-	ants = DisplayAnts([50, 50], [bha.bfs.start_path, bha.bellmanford.start_path])
+if bhandari.bfs.start_path is not None and hasattr(bhandari.bfs.start_path.room, 'visu'):
+	bhandari.bfs.start_path.draw(color.blue)
+	bhandari.bellmanford.start_path.draw(color.purple)
+	ants = DisplayAnts([50, 50], [bhandari.bfs.start_path, bhandari.bellmanford.start_path])

@@ -1,4 +1,4 @@
-conserver le graphe original
+discussion de recherche de chemins disjoints
 
 -> suurballe :
 dupliquer tous les noeuds sauf l'entree et la sortie
@@ -42,7 +42,11 @@ nous avons a present les 2 chemins dont la somme est la plus courte.
 
 -> postulat : pour continuer, il faut : ? -> a priori, impossible
 
+--------------------------------------------------------------
+-------------- conclusion : rejet de suurballe. --------------
+--------------------------------------------------------------
 
+///Alternative\\\
 
 -> bhandari :
 duplication des noeuds comme pour suurballe
@@ -65,3 +69,4 @@ on arrete des qu'on ne trouve pas un chemin supplementaire
 
 Remarque : a chaque fois qu'un chemin de plus est ajoute, evaluer en combien de coups les fourmis peuvent sortir
 -> on continue d'iterer tant que le nombre de coups des fourmis n'augmente pas
+

@@ -30,5 +30,3 @@ if bfs.start_path is not None:
 	ants = DisplayAnts([50], [bfs.start_path])
 else:
 	print("bfs failed")
-
-ants = DisplayAnts([50], [bfs.start_path])
