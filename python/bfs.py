@@ -15,6 +15,7 @@ class Bfs:
 		p1 = Path(self.s_room, None)
 		self.pTree.add_data(p1)
 		paths.append(p1)
+		self.discovered_rooms.append(self.s_room)
 		while True:
 			n_paths = []
 			for p in paths:
@@ -26,6 +27,7 @@ class Bfs:
 						n_paths.append(path)
 						self.discovered_rooms.append(subroom)
 						if self.e_room is subroom and self.start_path is None:
+							print(path.index)
 							reverse_path = Path(path.room, None)
 							while path.previous is not None:
 								path = path.previous

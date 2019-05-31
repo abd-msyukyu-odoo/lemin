@@ -42,3 +42,26 @@ nous avons a present les 2 chemins dont la somme est la plus courte.
 
 -> postulat : pour continuer, il faut : ? -> a priori, impossible
 
+
+
+-> bhandari :
+duplication des noeuds comme pour suurballe
+
+initialisation : effectuer un BFS qui va : 
+	creer une liste des noeuds tries par ordre de distance vis-a-vis de l'origine
+	trouver le premier chemin le plus court
+
+parcourir le chemin le plus court, inverser le sens de toutes les aretes, leur donner un poids inverse
+
+[repeat] trouver le chemin le plus court dans ce graphe modifie avec Bellman-Ford
+
+parcourir ce nouveau chemin, inverser le sens de toutes les aretes positives, leur donner un poids inverse
+	> pour chaque arete deja negative, il existe la meme jonction dans un des chemins precedemment trouve
+	> retirer ces jonctions des 2 chemins, la retablir a sa valeur originale (et son sens), ajuster les 2 chemins (l'un prend la fin de l'autre)
+
+goto -> [repeat]
+
+on arrete des qu'on ne trouve pas un chemin supplementaire
+
+Remarque : a chaque fois qu'un chemin de plus est ajoute, evaluer en combien de coups les fourmis peuvent sortir
+-> on continue d'iterer tant que le nombre de coups des fourmis n'augmente pas
