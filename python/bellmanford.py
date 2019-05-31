@@ -13,12 +13,18 @@ class BellmanFord:
 	def solve(self):
 		for room in self.rooms:
 			self.paths.add_data(Path(room, None))
+		paths = [self.paths.get_data(self.s_room.name)]
 		for i in range(len(self.rooms) - 1):
+			for path in paths:
+				new_paths = []
+
+			#pour chaque connexion de chaque room de chaque path a la distance courante
+				#evaluer si le passage par ce tunnel reduit le cout d'acces a
+				#cette room
+
+		#old
+		for i in range(len(self.rooms)):
 			self.__sub_solve(i)
-		i = len(self.rooms) - 1
-		if self.__sub_solve(i):
-			print("error")
-			return
 		path = self.paths.get_data(self.e_room.name)
 		if path is not None:
 			reverse_path = Path(path.room, None)
