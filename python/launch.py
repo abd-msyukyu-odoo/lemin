@@ -25,8 +25,8 @@ visu.draw()
 
 bfs = Bfs(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name))
 
-if bfs.start_path is not None:
-	bfs.start_path.draw(color.blue)
-	ants = DisplayAnts([50], [bfs.start_path])
+if bfs.shortest_path is not None:
+	bfs.shortest_path.draw(color.blue)
+	ants = DisplayAnts([50], [bfs.shortest_path])
 else:
 	print("bfs failed")

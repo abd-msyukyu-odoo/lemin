@@ -80,11 +80,19 @@ class Direction(Enum):
 	BOTH = 0
 
 class Tunnel:
+	direction_switcher = {
+			Direction.REVERSE: lambda: Direction.NATURAL,
+			Direction.NATURAL: lambda: Direction.REVERSE
+		}
+	
 	def __init__(self, room1, room2, direction = Direction.BOTH, cost = 1):
 		self.direction = direction
 		self.room1 = room1
 		self.room2 = room2
 		self.cost = cost
+
+	def reverse(self):
+		self.direction = Tunnel.direction_switcher.get(self.direction, Direction.BOTH)
 
 	def get_other(self, room):
 		if self.room1 is room:
@@ -245,3 +253,12 @@ class BTree:
 		if (self.right is not None):
 			s += self.right.__str__()
 		return s
+
+class PathStorage:
+	def __init(self, path):
+		self.path = path
+		self.pTree = BTree(None)
+		cur_path = self.path
+		while cur_path is not None:
+			self.pTree.add_data(cur_path)
+			cur_path = cur_path.previous

@@ -7,7 +7,7 @@ class BellmanFord:
 		self.s_room = s_room
 		self.e_room = e_room
 		self.paths = BTree(None)
-		self.start_path = None
+		self.shortest_path = None
 		self.solve()
 
 	def solve(self):
@@ -33,8 +33,12 @@ class BellmanFord:
 		path = self.paths.get_data(self.e_room.name)
 		if path is not None:
 			reverse_path = Path(path.room, None)
-			while path.previous is not None:
+			check = 0
+			while path.previous is not None and check <= len(self.rooms):
 				path = path.previous
 				reverse_path = Path(path.room, reverse_path)
-			self.start_path = reverse_path
-		# missing : check if negative cycle (useless in this case ????)
+				check += 1
+			if check > len(self.rooms):
+				print("BellmanFord infinite negative cycle error")
+				return
+			self.shortest_path = reverse_path

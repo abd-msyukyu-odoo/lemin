@@ -12,11 +12,11 @@ class Bhandari:
 		bTree_rooms.fill_copy(self.resourceTree)
 		self.fill_srTree(s_room, e_room)
 		self.bfs = None
-		self.start_paths = []
+		self.shortest_paths = []
 		if self.s_sroom is not None and self.e_sroom is not None:
 			self.fill_tunnels()
 			self.bfs = Bfs(self.s_sroom, self.e_sroom)
-			self.start_paths = self.search_paths()
+			self.shortest_paths = self.solve()
 
 	def fill_srTree(self, s_room, e_room):
 		a = []
@@ -63,17 +63,36 @@ class Bhandari:
 						rin.add_tunnel(stin)
 						rother.add_tunnel(stin)
 
-	def search_paths(self):
-		paths = [self.bfs.start_path]
-		shortest = self.bfs.start_path
-		while shortest.previous is not None:
-			tunnel = shortest.room.get_tunnel(shortest.previous.room)
-			tunnel.direction = Direction.REVERSE
-			tunnel.cost = -1 * tunnel.cost
-			shortest = shortest.previous
+	def solve(self):
+		pathStorages = []
+		self.reverse_path(self.bfs.shortest_path, pathStorages)
+		pathStorages = [PathStorage(self.bfs.shortest_path)]
 		bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
-		if bf.start_path is not None:
-			paths.append(bf.start_path)
-		else:
-			print("bellmanford failed")
+		while bf.shortest_path is not None:
+			self.reverse_path(bf.shortest_path, pathStorages)
+			pathStorages.append(PathStorage(bf.shortest_path))
+			bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
+		paths = []
+		for pathStorage in pathStorages:
+			paths.append(pathStorage.path)
 		return paths
+
+	def reverse_path(self, path, pathStorages):
+		while path.previous is not None:
+			tunnel = path.room.get_tunnel(path.previous.room)
+			if tunnel.cost < 0:
+				self.handle_overlap(path, pathStorages)
+			tunnel.reverse()
+			tunnel.cost = -1 * tunnel.cost
+			path = path.previous
+
+	def handle_overlap(self, path, pathStorages):
+		target = path.previous.room.name
+		overlap = None
+		for pathStorage in pathStorages:
+			overlap = pathStorage.pTree.get_data(target)
+		if overlap is None:
+			print("overlap detection failure")
+		else:
+			print("found overlap")
+		return
