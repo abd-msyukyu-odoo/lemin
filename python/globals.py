@@ -81,8 +81,8 @@ class Direction(Enum):
 
 class Tunnel:
 	direction_switcher = {
-			Direction.REVERSE: lambda: Direction.NATURAL,
-			Direction.NATURAL: lambda: Direction.REVERSE
+			Direction.REVERSE: Direction.NATURAL,
+			Direction.NATURAL: Direction.REVERSE
 		}
 	
 	def __init__(self, room1, room2, direction = Direction.BOTH, cost = 1):
