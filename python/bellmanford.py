@@ -31,7 +31,7 @@ class BellmanFord:
 			if len(paths) == 0:
 				break
 		path = self.paths.get_data(self.e_room.name)
-		if path is not None:
+		if path.previous is not None:
 			reverse_path = Path(path.room, None)
 			check = 0
 			while path.previous is not None and check <= len(self.rooms):

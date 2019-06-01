@@ -66,9 +66,11 @@ class Bhandari:
 	def solve(self):
 		pathStorages = []
 		self.reverse_path(self.bfs.shortest_path, pathStorages)
+		print("found the first path : cost = " + str(self.bfs.shortest_path.cost))
 		pathStorages = [PathStorage(self.bfs.shortest_path)]
 		bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
 		while bf.shortest_path is not None:
+			print("found a path : cost = " + str(bf.shortest_path.cost))
 			self.reverse_path(bf.shortest_path, pathStorages)
 			pathStorages.append(PathStorage(bf.shortest_path))
 			bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)

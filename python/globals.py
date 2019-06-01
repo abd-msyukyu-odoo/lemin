@@ -255,7 +255,7 @@ class BTree:
 		return s
 
 class PathStorage:
-	def __init(self, path):
+	def __init__(self, path):
 		self.path = path
 		self.pTree = BTree(None)
 		cur_path = self.path

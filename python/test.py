@@ -22,12 +22,14 @@ rtree, nbAnts, Tools.start_name, Tools.end_name = read_input(input)
 
 bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree)
 
-""" config = Config()
+config = Config()
 
 visu = Floor([bhandari.srTree.get_data(Tools.start_name + "#OUT")])
 visu.draw()
 
 for path in bhandari.shortest_paths:
 	path.draw(color.blue)
-if len(bhandari.shortest_paths) == 2:
-	ants = DisplayAnts([50, 50], [bhandari.shortest_paths[0], bhandari.shortest_paths[1]]) """
+n_ants = []
+for i in range(len(bhandari.shortest_paths)):
+	n_ants.append(50)
+ants = DisplayAnts(n_ants, bhandari.shortest_paths)
