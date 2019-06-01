@@ -37,4 +37,4 @@ class BellmanFord:
 				path = path.previous
 				reverse_path = Path(path.room, reverse_path)
 			self.start_path = reverse_path
-		# missing : check if negative cycle (useless ????)
+		# missing : check if negative cycle (useless in this case ????)
