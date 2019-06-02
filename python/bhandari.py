@@ -7,16 +7,19 @@ class Bhandari:
 	def __init__(self, s_room, e_room, bTree_rooms):
 		self.s_sroom = None
 		self.e_sroom = None
+		self.s_room = s_room
+		self.e_room = e_room
 		self.srTree = BTree(None)
-		self.resourceTree = BTree(None)
-		bTree_rooms.fill_copy(self.resourceTree)
+		self.resourceTree = bTree_rooms
 		self.fill_srTree(s_room, e_room)
 		self.bfs = None
+		self.shortest_spaths = []
 		self.shortest_paths = []
 		if self.s_sroom is not None and self.e_sroom is not None:
 			self.fill_tunnels()
 			self.bfs = Bfs(self.s_sroom, self.e_sroom)
-			self.shortest_paths = self.solve()
+			self.shortest_spaths = self.solve()
+			self.shortest_paths = self.reduce_spaths()
 
 	def fill_srTree(self, s_room, e_room):
 		a = []
@@ -125,3 +128,22 @@ class Bhandari:
 		else:
 			print("fail to match overlap")
 			return None
+
+	def reduce_spaths(self):
+		paths = []
+		print("reducing paths")
+		for shortest_spath in self.shortest_spaths:
+			spath = shortest_spath
+			origin = Path(spath.room.room, None)
+			path = origin
+			cost = 0
+			while spath is not None:
+				spath = spath.previous
+				path.previous = Path(spath.room.room, None)
+				spath = spath.previous
+				path = path.previous
+				cost += 1
+			origin.cost = cost
+			print("path cost : " + str(cost))
+			paths.append(origin)
+		return paths

@@ -46,10 +46,10 @@ class Floor:
 
 	def assign_color(self, s, room):
 		if room.name == Tools.start_name:
-			s.color = color.green
+			s.color = vector(1, 0, 1)
 			s.radius = 2 * self.rradius
 		elif room.name == Tools.end_name:
-			s.color = color.red
+			s.color = color.blue
 			s.radius = 2 * self.rradius
 
 	def draw(self):
@@ -124,6 +124,8 @@ class Path:
 			if p.previous is None:
 				break
 			else:
+				if p.room.name != Tools.start_name and p.room.name != Tools.end_name:
+					p.room.visu.color = color
 				tunnel = p.room.get_tunnel(p.previous.room)
 				if hasattr(tunnel, 'visu'):
 					self.__modify_curve(tunnel.visu, color)
@@ -138,7 +140,7 @@ class Path:
 class Ant:
 	def __init__(self, path):
 		self.path = path
-		self.sphere = sphere(pos=path.room.visu.pos, radius = path.room.visu.radius * 0.4, color = color.yellow)
+		self.sphere = sphere(pos=path.room.visu.pos, radius = path.room.visu.radius * 0.4, color = color.black)
 		self.sphere.velocity = self.path.previous.room.visu.pos
 		self.origin = path
 
@@ -209,3 +211,20 @@ class DisplayAnts:
 					else:
 						j += 1
 			t = 0
+
+class ColorGenerator:
+	def __init__(self, paths):
+		self.paths = paths
+		self.min = None
+		self.max = None
+		for path in paths:
+			if self.min is None or path.cost < self.min:
+				self.min = path.cost
+			if self.max is None or path.cost > self.max:
+				self.max = path.cost
+
+	def color(self, cost):
+		p = (cost - self.min) / (self.max - self.min)
+		red = 1 if p > 0.5 else 2 * p
+		green = 1 if p < 0.5 else 2 - 2 * p
+		return vector(red, green, 0)
