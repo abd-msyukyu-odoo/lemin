@@ -32,10 +32,6 @@ cg = ColorGenerator(bhandari.pathCostDistribution.paths)
 for path in bhandari.pathCostDistribution.paths:
 	path.draw(cg.color(path.cost))
 
-n_ants = []
-for i in range(len(bhandari.pathCostDistribution.paths)):
-	n_ants.append(50)
-
 print("required : " + str(required))
 
 ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)
