@@ -55,8 +55,8 @@ class Floor:
 	def draw(self):
 		if len(self.rooms) == 1:
 			self.rooms[0].visu = sphere(pos=vector(self.index,0,0), radius=self.rradius)
-			if isinstance(self.rooms[0], SRoom):
-				self.rooms[0].visu.color = color.green if self.rooms[0].status == Status.IN else color.red	
+			#if isinstance(self.rooms[0], SRoom):
+			#	self.rooms[0].visu.color = color.green if self.rooms[0].status == Status.IN else color.red	
 			self.assign_color(self.rooms[0].visu, self.rooms[0])
 			self.rTree.add_data(self.rooms[0])
 			self.draw_paths(self.rooms[0])
@@ -90,8 +90,8 @@ class Floor:
 			pos = vector(self.index, torus_radius * cos(2 * pi * i / lr),
 				torus_radius * sin (2 * pi * i / lr))
 			room.visu = sphere(pos=pos, radius=self.rradius)
-			if isinstance(room, SRoom):
-				room.visu.color = color.green if room.status == Status.IN else color.red
+			#if isinstance(room, SRoom):
+			#	room.visu.color = color.green if room.status == Status.IN else color.red
 			self.assign_color(room.visu, room)
 			self.rTree.add_data(room)
 			self.draw_paths(room)

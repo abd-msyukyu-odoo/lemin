@@ -1,12 +1,17 @@
 from enum import Enum
 
 class Tools: 
-	@staticmethod
-	def name_cmp(a, b):
-		return (a > b) - (a < b)
 	start_name = None
 	end_name = None
 	time_multiplier = 1
+
+	@staticmethod
+	def name_cmp(a, b):
+		return (a > b) - (a < b)
+
+	@staticmethod
+	def path_cmp(path):
+		return path.cost
 
 class Room:
 
@@ -262,3 +267,17 @@ class PathStorage:
 		while cur_path is not None:
 			self.pTree.add_data(cur_path)
 			cur_path = cur_path.previous
+
+class PathCostDistribution:
+	def __init__(self, paths, n_ants):
+		self.paths = paths
+		self.n_ants = n_ants
+		self.cost = None
+		if n_ants == 0:
+			self.cost = 0
+		else:
+			self.cost = None
+		self.ants_distribution = None
+
+	def is_valid(self):
+		return self.cost is not None

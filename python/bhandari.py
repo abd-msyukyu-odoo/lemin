@@ -14,13 +14,11 @@ class Bhandari:
 		self.resourceTree = bTree_rooms
 		self.fill_srTree(s_room, e_room)
 		self.bfs = None
-		self.shortest_spaths = []
-		self.shortest_paths = []
+		self.pathCostDistribution = None
 		if self.s_sroom is not None and self.e_sroom is not None:
 			self.fill_tunnels()
 			self.bfs = Bfs(self.s_sroom, self.e_sroom)
-			self.shortest_spaths = self.solve()
-			self.shortest_paths = self.reduce_spaths()
+			self.pathCostDistribution = self.solve()
 
 	def fill_srTree(self, s_room, e_room):
 		a = []
@@ -70,21 +68,23 @@ class Bhandari:
 	def solve(self):
 		if self.bfs.shortest_path is None:
 			print("No path found")
-			return []
+			return None
 		pathStorages = []
+		pathCostDistributions = []
 		origin = self.reverse_path(self.bfs.shortest_path, pathStorages, self.bfs.shortest_path)
 		print("found the first path")
-		pathStorages = [PathStorage(origin)]
+		pathStorages.append(PathStorage(origin))
+		pathCostDistributions.append(PathCostDistribution(self.reduce_spaths(pathStorages), self.n_ants))
 		bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
 		while bf.shortest_path is not None:
 			print("found a path")
 			origin = self.reverse_path(bf.shortest_path, pathStorages, bf.shortest_path)
 			pathStorages.append(PathStorage(origin))
+			pathCostDistributions.append(PathCostDistribution(self.reduce_spaths(pathStorages), self.n_ants))
+			if not pathCostDistributions[-1].is_valid() or pathCostDistributions[-1].cost > pathCostDistributions[-2].cost:
+				return pathCostDistributions[-2]
 			bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
-		paths = []
-		for pathStorage in pathStorages:
-			paths.append(pathStorage.path)
-		return paths
+		return pathCostDistributions[-1]
 
 	def reverse_path(self, path, pathStorages, origin):
 		while path.previous is not None:
@@ -109,17 +109,17 @@ class Bhandari:
 				storage = pathStorage
 				break
 		if overlap is None:
-			print("overlap detection failure")
+			print("    overlap detection failure")
 			return None
 		if overlap.previous.name == path.name:
-			print("matching overlap")
+			print("    matching overlap")
 			untracked = path.previous.previous
 			tracked = overlap.previous.previous
 			path.previous = tracked # premiere partie du merge des chemins, ce chemin est correct, on peut creer son pathStorage a partir de maintenant
 			pathStorages.append(PathStorage(origin))
 			uturn = storage.pTree.get_data(untracked.name) #check des uturn pour la deuxieme partie du merge
 			while uturn is not None:
-				print("working on uturn")
+				print("      working on uturn")
 				tunnel = overlap.room.get_tunnel(uturn.room)
 				tunnel.reverse()
 				tunnel.cost = -1 * tunnel.cost
@@ -130,14 +130,14 @@ class Bhandari:
 			pathStorages.remove(storage) # ce pathStorage n'est plus d'actualite, et on ne peut pas le recreer tant qu'on n'a pas gere les overlaps qui suivent
 			return self.reverse_path(overlap, pathStorages, storage.path)
 		else:
-			print("fail to match overlap")
+			print("    fail to match overlap")
 			return None
 
-	def reduce_spaths(self):
+	def reduce_spaths(self, pathStorages):
+		print("  cost evaluation")
 		paths = []
-		print("reducing paths")
-		for shortest_spath in self.shortest_spaths:
-			spath = shortest_spath
+		for pathStorage in pathStorages:
+			spath = pathStorage.path
 			origin = Path(spath.room.room, None)
 			path = origin
 			cost = 0
@@ -148,6 +148,6 @@ class Bhandari:
 				path = path.previous
 				cost += 1
 			origin.cost = cost
-			print("path cost : " + str(cost))
 			paths.append(origin)
+		paths.sort(key=Tools.path_cmp, reverse=True)
 		return paths
