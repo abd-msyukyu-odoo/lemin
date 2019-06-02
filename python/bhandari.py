@@ -65,36 +65,63 @@ class Bhandari:
 
 	def solve(self):
 		pathStorages = []
-		self.reverse_path(self.bfs.shortest_path, pathStorages)
-		print("found the first path : cost = " + str(self.bfs.shortest_path.cost))
-		pathStorages = [PathStorage(self.bfs.shortest_path)]
+		origin = self.reverse_path(self.bfs.shortest_path, pathStorages, self.bfs.shortest_path)
+		print("found the first path")
+		pathStorages = [PathStorage(origin)]
 		bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
 		while bf.shortest_path is not None:
-			print("found a path : cost = " + str(bf.shortest_path.cost))
-			self.reverse_path(bf.shortest_path, pathStorages)
-			pathStorages.append(PathStorage(bf.shortest_path))
+			print("found a path")
+			origin = self.reverse_path(bf.shortest_path, pathStorages, bf.shortest_path)
+			pathStorages.append(PathStorage(origin))
 			bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
 		paths = []
 		for pathStorage in pathStorages:
 			paths.append(pathStorage.path)
 		return paths
 
-	def reverse_path(self, path, pathStorages):
+	def reverse_path(self, path, pathStorages, origin):
 		while path.previous is not None:
 			tunnel = path.room.get_tunnel(path.previous.room)
 			if tunnel.cost < 0:
-				self.handle_overlap(path, pathStorages)
+				tunnel.reverse()
+				tunnel.cost = -1 * tunnel.cost
+				origin = self.handle_overlap(path, pathStorages, origin)
+				return origin
 			tunnel.reverse()
 			tunnel.cost = -1 * tunnel.cost
 			path = path.previous
+		return origin
 
-	def handle_overlap(self, path, pathStorages):
-		target = path.previous.room.name
+	def handle_overlap(self, path, pathStorages, origin):
+		target = path.previous.name
 		overlap = None
+		storage = None
 		for pathStorage in pathStorages:
 			overlap = pathStorage.pTree.get_data(target)
+			if overlap is not None:
+				storage = pathStorage
+				break
 		if overlap is None:
 			print("overlap detection failure")
+			return None
+		if overlap.previous.name == path.name:
+			print("matching overlap")
+			untracked = path.previous.previous
+			tracked = overlap.previous.previous
+			path.previous = tracked # premiere partie du merge des chemins, ce chemin est correct, on peut creer son pathStorage a partir de maintenant
+			pathStorages.append(PathStorage(origin))
+			uturn = storage.pTree.get_data(untracked.name) #check des uturn pour la deuxieme partie du merge
+			while uturn is not None:
+				print("working on uturn")
+				tunnel = overlap.room.get_tunnel(uturn.room)
+				tunnel.reverse()
+				tunnel.cost = -1 * tunnel.cost
+				overlap = uturn
+				untracked = untracked.previous
+				uturn = storage.pTree.get_data(untracked.name)
+			overlap.previous = untracked # cet overlap est gere, il faut continuer a inverse la suite du chemin et gerer les overlaps suivants
+			pathStorages.remove(storage) # ce pathStorage n'est plus d'actualite, et on ne peut pas le recreer tant qu'on n'a pas gere les overlaps qui suivent
+			return self.reverse_path(overlap, pathStorages, storage.path)
 		else:
-			print("found overlap")
-		return
+			print("fail to match overlap")
+			return None
