@@ -3,30 +3,39 @@ from visu import *
 from vpython import *
 from globals import *
 from bfs import *
+from bhandari import *
 from os.path import dirname, abspath
 import os
 from platform import system
 
 parent = dirname(dirname(os.path.abspath(__file__)))
-f = os.path.join(parent, "resources", "big_superposition3.txt")
+f = os.path.join(parent, "resources", "big_superposition2.txt")
 
 if system() == 'Darwin':
+	k = open(f, 'w')
 	d = os.path.join(parent, "resources", "generator")
-	os.popen(d + " --big > " + f)
+	k.write(os.popen(d + " --big-superposition").read())
 
 input = open(f, 'r').read()
 
-rtree, nbAnts, Tools.start_name, Tools.end_name = read_input(input)
+#print(input)
+rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input)
+
+bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
 
 config = Config()
 
-visu = Floor([rtree.get_data(Tools.start_name)])
+visu = Floor([bhandari.s_room])
 visu.draw()
 
-bfs = Bfs(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name))
+cg = ColorGenerator(bhandari.pathCostDistribution.paths)
+for path in bhandari.pathCostDistribution.paths:
+	path.draw(cg.color(path.cost))
 
-if bfs.shortest_path is not None:
-	bfs.shortest_path.draw(color.blue)
-	ants = DisplayAnts([50], [bfs.shortest_path])
-else:
-	print("bfs failed")
+n_ants = []
+for i in range(len(bhandari.pathCostDistribution.paths)):
+	n_ants.append(50)
+
+print("required : " + str(required))
+
+ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)

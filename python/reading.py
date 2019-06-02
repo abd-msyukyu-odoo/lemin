@@ -9,12 +9,13 @@ def read_input(input):
 	nbAnts = int(input.pop(0))
 	start = 0
 	end = 0
+	required = 0
 	for i in input:
 		if i == "##start":
 			start += 1
-		if i == "##end":
+		elif i == "##end":
 			end += 1
-		if i[0] != '#':
+		elif i[0] != '#':
 			j = i.split(' ')
 			if not rooms and len(j) == 3:
 				rtree.add_data(Room(j[0], int(j[1]), int(j[2])))
@@ -45,4 +46,8 @@ def read_input(input):
 				print(rooms)
 				print("Error")
 				break
-	return rtree, nbAnts, start_name, end_name
+		# else a retirer
+		else:
+			j = i.split(': ')
+			required = int(j[1])
+	return rtree, nbAnts, start_name, end_name, required

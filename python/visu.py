@@ -21,7 +21,7 @@ class Config:
 		if ev.event == "mousedown":
 			self.camera_pos = ev.pos
 		elif ev.event == "mousemove":
-			scene.camera.pos -= (ev.pos - self.camera_pos ) / 10
+			scene.camera.pos -= (ev.pos - self.camera_pos ) / 20
 	
 	def terminate(self, ev):
 		if ev.key == 'esc':
@@ -224,6 +224,8 @@ class ColorGenerator:
 				self.max = path.cost
 
 	def color(self, cost):
+		if self.max == self.min:
+			return vector(0, 1, 0)
 		p = (cost - self.min) / (self.max - self.min)
 		red = 1 if p > 0.5 else 2 * p
 		green = 1 if p < 0.5 else 2 - 2 * p

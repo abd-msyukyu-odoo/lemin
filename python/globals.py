@@ -278,6 +278,46 @@ class PathCostDistribution:
 		else:
 			self.cost = None
 		self.ants_distribution = None
+		self.evaluate()
 
 	def is_valid(self):
 		return self.cost is not None
+
+	def evaluate(self):
+		if len(self.paths) == 0 or self.n_ants == 0:
+			return
+		self.ants_distribution = []
+		for i in range(len(self.paths)):
+			self.ants_distribution.append(0)
+		self.cost = 0
+		dephased = 0
+		for i in range(1, len(self.paths)):
+			d = self.paths[i - 1].cost - self.paths[i].cost
+			for j in range(i, len(self.paths)):
+				self.ants_distribution[j] += d
+				dephased += d
+			self.cost += d
+		if dephased + len(self.paths) - 1 >= self.n_ants:
+			print("    solution rejected")
+			self.cost = None
+			self.ants_distribution = None
+			return
+		remain = (self.n_ants - dephased) % len(self.paths)
+		for i in range(1, remain + 1):
+			self.ants_distribution[-i] += 1
+		if remain != 0:
+			self.cost += 1
+		common = int((self.n_ants - dephased - remain) / len(self.paths))
+		for i in range(len(self.paths)):
+			self.ants_distribution[i] += common
+		self.cost += common + self.paths[-1].cost - 1
+		self.check_sum()
+
+	def check_sum(self):
+		n = 0
+		for i in range(len(self.paths)):
+			n += self.ants_distribution[i]
+		if n != self.n_ants:
+			print("inconsistent number of ants")
+		else:
+			print("    cost : " + str(self.cost))
