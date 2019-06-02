@@ -9,7 +9,7 @@ import os
 from platform import system
 
 parent = dirname(dirname(os.path.abspath(__file__)))
-f = os.path.join(parent, "resources", "big_superposition3.txt")
+f = os.path.join(parent, "resources", "big2.txt")
 
 if system() == 'Darwin':
 	d = os.path.join(parent, "resources", "generator")

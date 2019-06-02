@@ -4,9 +4,10 @@ from bfs import Bfs
 from bellmanford import BellmanFord
 
 class Bhandari:
-	def __init__(self, s_room, e_room, bTree_rooms):
+	def __init__(self, s_room, e_room, bTree_rooms, n_ants = 0):
 		self.s_sroom = None
 		self.e_sroom = None
+		self.n_ants = n_ants
 		self.s_room = s_room
 		self.e_room = e_room
 		self.srTree = BTree(None)
@@ -67,6 +68,9 @@ class Bhandari:
 						rother.add_tunnel(stin)
 
 	def solve(self):
+		if self.bfs.shortest_path is None:
+			print("No path found")
+			return []
 		pathStorages = []
 		origin = self.reverse_path(self.bfs.shortest_path, pathStorages, self.bfs.shortest_path)
 		print("found the first path")
