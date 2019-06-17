@@ -36,7 +36,7 @@ for i in range(n):
 		for path in bhandari.pathCostDistribution.paths:
 			path.draw(cg.color(path.cost))
 
-	print("result : " + str(bhandari.pathCostDistribution.cost) + "/" + str(required))
+	print("result : " + str(bhandari.pathCostDistribution.cost) + "/" + str(required) + (" FAIL" if bhandari.pathCostDistribution.cost > required else ""))
 
 	if n == 1:
 		ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)
