@@ -11,5 +11,20 @@
 /* ************************************************************************** */
 
 
-#include "lemin.h"
+#include "btree.h"
+#include "libft.h"
 
+t_btree				*construct_btree(void* data, t_btree* up)
+{
+	t_btree			*out;
+
+	out = (t_btree*)malloc(sizeof(t_btree));
+	if (!out)
+		return (NULL);
+	out->data = data;
+	out->up = up;
+	out->left = NULL;
+	out->right = NULL;
+	out->cmp = ft_strcmp;
+	return (out);
+}
