@@ -39,6 +39,7 @@ class BellmanFord:
 				reverse_path = Path(path.room, reverse_path)
 				check += 1
 			if check > len(self.rooms):
-				print("BellmanFord infinite negative cycle error")
+				if Tools.verbose:
+					print("BellmanFord infinite negative cycle error")
 				return
 			self.shortest_path = reverse_path

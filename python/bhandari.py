@@ -67,17 +67,20 @@ class Bhandari:
 
 	def solve(self):
 		if self.bfs.shortest_path is None:
-			print("No path found")
+			if Tools.verbose:
+				print("No path found")
 			return None
 		pathStorages = []
 		pathCostDistributions = []
 		origin = self.reverse_path(self.bfs.shortest_path, pathStorages, self.bfs.shortest_path)
-		print("found the first path")
+		if Tools.verbose:
+			print("found the first path")
 		pathStorages.append(PathStorage(origin))
 		pathCostDistributions.append(PathCostDistribution(self.reduce_spaths(pathStorages), self.n_ants))
 		bf = BellmanFord(self.bfs.discovered_rooms, self.s_sroom, self.e_sroom)
 		while bf.shortest_path is not None:
-			print("found a path")
+			if Tools.verbose:
+				print("found a path")
 			origin = self.reverse_path(bf.shortest_path, pathStorages, bf.shortest_path)
 			pathStorages.append(PathStorage(origin))
 			pathCostDistributions.append(PathCostDistribution(self.reduce_spaths(pathStorages), self.n_ants))
@@ -109,17 +112,20 @@ class Bhandari:
 				storage = pathStorage
 				break
 		if overlap is None:
-			print("    overlap detection failure")
+			if Tools.verbose:
+				print("    overlap detection failure")
 			return None
 		if overlap.previous.name == path.name:
-			print("    matching overlap")
+			if Tools.verbose:
+				print("    matching overlap")
 			untracked = path.previous.previous
 			tracked = overlap.previous.previous
 			path.previous = tracked # premiere partie du merge des chemins, ce chemin est correct, on peut creer son pathStorage a partir de maintenant
 			pathStorages.append(PathStorage(origin))
 			uturn = storage.pTree.get_data(untracked.name) #check des uturn pour la deuxieme partie du merge
 			while uturn is not None:
-				print("      working on uturn")
+				if Tools.verbose:
+					print("      working on uturn")
 				tunnel = overlap.room.get_tunnel(uturn.room)
 				tunnel.reverse()
 				tunnel.cost = -1 * tunnel.cost
@@ -130,11 +136,13 @@ class Bhandari:
 			pathStorages.remove(storage) # ce pathStorage n'est plus d'actualite, et on ne peut pas le recreer tant qu'on n'a pas gere les overlaps qui suivent
 			return self.reverse_path(overlap, pathStorages, storage.path)
 		else:
-			print("    fail to match overlap")
+			if Tools.verbose:
+				print("    fail to match overlap")
 			return None
 
 	def reduce_spaths(self, pathStorages):
-		print("  cost evaluation")
+		if Tools.verbose:
+			print("  cost evaluation")
 		paths = []
 		for pathStorage in pathStorages:
 			spath = pathStorage.path

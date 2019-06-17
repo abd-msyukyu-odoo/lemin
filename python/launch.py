@@ -34,4 +34,4 @@ for path in bhandari.pathCostDistribution.paths:
 
 print("result : " + str(bhandari.pathCostDistribution.cost) + "/" + str(required))
 
-ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)
+#ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)

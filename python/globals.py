@@ -4,6 +4,7 @@ class Tools:
 	start_name = None
 	end_name = None
 	time_multiplier = 1
+	verbose = True
 
 	@staticmethod
 	def name_cmp(a, b):
@@ -298,7 +299,8 @@ class PathCostDistribution:
 				dephased += d
 			self.cost += d
 		if dephased + len(self.paths) - 1 >= self.n_ants:
-			print("    solution rejected")
+			if Tools.verbose:
+				print("    solution rejected")
 			self.cost = None
 			self.ants_distribution = None
 			return
@@ -318,6 +320,8 @@ class PathCostDistribution:
 		for i in range(len(self.paths)):
 			n += self.ants_distribution[i]
 		if n != self.n_ants:
-			print("inconsistent number of ants")
+			if Tools.verbose:
+				print("inconsistent number of ants")
 		else:
-			print("    cost : " + str(self.cost))
+			if Tools.verbose:
+				print("    cost : " + str(self.cost))
