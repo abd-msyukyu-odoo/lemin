@@ -11,27 +11,32 @@ from platform import system
 parent = dirname(dirname(os.path.abspath(__file__)))
 f = os.path.join(parent, "resources", "big_superposition2.txt")
 
-if system() == 'Darwin':
-	k = open(f, 'w')
-	d = os.path.join(parent, "resources", "generator")
-	k.write(os.popen(d + " --big-superposition").read())
+n = 100
 
-input = open(f, 'r').read()
+for i in range(n):
+	if system() == 'Darwin':
+		k = open(f, 'w')
+		d = os.path.join(parent, "resources", "generator")
+		k.write(os.popen(d + " --big-superposition").read())
 
-#print(input)
-rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input)
+	input = open(f, 'r').read()
 
-bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
+	#print(input)
+	rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input)
 
-config = Config()
+	bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
 
-visu = Floor([bhandari.s_room])
-visu.draw()
+	if n == 1:
+		config = Config()
 
-cg = ColorGenerator(bhandari.pathCostDistribution.paths)
-for path in bhandari.pathCostDistribution.paths:
-	path.draw(cg.color(path.cost))
+		visu = Floor([bhandari.s_room])
+		visu.draw()
 
-print("result : " + str(bhandari.pathCostDistribution.cost) + "/" + str(required))
+		cg = ColorGenerator(bhandari.pathCostDistribution.paths)
+		for path in bhandari.pathCostDistribution.paths:
+			path.draw(cg.color(path.cost))
 
-#ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)
+	print("result : " + str(bhandari.pathCostDistribution.cost) + "/" + str(required))
+
+	if n == 1:
+		ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)

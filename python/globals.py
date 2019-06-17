@@ -4,7 +4,7 @@ class Tools:
 	start_name = None
 	end_name = None
 	time_multiplier = 1
-	verbose = True
+	verbose = False
 
 	@staticmethod
 	def name_cmp(a, b):
