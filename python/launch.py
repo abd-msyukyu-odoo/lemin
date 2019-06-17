@@ -10,7 +10,7 @@ from platform import system
 import time
 
 parent = dirname(dirname(os.path.abspath(__file__)))
-f = os.path.join(parent, "resources", "big_superposition2.txt")
+f = os.path.join(parent, "resources", "test_big_superposition.txt")
 
 n = 1
 Tools.verbose = True
