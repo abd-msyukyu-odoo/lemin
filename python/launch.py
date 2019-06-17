@@ -7,11 +7,13 @@ from bhandari import *
 from os.path import dirname, abspath
 import os
 from platform import system
+import time
 
 parent = dirname(dirname(os.path.abspath(__file__)))
 f = os.path.join(parent, "resources", "big_superposition2.txt")
 
-n = 100
+n = 1
+Tools.verbose = True
 
 for i in range(n):
 	if system() == 'Darwin':
@@ -24,7 +26,9 @@ for i in range(n):
 	#print(input)
 	rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input)
 
+	start = time.time()
 	bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
+	print("---" + str(time.time() - start) + "---")
 
 	if n == 1:
 		config = Config()
