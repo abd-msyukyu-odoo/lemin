@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btree.c                                            :+:      :+:    :+:   */
+/*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,29 +11,31 @@
 /* ************************************************************************** */
 
 
-#include "btree.h"
+#include "array.h"
 #include "libft.h"
 
-t_btree				*construct_btree(void* data, t_btree* up)
+t_array				*construct_array(unsigned int size)
 {
-	t_btree			*out;
+	t_array			*out;
 
-	out = (t_btree*)malloc(sizeof(t_btree));
+	out = (t_array*)malloc(sizeof(t_array));
 	if (!out)
 		return (NULL);
-	out->data = data;
-	out->up = up;
-	out->left = NULL;
-	out->right = NULL;
-	out->cmp = ft_strcmp;
+	out->items = malloc(size * sizeof(void*));
+	if (!out->items)
+	{
+		free(out);
+		return (NULL);
+	}
+	out->n_items = 0;
+	out->size = size;
 	return (out);
 }
 
-void				free_btree(t_btree *btree)
+void				free_array(t_array *array)
 {
-	if (btree == NULL)
+	if (array == NULL)
 		return;
-	free_btree(btree->left);
-	free_btree(btree->right);
-	free(btree);
+	
+	free(array);
 }
