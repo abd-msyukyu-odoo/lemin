@@ -12,6 +12,7 @@
 
 #ifndef BTREE_H
 # define BTREE_H
+# include <stdlib.h>
 
 typedef struct					s_btree
 {
@@ -19,7 +20,7 @@ typedef struct					s_btree
 	t_btree*					left;
 	t_btree*					right;
 	t_btree*					up;
-	int*						(cmp)(const char *s1, const char *s2);
+	int*						(*cmp)(const char *s1, const char *s2);
 }								t_btree;
 
 #endif

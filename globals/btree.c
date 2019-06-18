@@ -10,11 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "btree.h"
 #include "libft.h"
 
-t_btree				*construct_btree(void* data, t_btree* up)
+t_btree				*ft_btree_construct(void *data, t_btree *up)
 {
 	t_btree			*out;
 
@@ -29,10 +28,10 @@ t_btree				*construct_btree(void* data, t_btree* up)
 	return (out);
 }
 
-void				free_btree(t_btree *btree)
+void				ft_btree_free(t_btree *btree)
 {
 	if (btree == NULL)
-		return;
+		return ;
 	free_btree(btree->left);
 	free_btree(btree->right);
 	free(btree);

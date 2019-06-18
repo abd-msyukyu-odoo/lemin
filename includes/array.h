@@ -12,10 +12,11 @@
 
 #ifndef ARRAY_H
 # define ARRAY_H
+# include <stdlib.h>
 
 typedef struct					s_array
 {
-	void**						items;
+	void						**items;
 	unsigned int				n_items;
 	unsigned int				size;
 }								t_array;
