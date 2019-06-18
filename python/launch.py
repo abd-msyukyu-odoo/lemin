@@ -12,8 +12,8 @@ import time
 parent = dirname(dirname(os.path.abspath(__file__)))
 f = os.path.join(parent, "resources", "test_big_superposition.txt")
 
-n = 1
-Tools.verbose = True
+n = 300
+Tools.verbose = False
 
 for i in range(n):
 	if system() == 'Darwin':
@@ -28,7 +28,7 @@ for i in range(n):
 
 	start = time.time()
 	bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
-	print("---" + str(time.time() - start) + "---")
+	print(str(i) + " :---" + str(time.time() - start) + "---")
 
 	if n == 1:
 		config = Config()

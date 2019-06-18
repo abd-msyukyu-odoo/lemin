@@ -1,0 +1,64 @@
+500
+##start
+A 2 0
+B 3 2
+C 3 5
+D 2 2
+E 1 2
+F 2 5
+G 1 3
+H 2 6
+I 1 4
+J 1 5
+##end
+K 2 8
+M 4 0
+N 4 1
+O 4 2
+P 4 5
+Q 0 5
+R 0 6
+S 0 8
+T 0 9
+U 0 10
+Y 3 3
+A-M
+A-D
+A-B
+C-H
+D-F
+D-E
+D-A
+E-D
+E-G
+F-D
+F-H
+F-J
+F-P
+F-Q
+G-I
+G-E
+H-K
+H-C
+H-F
+H-J
+I-G
+I-J
+J-I
+J-H
+J-K
+J-F
+K-U
+K-H
+M-N
+N-O
+O-P
+P-F
+Q-F
+Q-R
+R-S
+S-T
+T-U
+U-K
+B-Y
+Y-C

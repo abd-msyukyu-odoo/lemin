@@ -39,17 +39,22 @@ void				ft_array_free(t_array *array)
 	free(array);
 }
 
-static t_array		*ft_array_double_size(t_array *array)
+static t_array		*ft_array_double_size(t_array *array,
+	int skip_from)
 {
 	t_array			*out;
+	unsigned int	addon;
 
-	if (2 * array->size <= array->size)
+	if (2 * array->size <= array->size || skip_from >= array->n_items)
 		return (NULL);
 	out = ft_array_construct(2 * array->size);
 	if (!out)
 		return (NULL);
-	while (out->n_items < array->n_items)
+	addon = (skip_from == -1) ? 0 : 1;
+	while (out->n_items < array->n_items + addon)
 	{
+		if (out->n_items == skip_from)
+			out->n_items++;
 		out->items[out->n_items] = array->items[out->n_items];
 		out->n_items++;
 	}
@@ -65,7 +70,7 @@ int					ft_array_add(t_array **array, void *item)
 		return (0);
 	if (a->n_items >= a->size)
 	{
-		a = ft_array_double_size(a);
+		a = ft_array_double_size(a, -1);
 		if (!a)
 			return (-1);
 		ft_array_free(*array);

@@ -25,9 +25,8 @@ def read_input(input):
 				elif end == 1:
 					end_name = j[0]
 					end += 1
-			elif not rooms and len(j) < 3:
+			elif (not rooms and len(j) < 3 or rooms) and len(j) == 1:
 				rooms = True
-			elif rooms and len(j) == 1:
 				j = j[0].split('-')
 				if len(j) == 2:
 					a = rtree.get_data(j[0])
