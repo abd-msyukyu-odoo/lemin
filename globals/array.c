@@ -85,6 +85,7 @@ int					ft_array_insert(t_array **array, unsigned int index,
 	void *item)
 {
 	t_array			*a;
+	unsigned int	i;
 
 	a = *array;
 	if (index > a->n_items)
@@ -93,5 +94,61 @@ int					ft_array_insert(t_array **array, unsigned int index,
 		return (0);
 	if (index == a->n_items)
 		return ft_array_add(array, item);
-	
+	i = a->n_items;
+	if (a->n_items == a->size)
+	{
+		a = ft_array_double_size(a, index);
+		if (!a)
+			return (-1);
+		ft_array_free(*array);
+		*array = a;
+	}
+	else
+		while (i-- > index)
+			a->items[i + 1] = a->items[i];
+	a->items[index] = item;
+	return (1);
+}
+
+void				*ft_array_remove(t_array *array, unsigned int index)
+{
+	void			*out;
+	unsigned int	i;
+
+	if (index >= array->n_items)
+		return (NULL);
+	out = array->items[index];
+	i = index;
+	while (++index < array->n_items)
+		array->items[index - 1] = array->items[index];
+	if (array->n_items > 0)
+		array->n_items = array->n_items - 1;
+	return (out);
+}
+
+unsigned int		ft_array_index(t_array *array, void *item)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < array->n_items)
+	{
+		if (array->items[i] == item)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
+int					ft_array_contains(t_array *array, void *item)
+{
+	return (ft_array_index(array, index) != array->n_items);
+}
+
+int					ft_array_remove_first(t_array *array, void *item)
+{
+	unsigned int	i;
+
+	i = ft_array_index(array, item);
+	return (ft_array_remove(array, i));
 }
