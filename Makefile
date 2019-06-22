@@ -6,7 +6,7 @@
 #    By: dabeloos <dabeloos@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/05 17:21:38 by dabeloos          #+#    #+#              #
-#    Updated: 2019/06/22 12:23:03 by pvanderl         ###   ########.fr        #
+#    Updated: 2019/06/22 15:22:53 by pvanderl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # -g -fsanitize=address
@@ -22,16 +22,16 @@ PRINTFHEAD	= ./libft/ft_printf/includes
 
 CHEAD		= ./libft
 
-THISHEAD	= ./includes
+THISHEAD	= ./inc
 
-MAIN_F		= main.o
+MAIN_F		= main
 
-PARSING_F	= 
-			  
 READ_F		= 
 
-O_FILES		= $(addprefix ./main/, $(MAIN_F)) \
-			  $(addprefix ./read/, $(READ_F)) \
+O_FILES		= $(addsuffix .o,\
+				$(addprefix ./main/, $(MAIN_F)) \
+				$(addprefix ./read/, $(READ_F)) \
+			)
 
 END_E		= \033[00m
 RED_E		= \033[01;31m
