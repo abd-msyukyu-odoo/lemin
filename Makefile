@@ -28,10 +28,10 @@ MAIN_F		= main
 
 READ_F		= 
 
-O_FILES		= $(addsuffix .o,\
+O_FILES		= $(addprefix ./src/, $(addsuffix .o,\
 				$(addprefix ./main/, $(MAIN_F)) \
 				$(addprefix ./read/, $(READ_F)) \
-			)
+			))
 
 END_E		= \033[00m
 RED_E		= \033[01;31m
