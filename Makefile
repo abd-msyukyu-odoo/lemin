@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: dabeloos <dabeloos@students.s19.be>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/05 17:21:38 by dabeloos          #+#    #+#              #
-#    Updated: 2019/03/21 18:17:40 by dabeloos         ###   ########.fr        #
+#    Updated: 2019/06/22 12:23:03 by pvanderl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # -g -fsanitize=address
 # -Wno-unused-function
 
-NAME		= dabeloos.filler
+NAME		= lemin
 
 CC			= gcc
 
@@ -28,13 +28,10 @@ MAIN_F		= main.o
 
 PARSING_F	= 
 			  
-READ_F		= str_realloc_join.o \
-			  remain_editor.o \
-			  reader.o
+READ_F		= 
 
 O_FILES		= $(addprefix ./main/, $(MAIN_F)) \
 			  $(addprefix ./read/, $(READ_F)) \
-			  $(addprefix ./parsing/, $(PARSING_F))
 
 END_E		= \033[00m
 RED_E		= \033[01;31m
