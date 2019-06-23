@@ -36,3 +36,19 @@ void				ft_btree_free(t_btree *btree)
 	free_btree(btree->right);
 	free(btree);
 }
+
+void				*ft_btree_add(t_btree *btree, void *item)
+{
+	t_btree			*cur;
+	int				cmpr;
+
+	if (btree->data == NULL)
+	{
+		btree->data = item;
+	}
+	cur = btree;
+	while (1)
+	{
+		cmpr = cur->cmp(item->key, 
+	}
+}
