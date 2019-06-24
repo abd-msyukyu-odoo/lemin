@@ -93,7 +93,7 @@ int					ft_array_insert(t_array **array, unsigned int index,
 	if (!item)
 		return (0);
 	if (index == a->n_items)
-		return ft_array_add(array, item);
+		return (ft_array_add(array, item));
 	i = a->n_items;
 	if (a->n_items == a->size)
 	{

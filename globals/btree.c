@@ -39,7 +39,7 @@ void				ft_btree_free(t_btree *btree)
 static int			ft_btree_add_below(t_btree *btree, t_data *item)
 {
 	int				cmpr;
-	
+
 	cmpr = btree->cmp(item->key, btree->data->key);
 	if (cmpr < 0)
 	{
@@ -114,7 +114,7 @@ t_btree				*ft_btree_get_btree_with_parent(t_btree *btree,
 t_btree				*ft_btree_get_btree(t_btree *btree,
 	char *key)
 {
-	return ft_btree_get_btree_with_parent(btree, key, NULL);
+	return (ft_btree_get_btree_with_parent(btree, key, NULL));
 }
 
 t_data				*ft_btree_get_data(t_btree *btree, char *key)
@@ -140,7 +140,7 @@ int					ft_btree_replace_branch(t_btree *from, t_btree *old_btree,
 	else
 		return (0);
 	free(old_btree);
-	return(1);
+	return (1);
 }
 
 int					ft_btree_remove_branch(t_btree *from, t_btree *target)
