@@ -163,11 +163,54 @@ t_btree				*ft_btree_get_min_btree(t_btree *btree, t_btree **parent)
 	return (cur);
 }
 
+void				ft_btree_remove_left_sided(t_btree *parent, t_btree *target)
+{
+	t_btree			*tmp;
+
+	if (parent == NULL)
+	{
+		target->data = target->left->data;
+		target->right = target->left->right;
+		tmp = target->left;
+		target->left = target->left->left;
+		free(tmp);
+	}
+	else
+		ft_btree_replace_branch(parent, target, target->left);
+}
+
+void				ft_btree_remove_right_sided(t_btree *parent,
+	t_btree *target)
+{
+	t_btree			*tmp;
+
+	if (parent == NULL)
+	{
+		target->data = target->right->data;
+		target->left = target->right->left;
+		tmp = target->right;
+		target->right = target->right->right;
+		free(tmp);
+	}
+	else
+		ft_btree_replace_branch(parent, target, target->right);
+}
+
+void				ft_btree_remove_min_sided(t_btree *parent, t_btree *target)
+{
+	t_btree			*tmp;
+
+	parent = target;
+	tmp = ft_btree_get_min_btree(target->right, &parent);
+	ft_btree_replace_branch(parent, tmp, tmp->right);
+	target->data = tmp->data;
+	free(tmp);
+}
+
 t_data				*ft_btree_remove(t_btree *btree, char *key)
 {
 	t_btree			*parent;
 	t_btree			*target;
-	t_btree			*tmp;
 	t_data			*out;
 
 	target = ft_btree_get_btree_with_parent(btree, key, &parent);
@@ -182,37 +225,10 @@ t_data				*ft_btree_remove(t_btree *btree, char *key)
 			ft_btree_remove_branch(parent, target);
 	}
 	else if (target->right == NULL)
-	{
-		if (parent == NULL)
-		{
-			target->data = target->left->data;
-			target->right = target->left->right;
-			tmp = target->left;
-			target->left = target->left->left;
-			free(tmp);
-		}
-		else
-			ft_btree_replace_branch(parent, target, target->left);
-	}
+		ft_btree_remove_left_sided(parent, target);
 	else if (target->left == NULL)
-	{
-		if (parent == NULL)
-		{
-			target->data = target->right->data;
-			target->left = target->right->left;
-			tmp = target->right;
-			target->right = target->right->right;
-			free(tmp);
-		}
-		else
-			ft_btree_replace_branch(parent, target, target->right);
-	}
+		ft_btree_remove_right_sided(parent, target);
 	else
-	{
-		parent = target;
-		tmp = ft_btree_get_min_btree(target->right, &parent);
-		ft_btree_replace_branch(parent, tmp, tmp->right);
-		target->data = tmp->data;
-		free(tmp);
-	}
+		ft_btree_remove_min_sided(parent, target);
+	return (out);
 }
