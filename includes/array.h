@@ -21,4 +21,6 @@ typedef struct					s_array
 	unsigned int				size;
 }								t_array;
 
+int					ft_array_add(t_array **array, void *item)
+
 #endif
