@@ -10,10 +10,10 @@ from platform import system
 import time
 
 parent = dirname(dirname(os.path.abspath(__file__)))
-f = os.path.join(parent, "resources", "specials", "big_map.txt")
+f = os.path.join(parent, "resources", "specials", "new_petite_map_qui_bug")
 
 n = 1
-Tools.verbose = False
+Tools.verbose = True
 
 for i in range(n):
 	""" if system() == 'Darwin':

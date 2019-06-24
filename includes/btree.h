@@ -14,12 +14,16 @@
 # define BTREE_H
 # include <stdlib.h>
 
+typedef struct					s_data
+{
+	char						*key;
+}								t_data;
+
 typedef struct					s_btree
 {
-	void*						data;
+	t_data*						data;
 	t_btree*					left;
 	t_btree*					right;
-	t_btree*					up;
 	int*						(*cmp)(const char *s1, const char *s2);
 }								t_btree;
 
