@@ -5,6 +5,8 @@
 
 //gcc -o test test_array_btree.c ../globals/array.c ../globals/btree.c -I../includes -I../libft -L../libft/ -lft 
 
+char		*in = "abcdefghijklmnopqrstuvwxyz";
+
 void			display_array(t_array *a)
 {
 	for (int i = 0; i < a->n_items; ++i)
@@ -24,8 +26,6 @@ t_array			*test_construct_array()
 
 void			fill_array(t_array **a)
 {
-	char		*in = "abcdefghijklmnopqrstuvwxyz";
-
 	for (int i = 0; i < 26; ++i)
 	{
 		ft_array_add(a, &(in[i]));
@@ -56,9 +56,39 @@ void			test_array_insert(void)
 	ft_array_free(a);
 }
 
+void			test_array_remove(void)
+{
+	t_array		*a;
+
+	a = test_construct_array();
+	fill_array(&a);
+	ft_array_remove(a, a->n_items - 1);
+	ft_array_remove(a, 3);
+	ft_array_remove(a, 0);
+	display_array(a);
+	ft_array_free(a);
+}
+
+void			test_array_index(void)
+{
+	t_array		*a;
+
+	a = test_construct_array();
+	fill_array(&a);
+	display_array(a);
+	printf("first : %d\nfourth : %d\nlast: %d\nfake : %d\n",
+		ft_array_index(a, &(in[0])),
+		ft_array_index(a, &(in[3])),
+		ft_array_index(a, &(in[a->n_items - 1])),
+		ft_array_index(a, NULL));
+	ft_array_free(a);
+}
+
 int				main(void)
 {
 	//test_array_add();
-	test_array_insert();
+	//test_array_insert();
+	//test_array_remove();
+	test_array_index();
 	return (0);
 }
