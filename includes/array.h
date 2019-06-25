@@ -70,6 +70,14 @@ void					*ft_array_remove(t_array *array, unsigned index);
 unsigned int			ft_array_index(t_array *array, void *item);
 
 /*
+** get the item at index
+** return :
+** void* : item at index
+** NULL : error
+*/
+void					*ft_array_get(t_array *array, unsigned int index);
+
+/*
 ** check if array contains item
 ** return :
 ** 1 : array contains item

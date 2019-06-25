@@ -96,7 +96,7 @@ static t_btree		*ft_btree_get_btree_with_parent(t_btree *btree,
 		parent = &cur;
 	*parent = NULL;
 	cur = btree;
-	while (cmpr = cur->cmp(key, btree->data->key))
+	while ((cmpr = cur->cmp(key, btree->data->key)))
 	{
 		*parent = cur;
 		if (cmpr < 0 && cur->left)
@@ -250,6 +250,7 @@ int					ft_btree_fill_copy(t_btree *old_btree, t_btree *new_btree)
 		return (ft_btree_fill_copy(old_btree->left, new_btree));
 	if (old_btree->right != NULL)
 		return (ft_btree_fill_copy(old_btree->right, new_btree));
+	return (out);
 }
 
 int					ft_btree_fill_array(t_btree *btree, t_array *array)
@@ -263,4 +264,5 @@ int					ft_btree_fill_array(t_btree *btree, t_array *array)
 		return (ft_btree_fill_array(btree->left, array));
 	if (btree->right != NULL)
 		return (ft_btree_fill_array(btree->right, array));
+	return (out);
 }

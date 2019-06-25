@@ -20,14 +20,22 @@ t_array				*ft_array_construct(unsigned int size)
 	out = (t_array*)malloc(sizeof(t_array));
 	if (!out)
 		return (NULL);
-	out->items = malloc(size * sizeof(void*));
+	if (size > 0)
+	{
+		out->items = malloc(size * sizeof(void*));
+		out->size = size;
+	}
+	else
+	{
+		out->items = malloc(sizeof(void*));
+		out->size = 1;
+	}
 	if (!out->items)
 	{
 		free(out);
 		return (NULL);
 	}
 	out->n_items = 0;
-	out->size = size;
 	return (out);
 }
 
@@ -45,7 +53,8 @@ static t_array		*ft_array_double_size(t_array *array,
 	t_array			*out;
 	unsigned int	addon;
 
-	if (2 * array->size <= array->size || skip_from >= array->n_items)
+	if (2 * array->size <= array->size || (skip_from != -1 &&
+		skip_from >= array->n_items))
 		return (NULL);
 	out = ft_array_construct(2 * array->size);
 	if (!out)
@@ -65,6 +74,8 @@ int					ft_array_add(t_array **array, void *item)
 {
 	t_array			*a;
 
+	if (!item)
+		return (0);
 	a = *array;
 	if (a->n_items >= a->size)
 	{
@@ -88,6 +99,8 @@ int					ft_array_insert(t_array **array, unsigned int index,
 	a = *array;
 	if (index > a->n_items)
 		return (-1);
+	if (!item)
+		return (0);
 	if (index == a->n_items)
 		return (ft_array_add(array, item));
 	i = a->n_items;
@@ -147,4 +160,11 @@ int					ft_array_remove_first(t_array *array, void *item)
 
 	i = ft_array_index(array, item);
 	return (ft_array_remove(array, i) != NULL);
+}
+
+void				*ft_array_get(t_array *array, unsigned int index)
+{
+	if (index >= array->n_items)
+		return (NULL);
+	return (array->items[index]);
 }

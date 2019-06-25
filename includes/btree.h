@@ -20,8 +20,8 @@
 typedef struct			s_btree
 {
 	t_data				*data;
-	t_btree				*left;
-	t_btree				*right;
+	struct s_btree		*left;
+	struct s_btree		*right;
 	int					(*cmp)(const char *s1, const char *s2);
 }						t_btree;
 
