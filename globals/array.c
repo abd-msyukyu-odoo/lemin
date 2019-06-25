@@ -116,6 +116,7 @@ int					ft_array_insert(t_array **array, unsigned int index,
 		while (i-- > index)
 			a->items[i + 1] = a->items[i];
 	a->items[index] = item;
+	a->n_items++;
 	return (1);
 }
 
