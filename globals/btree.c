@@ -244,7 +244,7 @@ int					ft_btree_fill_copy(t_btree *old_btree, t_btree *new_btree)
 	int				out;
 
 	out = ft_btree_add(new_btree, old_btree->data);
-	if (!out)
+	if (out == -1)
 		return (out);
 	if (old_btree->left != NULL)
 		return (ft_btree_fill_copy(old_btree->left, new_btree));
@@ -258,7 +258,7 @@ int					ft_btree_fill_array(t_btree *btree, t_array *array)
 	int				out;
 
 	out = ft_array_add(&array, btree->data);
-	if (!out)
+	if (out == -1)
 		return (out);
 	if (btree->left != NULL)
 		return (ft_btree_fill_array(btree->left, array));
