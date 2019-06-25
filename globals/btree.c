@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "btree.h"
-#include "libft.h"
-#include "array.h"
 
 t_btree				*ft_btree_construct(t_data *data)
 {
@@ -60,8 +58,7 @@ static int			ft_btree_add_below(t_btree *btree, t_data *item)
 		}
 		return (3);
 	}
-	else
-		return (0);
+	return (0);
 }
 
 int					ft_btree_add(t_btree *btree, t_data *item)
@@ -87,7 +84,7 @@ int					ft_btree_add(t_btree *btree, t_data *item)
 	}
 }
 
-t_btree				*ft_btree_get_btree_with_parent(t_btree *btree,
+static t_btree		*ft_btree_get_btree_with_parent(t_btree *btree,
 	char *key, t_btree **parent)
 {
 	t_btree			*cur;
@@ -112,7 +109,7 @@ t_btree				*ft_btree_get_btree_with_parent(t_btree *btree,
 	return (cur);
 }
 
-t_btree				*ft_btree_get_btree(t_btree *btree,
+static t_btree		*ft_btree_get_btree(t_btree *btree,
 	char *key)
 {
 	return (ft_btree_get_btree_with_parent(btree, key, NULL));
@@ -126,12 +123,25 @@ t_data				*ft_btree_get_data(t_btree *btree, char *key)
 	return ((target == NULL) ? NULL : target->data);
 }
 
+t_data				*ft_btree_replace(t_btree *btree, t_data *item)
+{
+	t_btree			*target;
+	t_data			*out;
+
+	target = ft_btree_get_btree(btree, item->key);
+	if (!target)
+		return (NULL);
+	out = target->data;
+	target->data = item;
+	return (out);
+}
+
 unsigned int		ft_btree_contains(t_btree *btree, char *key)
 {
 	return (ft_btree_get_btree(btree, key) != NULL);
 }
 
-int					ft_btree_replace_branch(t_btree *from, t_btree *old_btree,
+static int			ft_btree_replace_branch(t_btree *from, t_btree *old_btree,
 	t_btree *new_btree)
 {
 	if (from->right == old_btree)
@@ -144,12 +154,7 @@ int					ft_btree_replace_branch(t_btree *from, t_btree *old_btree,
 	return (1);
 }
 
-int					ft_btree_remove_branch(t_btree *from, t_btree *target)
-{
-	return (ft_btree_replace_branch(from, target, NULL));
-}
-
-t_btree				*ft_btree_get_min_btree(t_btree *btree, t_btree **parent)
+static t_btree		*ft_btree_get_min_btree(t_btree *btree, t_btree **parent)
 {
 	t_btree			*cur;
 
@@ -164,7 +169,7 @@ t_btree				*ft_btree_get_min_btree(t_btree *btree, t_btree **parent)
 	return (cur);
 }
 
-void				ft_btree_remove_left_sided(t_btree *parent, t_btree *target)
+static void			ft_btree_remove_left_sided(t_btree *parent, t_btree *target)
 {
 	t_btree			*tmp;
 
@@ -180,7 +185,7 @@ void				ft_btree_remove_left_sided(t_btree *parent, t_btree *target)
 		ft_btree_replace_branch(parent, target, target->left);
 }
 
-void				ft_btree_remove_right_sided(t_btree *parent,
+static void			ft_btree_remove_right_sided(t_btree *parent,
 	t_btree *target)
 {
 	t_btree			*tmp;
@@ -197,7 +202,7 @@ void				ft_btree_remove_right_sided(t_btree *parent,
 		ft_btree_replace_branch(parent, target, target->right);
 }
 
-void				ft_btree_remove_min_sided(t_btree *parent, t_btree *target)
+static void			ft_btree_remove_min_sided(t_btree *parent, t_btree *target)
 {
 	t_btree			*tmp;
 
@@ -223,7 +228,7 @@ t_data				*ft_btree_remove(t_btree *btree, char *key)
 		if (parent == NULL)
 			target->data = NULL;
 		else
-			ft_btree_remove_branch(parent, target);
+			ft_btree_replace_branch(parent, target, NULL);
 	}
 	else if (target->right == NULL)
 		ft_btree_remove_left_sided(parent, target);

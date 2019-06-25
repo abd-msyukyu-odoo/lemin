@@ -66,8 +66,6 @@ int					ft_array_add(t_array **array, void *item)
 	t_array			*a;
 
 	a = *array;
-	if (!item)
-		return (0);
 	if (a->n_items >= a->size)
 	{
 		a = ft_array_double_size(a, -1);
@@ -90,8 +88,6 @@ int					ft_array_insert(t_array **array, unsigned int index,
 	a = *array;
 	if (index > a->n_items)
 		return (-1);
-	if (!item)
-		return (0);
 	if (index == a->n_items)
 		return (ft_array_add(array, item));
 	i = a->n_items;
@@ -150,5 +146,5 @@ int					ft_array_remove_first(t_array *array, void *item)
 	unsigned int	i;
 
 	i = ft_array_index(array, item);
-	return (ft_array_remove(array, i));
+	return (ft_array_remove(array, i) != NULL);
 }
