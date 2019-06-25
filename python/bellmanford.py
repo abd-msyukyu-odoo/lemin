@@ -12,7 +12,9 @@ class BellmanFord:
 
 	def solve(self):
 		for room in self.rooms:
-			self.paths.add_data(Path(room, None))
+			path = Path(room, None)
+			path.bfBtree = BTree(room)
+			self.paths.add_data(path)
 		paths = [self.paths.get_data(self.s_room.name)]
 		for i in range(len(self.rooms) - 1):
 			new_paths = []
@@ -23,9 +25,13 @@ class BellmanFord:
 						continue
 					tunnel = room.get_tunnel(jroom)
 					jpath = self.paths.get_data(jroom.name)
-					if jpath.previous is None or jpath.cost > tunnel.cost + path.cost:
+					if (jpath.previous is None or jpath.cost > tunnel.cost + path.cost) and \
+						not path.bfBtree.contains(jroom.name):
 						jpath.cost = tunnel.cost + path.cost
 						jpath.previous = path
+						jpath.bfBtree.remove_data(jroom.name)
+						jpath.bfBtree = path.bfBtree
+						jpath.bfBtree.add_data(jroom)
 						new_paths.append(jpath)
 			paths = new_paths
 			if len(paths) == 0:
