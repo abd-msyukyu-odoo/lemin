@@ -207,7 +207,7 @@ class BTree:
 			if elem.up is None:
 				elem.data = None
 			else:
-				elem.up.__remove_direct_branch(elem, None)
+				elem.up.__remove_direct_branch(elem)
 		elif elem.right is None:
 			if elem.up is None:
 				elem.data = elem.left.data
