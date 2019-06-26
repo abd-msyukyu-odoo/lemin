@@ -25,8 +25,8 @@ class BellmanFord:
 						continue
 					tunnel = room.get_tunnel(jroom)
 					jpath = self.paths.get_data(jroom.name)
-					if (jpath.previous is None or jpath.cost > tunnel.cost + path.cost):# and \
-						#not path.bfBtree.contains(jroom.name):
+					if (jpath.previous is None or jpath.cost > tunnel.cost + path.cost) and \
+						not path.bfBtree.contains(jroom.name):
 						jpath.cost = tunnel.cost + path.cost
 						jpath.previous = path
 						jpath.bfBtree.remove_data(jroom.name)
