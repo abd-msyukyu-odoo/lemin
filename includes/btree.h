@@ -96,6 +96,6 @@ int						ft_btree_fill_copy(t_btree *old_btree,
 ** 0 : array was not modified
 ** -1 : error
 */
-int						ft_btree_fill_array(t_btree *btree, t_array *array);
+int						ft_btree_fill_array(t_btree *btree, t_array **array);
 
 #endif

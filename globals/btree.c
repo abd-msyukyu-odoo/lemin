@@ -244,25 +244,21 @@ int					ft_btree_fill_copy(t_btree *old_btree, t_btree *new_btree)
 	int				out;
 
 	out = ft_btree_add(new_btree, old_btree->data);
-	if (out == -1)
-		return (out);
-	if (old_btree->left != NULL)
-		return (ft_btree_fill_copy(old_btree->left, new_btree));
-	if (old_btree->right != NULL)
-		return (ft_btree_fill_copy(old_btree->right, new_btree));
+	if (out != -1 && old_btree->left != NULL)
+		out = ft_btree_fill_copy(old_btree->left, new_btree);
+	if (out != -1 && old_btree->right != NULL)
+		out = ft_btree_fill_copy(old_btree->right, new_btree);
 	return (out);
 }
 
-int					ft_btree_fill_array(t_btree *btree, t_array *array)
+int					ft_btree_fill_array(t_btree *btree, t_array **array)
 {
 	int				out;
 
-	out = ft_array_add(&array, btree->data);
-	if (out == -1)
-		return (out);
-	if (btree->left != NULL)
-		return (ft_btree_fill_array(btree->left, array));
-	if (btree->right != NULL)
-		return (ft_btree_fill_array(btree->right, array));
+	out = ft_array_add(array, btree->data);
+	if (out != -1 && btree->left != NULL)
+		out = ft_btree_fill_array(btree->left, array);
+	if (out != -1 && btree->right != NULL)
+		out = ft_btree_fill_array(btree->right, array);
 	return (out);
 }

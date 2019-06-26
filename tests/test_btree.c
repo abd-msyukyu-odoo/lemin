@@ -28,8 +28,8 @@ void			display_btree_insert_order(t_btree *b)
 {
 	t_array		*a;
 
-	a = ft_array_construct(32);
-	ft_btree_fill_array(b, a);
+	a = ft_array_construct(2);
+	ft_btree_fill_array(b, &a);
 	display_array(a);
 	ft_array_free(a);
 }
