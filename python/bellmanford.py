@@ -10,11 +10,9 @@ class BellmanFord:
 		self.shortest_path = None
 		self.solve()
 
-	def solve(self):
+	def solve(self, negative_cycle = False):
 		for room in self.rooms:
-			path = Path(room, None)
-			path.bfBtree = BTree(room)
-			self.paths.add_data(path)
+			self.paths.add_data(Path(room, None))
 		paths = [self.paths.get_data(self.s_room.name)]
 		for i in range(len(self.rooms) - 1):
 			new_paths = []
@@ -26,12 +24,9 @@ class BellmanFord:
 					tunnel = room.get_tunnel(jroom)
 					jpath = self.paths.get_data(jroom.name)
 					if (jpath.previous is None or jpath.cost > tunnel.cost + path.cost) and \
-						not path.bfBtree.contains(jroom.name):
+						(not negative_cycle or not self.create_cycle(jroom, path)):
 						jpath.cost = tunnel.cost + path.cost
 						jpath.previous = path
-						jpath.bfBtree.remove_data(jroom.name)
-						jpath.bfBtree = path.bfBtree
-						jpath.bfBtree.add_data(jroom)
 						new_paths.append(jpath)
 			paths = new_paths
 			if len(paths) == 0:
@@ -46,6 +41,19 @@ class BellmanFord:
 				check += 1
 			if check > len(self.rooms):
 				if Tools.verbose:
-					print("BellmanFord infinite negative cycle error")
+					print("BellmanFord infinite negative cycle detected")
+					self.paths = BTree(None)
+					self.solve(True)
 				return
 			self.shortest_path = reverse_path
+		else:
+			if Tools.verbose:
+				print("No path found")
+	
+	def create_cycle(self, room, path):
+		cur_path = path
+		while cur_path.previous is not None:
+			if cur_path.room is room:
+				return True
+			cur_path = cur_path.previous
+		return False
