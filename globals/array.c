@@ -152,7 +152,7 @@ unsigned int		ft_array_index(t_array *array, void *item)
 
 int					ft_array_contains(t_array *array, void *item)
 {
-	return (ft_array_index(array, index) != array->n_items);
+	return (ft_array_index(array, item) != array->n_items);
 }
 
 int					ft_array_remove_first(t_array *array, void *item)
