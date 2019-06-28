@@ -96,12 +96,12 @@ static t_btree		*ft_btree_get_btree_with_parent(t_btree *btree,
 		parent = &cur;
 	*parent = NULL;
 	cur = btree;
-	while ((cmpr = cur->cmp(key, btree->data->key)))
+	while ((cmpr = cur->cmp(key, cur->data->key)))
 	{
 		*parent = cur;
 		if (cmpr < 0 && cur->left)
 			cur = cur->left;
-		else if (cur->right)
+		else if (cmpr > 0 && cur->right)
 			cur = cur->right;
 		else
 			return (NULL);
@@ -208,9 +208,8 @@ static void			ft_btree_remove_min_sided(t_btree *parent, t_btree *target)
 
 	parent = target;
 	tmp = ft_btree_get_min_btree(target->right, &parent);
-	ft_btree_replace_branch(parent, tmp, tmp->right);
 	target->data = tmp->data;
-	free(tmp);
+	ft_btree_replace_branch(parent, tmp, tmp->right);
 }
 
 t_data				*ft_btree_remove(t_btree *btree, char *key)
