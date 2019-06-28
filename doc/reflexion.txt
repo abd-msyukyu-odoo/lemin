@@ -121,3 +121,5 @@ reflexion sur le stockage et l'acces aux aretes a partir d'un noeud
 --------------------------------------------------------------
 
 travailler uniquement dans le graphe dedouble ?
+
+osef des coordonnees
