@@ -33,7 +33,9 @@ static t_room			*ft_room_construct(char *key, unsigned int status)
 	return (out);
 }
 
-int						ft_room_add(char *key, t_btree *bt_rooms)
+int						ft_room_add_tube(t_tube *tube)
+
+int						ft_room_creator(char *key, t_btree *bt_rooms)
 {
 	t_room				*in;
 	t_room				*out;
