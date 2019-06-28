@@ -103,3 +103,21 @@ i = 4
 		+ {a_42 - a_41 [+1]}
 		+ {a_41 - 1}
 etc...
+
+--------------------------------------------------------------
+
+reflexion sur le stockage et l'acces aux aretes a partir d'un noeud
+-> faire un BTree d'aretes pour chaque noeud, ou chaque arrete est accessible avec 
+	la concatenation des noms des noeuds dans l'ordre alphabetique
+	-> faire aussi l'array pour chaque noeud, pour pouvoir parcourir les aretes sans re-malloc
+
+-/> faire une table de hash ou le fait de mettre les noms des salles dans les 2 sens
+	genere le meme hash -> best si formule faisable
+	-> la table de hash peut contenir toutes les aretes et dans ce cas chaque noeud doit
+		juste connaitre le nom de ses noeuds voisins, on envoie les 2 strings dans la fonction
+		de hash. hash = plus petit pointeur des deux strings suivi du second
+	-> pas de type 128bits assure en C, + probleme de gestion des conflits, rejet
+
+--------------------------------------------------------------
+
+travailler uniquement dans le graphe dedouble ?
