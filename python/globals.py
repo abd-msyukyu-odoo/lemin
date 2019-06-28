@@ -128,6 +128,12 @@ class BTree:
 		self.right = None
 		self.f_cmp = f_cmp
 		self.up = up
+		if data is None:
+			self.rank = 0
+		else:
+			self.rank = 1
+		if up is not None:
+			self.rebalance()
 	
 	def add_data(self, data):
 		if self.data is None:
@@ -148,6 +154,58 @@ class BTree:
 				cur = cur.right
 			else:
 				return 0
+
+	def get_other(self, btree):
+		if self.left is btree:
+			return self.right
+		elif self.right is btree:
+			return self.left
+		else:
+			return None
+
+	def double_rotate(self):
+		rotate(self)
+		rotate(self)
+		self.rank += 1
+		return
+
+	def rotate(self):
+		if (self.up.left == self):
+			tmp = self.right
+		else:
+			tmp = self.left
+		
+		self.up -> self.up.up
+		self.tmp_side -> self.up
+		self.up.up -> self
+		self.up.anti_tmp_side -> tmp
+		self.up.up.?side -> self
+		self.tmp.up -> self.up
+		self.up.rank -= 1
+		return
+
+	def rebalance(self):
+		cur = self
+		while cur.up is not None:
+			parent = self.up
+			if parent.rank <= cur.rank:
+				parent.rank += 1
+				if parent.up is None:
+					return
+				sibling = parent.up.get_other(parent)
+				sibrank = 0 if sibling is None else sibling.rank
+				if parent.up.rank == parent.rank and parent.up.rank - sibrank == 2:
+					subsibling = parent.get_other(cur)
+					subsibrank = 0 if subsibling is None else subsibling.rank
+					if parent.rank - subsibrank == 2:
+						cur.double_rotate()
+					else:
+						parent.rotate()
+					return
+			else:
+				return
+			cur = parent
+		return
 
 	def __get_elem(self, name):
 		if self.data is None:
@@ -235,6 +293,9 @@ class BTree:
 			min_e.up.__replace_direct_branch(min_e, min_e.right)
 			elem.data = min_e.data
 		return rm_data
+
+	def remove_data_wavl(self, name):
+		return None
 
 	def fill_copy(self, bTree):
 		bTree.add_data(self.data)
