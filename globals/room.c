@@ -16,19 +16,13 @@
 void					ft_room_free(t_room *room)
 {
 	int					i;
-	t_tube				*tube;
-	t_room				*connection;
 
 	if (!room)
 		return ;
 	i = 0;
 	while (i < room->a_tubes->n_items)
 	{
-		tube = (t_tube*)ft_array_get(room->a_tubes, i);
-		connection = ft_tube_get_connection(tube, room);
-		ft_array_remove_first(connection->a_tubes, tube);
-		ft_btree_remove(connection->bt_tubes, tube->key.key);
-		ft_tube_free(tube);
+		ft_tube_free((t_tube*)ft_array_get(room->a_tubes, i));
 		++i;
 	}
 	ft_array_free(room->a_tubes);

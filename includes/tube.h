@@ -46,6 +46,11 @@ t_tube					*ft_tube_construct(t_room *room1, t_room *room2,
 							int direction, int cost);
 
 /*
+** remove a tube from its related rooms
+*/
+void					ft_tube_remove_from_rooms(t_tube *tube);
+
+/*
 ** free the t_tube instance
 */
 void					ft_tube_free(t_tube *tube);
