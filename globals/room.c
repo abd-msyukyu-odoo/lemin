@@ -10,14 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "tube.h"
 #include "room.h"
 
 void					ft_room_free(t_room *room)
 {
 	if (!room)
 		return ;
-	free(room->a_tubes);
-	free(room->bt_tubes);
+	ft_array_free(room->a_tubes);
+	ft_btree_free(room->bt_tubes);
 	free(room->key.key);
 	free(room);
 }
@@ -41,22 +42,12 @@ t_room					*ft_room_construct(char *key, unsigned int status)
 	return (out);
 }
 
-int						ft_room_add_tube(t_tube *tube)
-{
-	if (!ft_array_add(&(tube->room1->a_tubes), tube) ||
-		!ft_array_add(&(tube->room2->a_tubes), tube) ||
-		!ft_btree_add(tube->room1->bt_tubes, (t_data*)tube) ||
-		!ft_btree_add(tube->room2->bt_tubes, (t_data*)tube))
-		return (0);
-	return (1);
-}
-
 int						ft_room_create_tube_oriented(t_room *out, t_room *in)
 {
 	t_tube				*tube;
 
 	tube = ft_tube_construct(out, in, 1, 1);
-	if (!tube || !ft_room_add_tube(tube))
+	if (!tube || !ft_tube_add_to_rooms(tube))
 	{
 		ft_tube_free(tube);
 		return (0);
@@ -98,7 +89,8 @@ t_room					*ft_room_create_start(char *key, t_btree *bt_rooms)
 {
 	t_room				*start;
 
-	if (!(start = ft_room_construct(key, 1)) || !ft_btree_add(bt_rooms, start))
+	if (!(start = ft_room_construct(key, 1)) || !ft_btree_add(bt_rooms,
+		(t_data*)start))
 	{
 		ft_room_free(start);
 		return (NULL);
@@ -110,7 +102,8 @@ t_room					*ft_room_create_end(char *key, t_btree *bt_rooms)
 {
 	t_room				*end;
 
-	if (!(end = ft_room_construct(key, 0)) || !ft_btree_add(bt_rooms, end))
+	if (!(end = ft_room_construct(key, 0)) || !ft_btree_add(bt_rooms,
+		(t_data*)end))
 	{
 		ft_room_free(end);
 		return (NULL);
@@ -130,7 +123,7 @@ int						ft_room_create_pair(char *key, t_btree *bt_rooms)
 	if (!in || !out)
 		return (0);
 	tube = ft_tube_construct(in, out, 1, 0);
-	if (!tube || !ft_room_add_tube(tube))
+	if (!tube || !ft_tube_add_to_rooms(tube))
 	{
 		ft_tube_free(tube);
 		ft_room_free(in);

@@ -16,6 +16,17 @@
 # include "data.h"
 # include "room.h"
 
+
+/*
+** key : contains the char *key which is the id of the t_room item
+** room1 : first room of the tube
+** room2 : second room of the tube
+** direction :
+** 	1 : natural (room1 -> room2)
+** 	0 : both (room1 <-> room2)
+** 	-1 : reverse (room1 <- room2)
+** cost : constraint from passing through the tube
+*/
 typedef struct			s_tube
 {
 	t_data				key;
@@ -38,5 +49,13 @@ t_tube					*ft_tube_construct(t_room *room1, t_room *room2,
 ** free the t_tube instance
 */
 void					ft_tube_free(t_tube *tube);
+
+/*
+** add a tube to its related rooms
+** return :
+** 	1 : success
+**	0 : error
+*/
+int						ft_tube_add_to_rooms(t_tube *tube);
 
 #endif

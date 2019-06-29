@@ -12,11 +12,10 @@
 
 #ifndef ROOM_H
 # define ROOM_H
-# include "stdlib.h"
+# include <stdlib.h>
 # include "data.h"
 # include "btree.h"
 # include "array.h"
-# include "tube.h"
 # include "libft.h"
 
 /*
@@ -47,14 +46,6 @@ void					ft_room_free(t_room *room);
 ** 	NULL : error
 */
 t_room					*ft_room_construct(char *key, unsigned int status);
-
-/*
-** add a tube to its related rooms
-** return :
-** 	1 : success
-**	0 : error
-*/
-int						ft_room_add_tube(t_tube *tube);
 
 /*
 ** create and add a tube from "OUT" to "IN" rooms
