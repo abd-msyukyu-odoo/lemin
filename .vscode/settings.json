@@ -2,6 +2,8 @@
 	"files.associations": {
 		"btree.h": "c",
 		"libft.h": "c",
-		"data.h": "c"
+		"data.h": "c",
+		"tube.h": "c",
+		"room.h": "c"
 	}
 }

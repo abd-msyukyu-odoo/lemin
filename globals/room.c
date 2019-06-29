@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "room.h"
-#include "tube.h"
-#include "libft.h"
 
 void					ft_room_free(t_room *room)
 {
