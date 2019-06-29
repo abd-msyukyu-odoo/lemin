@@ -17,6 +17,8 @@
 # include "btree.h"
 # include "array.h"
 # include "libft.h"
+# define IN "-IN"
+# define OUT "-OUT"
 
 /*
 ** key : contains the char *key which is the id of the t_room item

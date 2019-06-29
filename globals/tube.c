@@ -38,10 +38,16 @@ t_tube				*ft_tube_construct(t_room *room1, t_room *room2,
 
 void				ft_tube_remove_from_rooms(t_tube *tube)
 {
-	ft_array_remove_first(tube->room1->a_tubes, tube);
-	ft_array_remove_first(tube->room2->a_tubes, tube);
-	ft_btree_remove(tube->room1->bt_tubes, tube->key.key);
-	ft_btree_remove(tube->room2->bt_tubes, tube->key.key);
+	if (tube->room1)
+	{
+		ft_array_remove_first(tube->room1->a_tubes, tube);
+		ft_btree_remove(tube->room1->bt_tubes, tube->key.key);
+	}
+	if (tube->room2)
+	{
+		ft_array_remove_first(tube->room2->a_tubes, tube);
+		ft_btree_remove(tube->room2->bt_tubes, tube->key.key);
+	}
 }
 
 void				ft_tube_free(t_tube *tube)

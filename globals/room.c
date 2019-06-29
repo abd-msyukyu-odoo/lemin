@@ -72,21 +72,21 @@ int						ft_room_create_tube_pair(char *key1, char *key2,
 	int					result;
 
 	result = -1;
-	if (!(key = ft_strjoin(key1, "#IN")))
+	if (!(key = ft_strjoin(key1, IN)))
 		return (0);
 	in = (t_room*)ft_btree_get_data(bt_rooms, key);
 	free(key);
-	if (!(key = ft_strjoin(key2, "#OUT")))
+	if (!(key = ft_strjoin(key2, OUT)))
 		return (0);
 	out = (t_room*)ft_btree_get_data(bt_rooms, key);
 	free(key);
 	if (in && out)
 		result = ft_room_create_tube_oriented(out, in);
-	if (!result || !(key = ft_strjoin(key2, "#IN")))
+	if (!result || !(key = ft_strjoin(key2, IN)))
 		return (0);
 	in = (t_room*)ft_btree_get_data(bt_rooms, key);
 	free(key);
-	if (!(key = ft_strjoin(key1, "#OUT")))
+	if (!(key = ft_strjoin(key1, OUT)))
 		return (0);
 	out = (t_room*)ft_btree_get_data(bt_rooms, key);
 	free(key);
@@ -99,9 +99,9 @@ static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
 	t_room				*extrema;
 
 	if (status)
-		extrema = ft_room_construct(ft_strjoin(key, "#OUT"), 1);
+		extrema = ft_room_construct(ft_strjoin(key, OUT), 1);
 	else
-		extrema = ft_room_construct(ft_strjoin(key, "#IN"), 0);
+		extrema = ft_room_construct(ft_strjoin(key, IN), 0);
 	free(key);
 	if (!extrema)
 		return (NULL);
@@ -129,8 +129,8 @@ int						ft_room_create_pair(char *key, t_btree *bt_rooms)
 	t_room				*out;
 	t_tube				*tube;
 
-	in = ft_room_construct(ft_strjoin(key, "#IN"), 0);
-	out = ft_room_construct(ft_strjoin(key, "#OUT"), 1);
+	in = ft_room_construct(ft_strjoin(key, IN), 0);
+	out = ft_room_construct(ft_strjoin(key, OUT), 1);
 	free(key);
 	if (!in || !out)
 	{
