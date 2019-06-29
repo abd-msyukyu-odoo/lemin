@@ -45,7 +45,7 @@ static int			ft_btree_add_below(t_btree *btree, t_data *item)
 		if (btree->left == NULL)
 		{
 			btree->left = ft_btree_construct(item);
-			return (btree->left == NULL) ? -1 : 1;
+			return (btree->left == NULL) ? 0 : 1;
 		}
 		return (2);
 	}
@@ -54,11 +54,11 @@ static int			ft_btree_add_below(t_btree *btree, t_data *item)
 		if (btree->right == NULL)
 		{
 			btree->right = ft_btree_construct(item);
-			return (btree->right == NULL) ? -1 : 1;
+			return (btree->right == NULL) ? 0 : 1;
 		}
 		return (3);
 	}
-	return (0);
+	return (-1);
 }
 
 int					ft_btree_add(t_btree *btree, t_data *item)
@@ -243,9 +243,9 @@ int					ft_btree_fill_copy(t_btree *old_btree, t_btree *new_btree)
 	int				out;
 
 	out = ft_btree_add(new_btree, old_btree->data);
-	if (out != -1 && old_btree->left != NULL)
+	if (!out && old_btree->left != NULL)
 		out = ft_btree_fill_copy(old_btree->left, new_btree);
-	if (out != -1 && old_btree->right != NULL)
+	if (!out && old_btree->right != NULL)
 		out = ft_btree_fill_copy(old_btree->right, new_btree);
 	return (out);
 }

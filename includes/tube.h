@@ -18,8 +18,8 @@
 typedef struct			s_tube
 {
 	t_data				key;
-	t_room				room1;
-	t_room				room2;
+	t_room				*room1;
+	t_room				*room2;
 	int					direction;
 	int					cost;
 }						t_tube;

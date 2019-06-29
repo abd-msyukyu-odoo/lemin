@@ -42,8 +42,8 @@ void					ft_btree_free(t_btree *btree);
 ** add item to the btree only if its key is not already present
 ** return :
 ** 1 : success
-** 0 : btree was not modified
-** -1 : error
+** -1 : btree was not modified
+** 0 : error
 */
 int						ft_btree_add(t_btree *btree, t_data *item);
 
@@ -83,8 +83,8 @@ t_data					*ft_btree_remove(t_btree *btree, char *key);
 ** fill new_btree with all items from old_btree
 ** return :
 ** 1 : success
-** 0 : btree was not modified
-** -1 : error
+** -1 : btree was not modified
+** 0 : error
 */
 int						ft_btree_fill_copy(t_btree *old_btree,
 							t_btree *new_btree);
@@ -93,8 +93,8 @@ int						ft_btree_fill_copy(t_btree *old_btree,
 ** fill array with all items from btree
 ** return :
 ** 1 : success
-** 0 : array was not modified
-** -1 : error
+** -1 : array was not modified
+** 0 : error
 */
 int						ft_btree_fill_array(t_btree *btree, t_array **array);
 

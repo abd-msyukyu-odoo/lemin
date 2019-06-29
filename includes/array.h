@@ -38,8 +38,8 @@ void					ft_array_free(t_array *array);
 ** add at the end of the array
 ** return :
 ** 1 : success
-** 0 : array was not modified
-** -1 : error
+** -1 : array was not modified
+** 0 : error
 */
 int						ft_array_add(t_array **array, void *item);
 
@@ -47,8 +47,8 @@ int						ft_array_add(t_array **array, void *item);
 ** insert at index in the array
 ** return :
 ** 1 : success
-** 0 : array was not modified
-** -1 : error
+** -1 : array was not modified
+** 0 : error
 */
 int						ft_array_insert(t_array **array, unsigned int index,
 							void *item);
