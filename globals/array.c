@@ -40,7 +40,7 @@ t_array				*ft_array_construct(unsigned int size)
 
 void				ft_array_free(t_array *array)
 {
-	if (array == NULL)
+	if (!array)
 		return ;
 	free(array->items);
 	free(array);

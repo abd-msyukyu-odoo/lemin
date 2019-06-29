@@ -58,4 +58,12 @@ void					ft_tube_free(t_tube *tube);
 */
 int						ft_tube_add_to_rooms(t_tube *tube);
 
+/*
+** get the room connected to room with tube
+** return :
+** 	t_room* : connected room
+** 	NULL : error
+*/
+t_room					*ft_tube_get_connection(t_tube *tube, t_room *room);
+
 #endif

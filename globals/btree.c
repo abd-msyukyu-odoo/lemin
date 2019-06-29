@@ -28,7 +28,7 @@ t_btree				*ft_btree_construct(t_data *data)
 
 void				ft_btree_free(t_btree *btree)
 {
-	if (btree == NULL)
+	if (!btree)
 		return ;
 	ft_btree_free(btree->left);
 	ft_btree_free(btree->right);

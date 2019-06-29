@@ -44,15 +44,11 @@ void			display_btree(t_btree *b, unsigned int verbose)
 	display_btree(b->right, verbose);
 }
 
-int				main(void)
+void			free_test(t_btree *bt_rooms)
 {
-	t_btree		*bt_rooms;
 	t_array		*a;
 
-	bt_rooms = ft_btree_construct(NULL);
 	a = ft_array_construct(0);
-	ft_btree_add(bt_rooms, (t_data*)ft_room_construct(ft_strdup(&(in[0])), 1));
-	ft_btree_add(bt_rooms, (t_data*)ft_room_construct(ft_strdup(&(in[25])), 0));
 	ft_btree_fill_array(bt_rooms, &a);
 	for (int i = 0; i < a->n_items; i++)
 	{
@@ -60,5 +56,17 @@ int				main(void)
 	}
 	ft_array_free(a);
 	ft_btree_free(bt_rooms);
+}
+
+int				main(void)
+{
+	t_btree		*bt_rooms;
+
+	bt_rooms = ft_btree_construct(NULL);
+	ft_room_create_start(ft_strdup(&(in[0])), bt_rooms);
+	ft_room_create_end(ft_strdup(&(in[25])), bt_rooms);
+	ft_room_create_pair(ft_strdup(&(in[1])), bt_rooms);
+	display_btree(bt_rooms, 1);
+	free_test(bt_rooms);
 	return (0);
 }

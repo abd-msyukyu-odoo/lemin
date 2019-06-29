@@ -15,8 +15,22 @@
 
 void					ft_room_free(t_room *room)
 {
+	int					i;
+	t_tube				*tube;
+	t_room				*connection;
+
 	if (!room)
 		return ;
+	i = 0;
+	while (i < room->a_tubes->n_items)
+	{
+		tube = (t_tube*)ft_array_get(room->a_tubes, i);
+		connection = ft_tube_get_connection(tube, room);
+		ft_array_remove_first(connection->a_tubes, tube);
+		ft_btree_remove(connection->bt_tubes, tube->key.key);
+		ft_tube_free(tube);
+		++i;
+	}
 	ft_array_free(room->a_tubes);
 	ft_btree_free(room->bt_tubes);
 	free(room->key.key);
@@ -85,30 +99,34 @@ int						ft_room_create_tube_pair(char *key1, char *key2,
 	return ((in && out) ? ft_room_create_tube_oriented(out, in) : result);
 }
 
-t_room					*ft_room_create_start(char *key, t_btree *bt_rooms)
+static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
+	unsigned int status)
 {
-	t_room				*start;
+	t_room				*extrema;
 
-	if (!(start = ft_room_construct(key, 1)) || !ft_btree_add(bt_rooms,
-		(t_data*)start))
+	if (status)
+		extrema = ft_room_construct(ft_strjoin(key, "#OUT"), 1);
+	else
+		extrema = ft_room_construct(ft_strjoin(key, "#IN"), 0);
+	free(key);
+	if (!extrema)
+		return (NULL);
+	if (!extrema || !ft_btree_add(bt_rooms, (t_data*)extrema))
 	{
-		ft_room_free(start);
+		ft_room_free(extrema);
 		return (NULL);
 	}
-	return (start);
+	return (extrema);
+}
+
+t_room					*ft_room_create_start(char *key, t_btree *bt_rooms)
+{
+	return (ft_room_create_extrema(key, bt_rooms, 1));
 }
 
 t_room					*ft_room_create_end(char *key, t_btree *bt_rooms)
 {
-	t_room				*end;
-
-	if (!(end = ft_room_construct(key, 0)) || !ft_btree_add(bt_rooms,
-		(t_data*)end))
-	{
-		ft_room_free(end);
-		return (NULL);
-	}
-	return (end);
+	return (ft_room_create_extrema(key, bt_rooms, 0));
 }
 
 int						ft_room_create_pair(char *key, t_btree *bt_rooms)
@@ -121,10 +139,16 @@ int						ft_room_create_pair(char *key, t_btree *bt_rooms)
 	out = ft_room_construct(ft_strjoin(key, "#OUT"), 1);
 	free(key);
 	if (!in || !out)
-		return (0);
-	tube = ft_tube_construct(in, out, 1, 0);
-	if (!tube || !ft_tube_add_to_rooms(tube))
 	{
+		ft_room_free(in);
+		return (0);
+	}
+	tube = ft_tube_construct(in, out, 1, 0);
+	if (!tube || !ft_tube_add_to_rooms(tube) ||
+		!ft_btree_add(bt_rooms, (t_data*)in) ||
+		!ft_btree_add(bt_rooms, (t_data*)out))
+	{
+		ft_btree_remove(bt_rooms, in->key.key);
 		ft_tube_free(tube);
 		ft_room_free(in);
 		ft_room_free(out);

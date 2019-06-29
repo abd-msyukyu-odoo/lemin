@@ -50,6 +50,21 @@ int					ft_tube_add_to_rooms(t_tube *tube)
 		!ft_array_add(&(tube->room2->a_tubes), tube) ||
 		!ft_btree_add(tube->room1->bt_tubes, (t_data*)tube) ||
 		!ft_btree_add(tube->room2->bt_tubes, (t_data*)tube))
+	{
+		ft_array_remove_first(tube->room1->a_tubes, tube);
+		ft_array_remove_first(tube->room2->a_tubes, tube);
+		ft_btree_remove(tube->room1->bt_tubes, tube->key.key);
 		return (0);
+	}
 	return (1);
+}
+
+t_room				*ft_tube_get_connection(t_tube *tube, t_room *room)
+{
+	if (tube->room1 == room)
+		return (tube->room2);
+	else if (tube->room2 == room)
+		return (tube->room1);
+	else
+		return (NULL);
 }
