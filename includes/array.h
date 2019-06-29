@@ -13,7 +13,13 @@
 #ifndef ARRAY_H
 # define ARRAY_H
 # include <stdlib.h>
+# include "libft.h"
 
+/*
+** items : array of void*
+** n_items : number of non-null items in items
+** size : actual capacity of items (size >= n_items)
+*/
 typedef struct			s_array
 {
 	void				**items;
@@ -24,8 +30,8 @@ typedef struct			s_array
 /*
 ** create a t_array instance
 ** return :
-** t_array* : created instance
-** NULL : error
+** 	t_array* : created instance
+** 	NULL : error
 */
 t_array					*ft_array_construct(unsigned int size);
 
@@ -37,18 +43,18 @@ void					ft_array_free(t_array *array);
 /*
 ** add at the end of the array
 ** return :
-** 1 : success
-** -1 : array was not modified
-** 0 : error
+** 	1 : success
+** 	-1 : array was not modified
+** 	0 : error
 */
 int						ft_array_add(t_array **array, void *item);
 
 /*
 ** insert at index in the array
 ** return :
-** 1 : success
-** -1 : array was not modified
-** 0 : error
+** 	1 : success
+** 	-1 : array was not modified
+** 	0 : error
 */
 int						ft_array_insert(t_array **array, unsigned int index,
 							void *item);
@@ -56,40 +62,40 @@ int						ft_array_insert(t_array **array, unsigned int index,
 /*
 ** remove at index in the array
 ** return :
-** void* : removed item
-** NULL : array does not contain item
+** 	void* : removed item
+** 	NULL : array does not contain item
 */
 void					*ft_array_remove(t_array *array, unsigned index);
 
 /*
 ** get the index of item in the array
 ** return :
-** unsigned int : index of item
-** array->n_items : array does not contain item
+** 	unsigned int : index of item
+** 	array->n_items : array does not contain item
 */
 unsigned int			ft_array_index(t_array *array, void *item);
 
 /*
 ** get the item at index
 ** return :
-** void* : item at index
-** NULL : error
+** 	void* : item at index
+** 	NULL : error
 */
 void					*ft_array_get(t_array *array, unsigned int index);
 
 /*
 ** check if array contains item
 ** return :
-** 1 : array contains item
-** 0 : array does not contain item
+** 	1 : array contains item
+** 	0 : array does not contain item
 */
 int						ft_array_contains(t_array *array, void *item);
 
 /*
 ** remove first occurence of item in array
 ** return :
-** 1 : success
-** 0 : array does not contain item
+** 	1 : success
+** 	0 : array does not contain item
 */
 int						ft_array_remove_first(t_array *array, void *item);
 
