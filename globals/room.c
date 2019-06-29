@@ -34,6 +34,9 @@ static t_room			*ft_room_construct(char *key, unsigned int status)
 }
 
 int						ft_room_add_tube(t_tube *tube)
+{
+
+}
 
 int						ft_room_creator(char *key, t_btree *bt_rooms)
 {
@@ -46,9 +49,14 @@ int						ft_room_creator(char *key, t_btree *bt_rooms)
 	free(key);
 	if (!in || !out)
 		return (-1);
-	tube = ft_tube_construct();
-	if (!tube || -1 == ft_array_add(&(in->a_tubes)) || -1 == ft_array_add(&(out->a_tubes)) ||
-		-1 == ft_btree_add(in->bt_tubes) || -1 == ft_btree_add(out->bt_tubes))
+	tube = ft_tube_construct(in, out, 0, 0);
+	if (!tube || -1 == ft_room_add_tube(tube, in, out))
+	{
+		ft_room_free(in);
+		ft_room_free(out);
+		return (-1);
+	}
+	return (1);
 }
 
 void					ft_room_free(t_room *room)
