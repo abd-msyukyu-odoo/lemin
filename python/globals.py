@@ -132,8 +132,6 @@ class BTree:
 			self.rank = 0
 		else:
 			self.rank = 1
-		if up is not None:
-			self.rebalance()
 	
 	def add_data(self, data):
 		print(data.name)
@@ -146,11 +144,13 @@ class BTree:
 			if cmpr < 0:
 				if cur.left is None:
 					cur.left = BTree(data, self.f_cmp, cur)
+					cur.left.rebalance()
 					return 1
 				cur = cur.left
 			elif cmpr > 0:
 				if cur.right is None:
 					cur.right = BTree(data, self.f_cmp, cur)
+					cur.right.rebalance()
 					return 1
 				cur = cur.right
 			else:
