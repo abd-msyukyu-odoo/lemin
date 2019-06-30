@@ -136,6 +136,7 @@ class BTree:
 			self.rebalance()
 	
 	def add_data(self, data):
+		print(data.name)
 		if self.data is None:
 			self.data = data
 			return 1
@@ -169,7 +170,27 @@ class BTree:
 		self.rank += 1
 		return
 
+	def switch_master(self, upper):
+		print("switch master")
+		data = self.data
+		left = self.left
+		right = self.right
+		up = self.up
+		rank = self.rank
+		self.data = upper.data
+		self.left = upper.left
+		self.right = upper.right
+		self.up = upper.up
+		self.rank = upper.rank
+		upper.data = data
+		upper.left = left
+		upper.right = right
+		upper.up = up
+		upper.rank = rank
+		return
+
 	def rotate_right(self):
+		print("rotate_right")
 		tmp = self.right
 		master = self.up.up #can be null
 		upper = self.up
@@ -177,7 +198,8 @@ class BTree:
 		self.right = upper
 		upper.up = self
 		upper.left = tmp
-		tmp.up = upper
+		if tmp is not None:
+			tmp.up = upper
 		upper.rank -= 1
 		if (master is not None):
 			if (master.left == upper):
@@ -185,18 +207,34 @@ class BTree:
 			else:
 				master.right = self
 		else:
-			return #root change
+			self.switch_master(upper)
 		return
 
 	def rotate_left(self):
+		print("rotate_left")
+		print("	cur : " + self.data.name)
+		print("		left : " + ("(null)" if self.left is None else self.left.data.name))
+		print("		right : " + ("(null)" if self.right is None else self.right.data.name))
 		tmp = self.left
+		if (tmp is not None):
+			print("	tmp : " + tmp.data.name)
+			print("		left : " + ("(null)" if tmp.left is None else tmp.left.data.name))
+			print("		right : " + ("(null)" if tmp.right is None else tmp.right.data.name))
 		master = self.up.up #can be null
+		if (master is not None):
+			print("	master : " + master.data.name)
+			print("		left : " + ("(null)" if master.left is None else master.left.data.name))
+			print("		right : " + ("(null)" if master.right is None else master.right.data.name))
 		upper = self.up
+		print("	upper : " + upper.data.name)
+		print("		left : " + ("(null)" if upper.left is None else upper.left.data.name))
+		print("		right : " + ("(null)" if upper.right is None else upper.right.data.name))
 		self.up = master
 		self.left = upper
 		upper.up = self
 		upper.right = tmp
-		tmp.up = upper
+		if tmp is not None:
+			tmp.up = upper
 		upper.rank -= 1
 		if (master is not None):
 			if (master.left == upper):
@@ -204,7 +242,7 @@ class BTree:
 			else:
 				master.right = self
 		else:
-			return #root change
+			self.switch_master(upper)
 		return
 
 	def rotate(self):
@@ -217,7 +255,7 @@ class BTree:
 	def rebalance(self):
 		cur = self
 		while cur.up is not None:
-			parent = self.up
+			parent = cur.up
 			if parent.rank <= cur.rank:
 				parent.rank += 1
 				if parent.up is None:
@@ -228,8 +266,10 @@ class BTree:
 					subsibling = parent.get_other(cur)
 					subsibrank = 0 if subsibling is None else subsibling.rank
 					if parent.rank - subsibrank == 2:
+						print("double_rotate")
 						cur.double_rotate()
 					else:
+						print("simple_rotate")
 						parent.rotate()
 					return
 			else:
