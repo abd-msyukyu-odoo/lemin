@@ -22,7 +22,7 @@ t_array			*test_construct_array()
 	return (a);
 }
 
-void			fill_array(t_array **a)
+void			fill_array(t_array *a)
 {
 	for (int i = 0; i < 26; ++i)
 	{
@@ -35,7 +35,7 @@ void			test_array_add(void)
 	t_array		*a;
 
 	a = test_construct_array();
-	fill_array(&a);
+	fill_array(a);
 	display_array(a);
 	ft_array_free(a);
 }
@@ -45,10 +45,10 @@ void			test_array_insert(void)
 	t_array		*a;
 
 	a = test_construct_array();
-	fill_array(&a);
-	ft_array_insert(&a, 0, "start");
-	ft_array_insert(&a, 5, "inside");
-	ft_array_insert(&a, a->n_items, "end");
+	fill_array(a);
+	ft_array_insert(a, 0, "start");
+	ft_array_insert(a, 5, "inside");
+	ft_array_insert(a, a->n_items, "end");
 	display_array(a);
 	ft_array_free(a);
 }
@@ -58,7 +58,7 @@ void			test_array_remove(void)
 	t_array		*a;
 
 	a = test_construct_array();
-	fill_array(&a);
+	fill_array(a);
 	ft_array_remove(a, a->n_items - 1);
 	ft_array_remove(a, 3);
 	ft_array_remove(a, 0);
@@ -71,7 +71,7 @@ void			test_array_index(void)
 	t_array		*a;
 
 	a = test_construct_array();
-	fill_array(&a);
+	fill_array(a);
 	display_array(a);
 	printf("first : %d\nfourth : %d\nlast: %d\nfake : %d\n",
 		ft_array_index(a, &(in[0])),
@@ -83,9 +83,9 @@ void			test_array_index(void)
 
 int				main(void)
 {
-	//test_array_add();
-	//test_array_insert();
-	//test_array_remove();
+	test_array_add();
+	test_array_insert();
+	test_array_remove();
 	test_array_index();
 	return (0);
 }

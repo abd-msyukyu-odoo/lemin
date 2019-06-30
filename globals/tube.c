@@ -61,8 +61,8 @@ void				ft_tube_free(t_tube *tube)
 
 int					ft_tube_add_to_rooms(t_tube *tube)
 {
-	if (!ft_array_add(&(tube->room1->a_tubes), tube) ||
-		!ft_array_add(&(tube->room2->a_tubes), tube) ||
+	if (!ft_array_add(tube->room1->a_tubes, tube) ||
+		!ft_array_add(tube->room2->a_tubes, tube) ||
 		!ft_btree_add(tube->room1->bt_tubes, (t_data*)tube) ||
 		!ft_btree_add(tube->room2->bt_tubes, (t_data*)tube))
 	{

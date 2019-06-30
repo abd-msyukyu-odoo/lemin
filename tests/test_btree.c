@@ -85,7 +85,7 @@ t_array			*fill_btree(t_btree *b)
 		tbt = (test_btree*)malloc(sizeof(test_btree));
 		tbt->data = (t_data){&(in[i])};
 		tbt->ext = "ext";
-		ft_array_add(&a, tbt);
+		ft_array_add(a, tbt);
 		ft_btree_add(b, (t_data*)tbt);
 	}
 	return a;
@@ -118,7 +118,7 @@ void			test_btree_fill_array()
 	b = test_construct_btree();
 	data = fill_btree(b);
 	a = ft_array_construct(2);
-	ft_btree_fill_array(b, &a);
+	ft_btree_fill_array(b, a);
 	display_array(data);
 	display_array(a);
 	free_data(data);
@@ -183,7 +183,7 @@ void			test_btree_remove()
 	printf("removing nonull:\n	%s\n\n", &(in[16]));
 	ft_btree_remove(b, &(in[16]));
 	display_btree(b, 1);
-	ft_btree_fill_array(b, &a);
+	ft_btree_fill_array(b, a);
 	display_array(a);
 	free_data(data);
 	ft_btree_free(b);
@@ -193,10 +193,10 @@ void			test_btree_remove()
 
 int				main(void)
 {
-	//test_btree_add();
-	//test_btree_fill_array();
-	//test_btree_fill_copy();
-	//test_btree_replace();
+	test_btree_add();
+	test_btree_fill_array();
+	test_btree_fill_copy();
+	test_btree_replace();
 	test_btree_remove();
 	return (0);
 }

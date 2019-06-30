@@ -50,7 +50,7 @@ void			display_tubes(t_btree *bt_rooms)
 	t_room		*room;
 
 	a = ft_array_construct(0);
-	ft_btree_fill_array(bt_rooms, &a);
+	ft_btree_fill_array(bt_rooms, a);
 	for (int i = 0; i < a->n_items; ++i)
 	{
 		room = (t_room*)ft_array_get(a, i);
@@ -65,7 +65,7 @@ void			free_test(t_btree *bt_rooms)
 	t_array		*a;
 
 	a = ft_array_construct(0);
-	ft_btree_fill_array(bt_rooms, &a);
+	ft_btree_fill_array(bt_rooms, a);
 	for (int i = 0; i < a->n_items; i++)
 		ft_room_free((t_room*)ft_array_get(a, i));
 	ft_array_free(a);

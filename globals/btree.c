@@ -250,7 +250,7 @@ int					ft_btree_fill_copy(t_btree *old_btree, t_btree *new_btree)
 	return (out);
 }
 
-int					ft_btree_fill_array(t_btree *btree, t_array **array)
+int					ft_btree_fill_array(t_btree *btree, t_array *array)
 {
 	int				out;
 

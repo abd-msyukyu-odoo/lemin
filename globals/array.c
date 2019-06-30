@@ -46,76 +46,64 @@ void				ft_array_free(t_array *array)
 	free(array);
 }
 
-static t_array		*ft_array_double_size(t_array *array,
-	int skip_from)
+static int			ft_array_double_size(t_array *array, int skip_from)
 {
-	t_array			*out;
 	unsigned int	addon;
+	void			**items;
+	unsigned int	n_items;
 
-	if (2 * array->size <= array->size || (skip_from != -1 &&
-		skip_from >= array->n_items))
-		return (NULL);
-	out = ft_array_construct(2 * array->size);
-	if (!out)
-		return (NULL);
+	if (2 * array->size <= array->size || (skip_from > -1 &&
+		(unsigned int)skip_from >= array->n_items))
+		return (0);
+	items = (void**)malloc(2 * array->size * sizeof(void*));
+	if (!items)
+		return (0);
 	addon = (skip_from == -1) ? 0 : 1;
-	while (out->n_items < array->n_items + addon)
+	n_items = 0;
+	while (n_items < array->n_items + addon)
 	{
-		if (out->n_items == skip_from)
-			out->n_items++;
-		out->items[out->n_items] = array->items[out->n_items];
-		out->n_items++;
+		if (n_items == skip_from)
+			n_items++;
+		items[n_items] = array->items[n_items];
+		n_items++;
 	}
-	return (out);
-}
-
-int					ft_array_add(t_array **array, void *item)
-{
-	t_array			*a;
-
-	if (!item)
-		return (-1);
-	a = *array;
-	if (a->n_items >= a->size)
-	{
-		a = ft_array_double_size(a, -1);
-		if (!a)
-			return (0);
-		ft_array_free(*array);
-		*array = a;
-	}
-	a->items[a->n_items] = item;
-	a->n_items++;
+	free(array->items);
+	array->items = items;
+	array->n_items = n_items;
+	array->size = 2 * array->size;
 	return (1);
 }
 
-int					ft_array_insert(t_array **array, unsigned int index,
+int					ft_array_add(t_array *array, void *item)
+{
+	if (!item)
+		return (-1);
+	if (array->n_items >= array->size && !ft_array_double_size(array, -1))
+		return (0);
+	array->items[array->n_items] = item;
+	array->n_items++;
+	return (1);
+}
+
+int					ft_array_insert(t_array *array, unsigned int index,
 	void *item)
 {
-	t_array			*a;
 	unsigned int	i;
 
-	a = *array;
-	if (index > a->n_items)
+	if (index > array->n_items)
 		return (0);
 	if (!item)
 		return (-1);
-	if (index == a->n_items)
+	if (index == array->n_items)
 		return (ft_array_add(array, item));
-	i = a->n_items;
-	if (a->n_items == a->size)
-	{
-		a = ft_array_double_size(a, index);
-		if (!a)
-			return (0);
-		ft_array_free(*array);
-		*array = a;
-	}
+	i = array->n_items;
+	if (array->n_items >= array->size && !ft_array_double_size(array, index))
+		return (0);
 	else
 		while (i-- > index)
-			a->items[i + 1] = a->items[i];
-	a->items[index] = item;
-	a->n_items++;
+			array->items[i + 1] = array->items[i];
+	array->items[index] = item;
+	array->n_items++;
 	return (1);
 }
 

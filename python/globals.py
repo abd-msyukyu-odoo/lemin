@@ -164,24 +164,54 @@ class BTree:
 			return None
 
 	def double_rotate(self):
-		rotate(self)
-		rotate(self)
+		self.rotate()
+		self.rotate()
 		self.rank += 1
+		return
+
+	def rotate_right(self):
+		tmp = self.right
+		master = self.up.up #can be null
+		upper = self.up
+		self.up = master
+		self.right = upper
+		upper.up = self
+		upper.left = tmp
+		tmp.up = upper
+		upper.rank -= 1
+		if (master is not None):
+			if (master.left == upper):
+				master.left = self
+			else:
+				master.right = self
+		else:
+			return #root change
+		return
+
+	def rotate_left(self):
+		tmp = self.left
+		master = self.up.up #can be null
+		upper = self.up
+		self.up = master
+		self.left = upper
+		upper.up = self
+		upper.right = tmp
+		tmp.up = upper
+		upper.rank -= 1
+		if (master is not None):
+			if (master.left == upper):
+				master.left = self
+			else:
+				master.right = self
+		else:
+			return #root change
 		return
 
 	def rotate(self):
 		if (self.up.left == self):
-			tmp = self.right
+			self.rotate_right()
 		else:
-			tmp = self.left
-		
-		self.up -> self.up.up
-		self.tmp_side -> self.up
-		self.up.up -> self
-		self.up.anti_tmp_side -> tmp
-		self.up.up.?side -> self
-		self.tmp.up -> self.up
-		self.up.rank -= 1
+			self.rotate_left()
 		return
 
 	def rebalance(self):

@@ -47,7 +47,7 @@ void					ft_array_free(t_array *array);
 ** 	-1 : array was not modified
 ** 	0 : error
 */
-int						ft_array_add(t_array **array, void *item);
+int						ft_array_add(t_array *array, void *item);
 
 /*
 ** insert at index in the array
@@ -56,7 +56,7 @@ int						ft_array_add(t_array **array, void *item);
 ** 	-1 : array was not modified
 ** 	0 : error
 */
-int						ft_array_insert(t_array **array, unsigned int index,
+int						ft_array_insert(t_array *array, unsigned int index,
 							void *item);
 
 /*
