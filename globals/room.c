@@ -19,12 +19,9 @@ void					ft_room_free(t_room *room)
 
 	if (!room)
 		return ;
-	i = 0;
-	while (i < room->a_tubes->n_items)
-	{
+	i = room->a_tubes->n_items;
+	while (i-- > 0)
 		ft_tube_free((t_tube*)ft_array_get(room->a_tubes, i));
-		++i;
-	}
 	ft_array_free(room->a_tubes);
 	ft_btree_free(room->bt_tubes);
 	free(room->key.key);
