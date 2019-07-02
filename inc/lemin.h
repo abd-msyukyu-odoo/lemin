@@ -13,4 +13,6 @@
 #ifndef LEMIN_H
 # define LEMIN_H
 
+# include "reading.h"
+
 #endif
