@@ -6,12 +6,13 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/06/29 17:46:14 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/02 08:59:56 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void    add_line(t_global *s, char *line, int *status)
 {
+    if (ft_strlen(line) > 2)
     if (line[0] == '#')
     {
 
