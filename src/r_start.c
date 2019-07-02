@@ -54,20 +54,21 @@ int		is_tunnel_line(char *line)
 	return (1);
 }
 
-int		add_room(t_global *s, char **l, int *status)
+int		add_room(t_global *s, char **l)
 {
 	if ()
 
 	return (1);
 }
 
-int		add_tunnel(t_global *s, char *line, int *status)
+int		add_tunnel(t_global *s, char *line)
 {
 
 	return (1);
 }
 
-int		add_line2(t_global *s, char *line, int *status) {
+int		add_line2(t_global *s, char *line, int *status)
+{
 	char	**r;
 	int		t;
 
@@ -86,7 +87,10 @@ int		add_line2(t_global *s, char *line, int *status) {
 		return (add_tunnel(s, line, status));
 	}
 	else
+	{
+
 		return (0);
+	}
 	return (1);
 }
 
