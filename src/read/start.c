@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   r_start.c                                          :+:      :+:    :+:   */
+/*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -72,9 +72,10 @@ int		add_room(t_global *s, char **l)
 		return (0);
 	if (s->next_line != 0)
 	{
-		if (s->next_line == 1 && !(s->start = ft_room_create_start(ft_strdup(l[0]), s->bt_rooms)))//TODO ajouter coordonées
-			i = 0;
-		else if (s->next_line == 2 && !(s->end = ft_room_create_end(ft_strdup(l[0]), s->bt_rooms)))
+		if ((s->next_line == 1 && !(s->start =
+			ft_room_create_start(ft_strdup(l[0]), s->bt_rooms))) ||
+			(s->next_line == 2 && !(s->end =
+			ft_room_create_end(ft_strdup(l[0]), s->bt_rooms))))//TODO ajouter coordonées
 			i = 0;
 		s->next_line = 0;
 	}
@@ -138,7 +139,7 @@ void    add_line(t_global *s, char *line, int *status)
     	i = 1;
 	free(line);
 	if (i == 0)
-		print(destroy_global(s))
+		print(destroy_global(s))//FIXME change to solve if have to solve
 }
 
 char    *get_line(void)

@@ -18,18 +18,18 @@ CC			= gcc
 
 CFLAGS		= -Wall -Wextra -Werror -O3
 
-PRINTFHEAD	= ./libft/ft_printf/includes
-
-CHEAD		= ./libft
+CHEAD		= ./libft/includes
 
 THISHEAD	= ./inc
 
 MAIN_F		= main
 
-READ_F		= 
+READ_F		= start tools
+
+STRUCT_F	= array btree room global tube
 
 O_FILES		= $(addprefix ./src/, $(addsuffix .o,\
-				$(addprefix ./main/, $(MAIN_F)) \
+				$(addprefix ./, $(MAIN_F)) \
 				$(addprefix ./read/, $(READ_F)) \
 			))
 
@@ -51,7 +51,7 @@ $(NAME):	$(O_FILES)
 all:		$(NAME)
 
 %.o:		%.c
-			@$(CC) $(CFLAGS) -c -o $@ $< -I$(CHEAD) -I$(PRINTFHEAD) \
+			@$(CC) $(CFLAGS) -c -o $@ $< -I$(THISHEAD) -I$(CHEAD) \
 			-I$(THISHEAD)
 
 clean:

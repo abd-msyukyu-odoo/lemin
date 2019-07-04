@@ -7,7 +7,7 @@
 */
 
 int		tablen(char **t);
-void	tabfree(char **t);
+void	tabfree(char ***t);
 int		is_integer(char *s);
 
 #endif
