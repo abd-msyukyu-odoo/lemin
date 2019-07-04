@@ -10,26 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "lemin.h"
+
 /*
 **	function is_room_line
 **
 **	check if the line is a given name with x and y coordinates
 **
+**	@input:	a pointer on the t_global struct
 **	@input:	a pointer on the first character of the line
 **
 **	@out:	the room line table or NULL if not a correct line
 */
 
-char	**is_room_line(char *line)
+char	**is_room_line(t_global *s, char *line)
 {
 	char	**c;
 
 	c = ft_strsplit(line, ' ');
 	if (c)
 	{
-		if (tablen(c) == 3 && /**/ && is_integer(c[1]) && is_integer(c[2])) //TODO elem !exist
+		if (tablen(c) == 3 &&
+			!ft_btree_get_data(s->bt_rooms, c[0]) &&
+			is_integer(c[1]) &&
+			is_integer(c[2]))
 			return (c);
-		tabfree(c);
+		tabfree(&c);
 	}
     return (NULL);
 }
@@ -44,54 +50,73 @@ char	**is_room_line(char *line)
 **	@out:	1 if it is a tunnel line
 */
 
-int		is_tunnel_line(char *line)
+char	*is_tunnel_line(char *line)
 {
-	char	*s;
+	char	**s;
 
-	s = ft_strchr(line, '-');
-	if (!s || s != ft_strrchr(line, '-'))
-		return (-1);
-	return (1);
+	s = NULL;
+	if (s = ft_strsplit(line, '-'))
+	{
+		if (tablen(s) != 2)
+		 	tabfree(&s);
+	}
+	return (s);
 }
 
 int		add_room(t_global *s, char **l)
 {
-	if ()
+	int i;
 
-	return (1);
+	i = 1;
+	if (!l || !ft_btree_get_data(s->bt_rooms, l[0]))
+		return (0);
+	if (s->next_line != 0)
+	{
+		if (s->next_line == 1 && !(s->start = ft_room_create_start(ft_strdup(l[0]), s->bt_rooms)))//TODO ajouter coordonées
+			i = 0;
+		else if (s->next_line == 2 && !(s->end = ft_room_create_end(ft_strdup(l[0]), s->bt_rooms)))
+			i = 0;
+		s->next_line = 0;
+	}
+	else if (0 == ft_room_create_pair(ft_strdup(l[0]), s->bt_rooms))
+		i = 0;
+	tabfree(&l);
+	return (i);
 }
 
-int		add_tunnel(t_global *s, char *line)
+int		add_tunnel(t_global *s, char **l)
 {
-
-	return (1);
+	if (ft_btree_get_data(s->bt_rooms, l[0]) &&
+		ft_btree_get_data(s->bt_rooms, l[1]) &&
+		ft_room_create_tube_pair(l[0], l[1], s->bt_rooms);
+	{
+		tabfree(l);
+		return (1);
+	}
+	tabfree(l);
+	return (0);
 }
 
 int		add_line2(t_global *s, char *line, int *status)
 {
 	char	**r;
-	int		t;
-//IDEA do only one if status = 1 or both if status  = 0
-	r = is_room_line(line);
+	char	**t
+
+	if (*status == 0)
+		r = is_room_line(s, line);
+	if (*status == 0)
+		return(add_room(s, r));
 	t = is_tunnel_line(line);
-	if (r && *status == 0)
-	{
-		add_room(s, r)
-		tabfree(r);
-		return (1);
-	}
-	else if (t == 1)
+	if (t)
 	{
 		if (*status == 0)
+		{
 			*status = 1;
-		return (add_tunnel(s, line, status));
+			tabfree(&r);
+		}
+		return (add_tunnel(s, t, status));
 	}
-	else
-	{
-
-		return (0);
-	}
-	return (1);
+	return (0);
 }
 
 void    add_line(t_global *s, char *line, int *status)
@@ -103,13 +128,9 @@ void    add_line(t_global *s, char *line, int *status)
         if (line[1] == '#')
         {
             if (0 == ft_strcmp("start", line + 2))
-            {
-                //TODO set start room
-            }
+            	s->next_line = 1;
             else if (0 == ft_strcmp("end", line + 2))
-            {
-                //TODO set end room
-            }
+				s->next_line = 2;
         }
         i = 1;
     }
@@ -138,6 +159,8 @@ void    start_reading(t_global *s)
     char    *line;
     int     status;
 
+	if (!(s->bt_rooms = ft_btree_construct(NULL)))
+		print(destroy_global(s));
     status = 0;
     while (line = get_line)
     {

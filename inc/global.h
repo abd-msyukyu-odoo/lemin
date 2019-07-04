@@ -13,6 +13,14 @@
 #ifndef GLOBAL_H
 # define GLOBAL_H
 
+typedef struct	s_global
+{
+	t_btree		*bt_rooms;
+	t_room		*start;
+	t_room		*end;
+	int			next_line;
+}				t_global;
+
 /*
 **  s_global
 **  2 functions

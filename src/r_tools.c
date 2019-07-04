@@ -42,16 +42,20 @@ int		tablen(char **t)
 **	@out:	/
 */
 
-void	tabfree(char **t) {
+void	tabfree(char ***t) {
 	int		i;
 
-	i = 0;
-	while (t[i])
+	if (*t)
 	{
-		free(t[i]);
-		i++;
+		i = 0;
+		while (*t[i])
+		{
+			free(*t[i]);
+			i++;
+		}
+		free(*t);
+		*t = NULL;
 	}
-	free(t);
 }
 
 /*
