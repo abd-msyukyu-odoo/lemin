@@ -6,7 +6,7 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/02 08:59:56 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/03 14:45:44 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		add_line2(t_global *s, char *line, int *status)
 {
 	char	**r;
 	int		t;
-
+//IDEA do only one if status = 1 or both if status  = 0
 	r = is_room_line(line);
 	t = is_tunnel_line(line);
 	if (r && *status == 0)

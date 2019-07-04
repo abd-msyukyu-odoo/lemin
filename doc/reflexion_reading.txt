@@ -6,6 +6,10 @@
     "##hey"
     "hey" est une commande inconnue
 
+- order:
+    first rooms
+    then tunnels
+
 - room line:
 	- 3 parts separated by spaces
 	- coordinates are integers
