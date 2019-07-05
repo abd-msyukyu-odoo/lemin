@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 18:26:10 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/06/17 18:26:12 by dabeloos         ###   ########.fr       */
+/*   Updated: 2019/07/05 14:09:14 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int			ft_array_double_size(t_array *array, int skip_from)
 	n_items = 0;
 	while (n_items < array->n_items + addon)
 	{
-		if (n_items == skip_from)
+		if (n_items == (unsigned int)skip_from)
 			n_items++;
 		items[n_items] = array->items[n_items];
 		n_items++;

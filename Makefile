@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dabeloos <dabeloos@students.s19.be>        +#+  +:+       +#+         #
+#    By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/05 17:21:38 by dabeloos          #+#    #+#              #
-#    Updated: 2019/06/22 15:22:53 by pvanderl         ###   ########.fr        #
+#    Updated: 2019/07/05 14:10:41 by pvanderl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # -g -fsanitize=address
 # -Wno-unused-function
 
-NAME		= lemin
+NAME		= lem-in
 
 CC			= gcc
 
@@ -28,9 +28,13 @@ READ_F		= start tools
 
 STRUCT_F	= array btree room global tube
 
+PRINT_F		= start
+
 O_FILES		= $(addprefix ./src/, $(addsuffix .o,\
-				$(addprefix ./, $(MAIN_F)) \
-				$(addprefix ./read/, $(READ_F)) \
+				$(MAIN_F) \
+				$(addprefix read/, $(READ_F)) \
+				$(addprefix structs/, $(STRUCT_F)) \
+				$(addprefix print/, $(PRINT_F)) \
 			))
 
 END_E		= \033[00m

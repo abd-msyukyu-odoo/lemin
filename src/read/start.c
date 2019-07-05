@@ -6,7 +6,7 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/03 14:45:44 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/05 10:58:07 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ char	**is_room_line(t_global *s, char *line)
 **	@out:	1 if it is a tunnel line
 */
 
-char	*is_tunnel_line(char *line)
+char	**is_tunnel_line(char *line)
 {
 	char	**s;
 
 	s = NULL;
-	if (s = ft_strsplit(line, '-'))
+	if ((s = ft_strsplit(line, '-')))
 	{
 		if (tablen(s) != 2)
 		 	tabfree(&s);
@@ -87,21 +87,21 @@ int		add_room(t_global *s, char **l)
 
 int		add_tunnel(t_global *s, char **l)
 {
+	int	i;
+
+	i = 0;
 	if (ft_btree_get_data(s->bt_rooms, l[0]) &&
 		ft_btree_get_data(s->bt_rooms, l[1]) &&
-		ft_room_create_tube_pair(l[0], l[1], s->bt_rooms);
-	{
-		tabfree(l);
-		return (1);
-	}
-	tabfree(l);
-	return (0);
+		ft_room_create_tube_pair(l[0], l[1], s->bt_rooms))
+		i = 1;
+	tabfree(&l);
+	return (i);
 }
 
 int		add_line2(t_global *s, char *line, int *status)
 {
 	char	**r;
-	char	**t
+	char	**t;
 
 	if (*status == 0)
 		r = is_room_line(s, line);
@@ -115,7 +115,7 @@ int		add_line2(t_global *s, char *line, int *status)
 			*status = 1;
 			tabfree(&r);
 		}
-		return (add_tunnel(s, t, status));
+		return (add_tunnel(s, t));
 	}
 	return (0);
 }
@@ -124,6 +124,7 @@ void    add_line(t_global *s, char *line, int *status)
 {
 	int	i;
 
+	i = 0;
     if (line[0] == '#')
     {
         if (line[1] == '#')
@@ -139,10 +140,10 @@ void    add_line(t_global *s, char *line, int *status)
     	i = 1;
 	free(line);
 	if (i == 0)
-		print(destroy_global(s))//FIXME change to solve if have to solve
+		print(destroy_global(s));
 }
 
-char    *get_line(void)
+char		*get_line(void)
 {
     char    *s;
     int     x;
@@ -155,7 +156,7 @@ char    *get_line(void)
     return (NULL);
 }
 
-void    start_reading(t_global *s)
+t_global	*start_reading(t_global *s)
 {
     char    *line;
     int     status;
@@ -163,15 +164,15 @@ void    start_reading(t_global *s)
 	if (!(s->bt_rooms = ft_btree_construct(NULL)))
 		print(destroy_global(s));
     status = 0;
-    while (line = get_line)
+    while ((line = get_line()))
     {
         if (0 == ft_strcmp("EOF", line))
 		{
 			free(line);
-            return (check_content(s)); //TODO: check of the recorded content
+            return (s);
 		}
 		else
             add_line(s, line, &status);
     }
-    print(destroy_global(s));
+    return (destroy_global(s));
 }
