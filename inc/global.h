@@ -6,7 +6,7 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 14:34:23 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/03 14:36:32 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/05 17:31:39 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 typedef struct	s_global
 {
 	t_btree		*bt_rooms;
+	int			nb_ants;
 	t_room		*start;
 	t_room		*end;
 	int			next_line;

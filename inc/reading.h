@@ -3,11 +3,14 @@
 
 /*
 **	r_tools
-**	3 functions
+**	5 functions
 */
 
 int		tablen(char **t);
 void	tabfree(char ***t);
 int		is_integer(char *s);
+char	*get_line(void);
+int		get_number(void);
+
 
 #endif

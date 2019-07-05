@@ -6,11 +6,58 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/02 08:59:56 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/05 17:32:52 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+
+
+int		get_number(void)
+{
+	char	*line;
+
+	while ((line = get_line()) && ft_strlen(line))
+	{
+		if (is_integer(line))
+		{
+			free(line);
+			return (ft_atoi(line));
+		}
+		else if (line[0] != '#' || ft_strcmp(line, "##start") || ft_strcmp(line, "##end"))
+		{
+			free(line);
+			return (-1);
+		}
+		free(line);
+	}
+	if (line)
+		free(line);
+	return (-1);
+}
+
+/*
+**	function get_line
+**
+**	get a line from the standard input and return "EOF" if there are no more lines
+**
+**	@in:	/
+**
+**	@out:	the line or EOF or NULL if error
+*/
+
+char		*get_line(void)
+{
+    char    *s;
+    int     x;
+
+    x = get_next_line(0, &s);
+    if (x == 0)
+        return (ft_strdup("EOF"));
+    else if (x == 1)
+        return (s);
+    return (NULL);
+}
 
 /*
 **	function tablen
@@ -82,8 +129,10 @@ int		is_integer(char *s)
 		s++;
 		sign = -1;
 	}
-	while (ft_isdigit(*s))
+	while (*s)
 	{
+		if (!ft_isdigit(*s))
+			return (0);
 		i *= 10;
 		i += (*s - '0');
 		s++;

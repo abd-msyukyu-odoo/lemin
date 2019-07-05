@@ -6,7 +6,7 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 10:58:07 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/05 17:32:30 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,25 +143,13 @@ void    add_line(t_global *s, char *line, int *status)
 		print(destroy_global(s));
 }
 
-char		*get_line(void)
-{
-    char    *s;
-    int     x;
-
-    x = get_next_line(0, &s);
-    if (x == 0)
-        return (ft_strdup("EOF"));
-    else if (x == 1)
-        return (s);
-    return (NULL);
-}
-
 t_global	*start_reading(t_global *s)
 {
     char    *line;
     int     status;
 
-	if (!(s->bt_rooms = ft_btree_construct(NULL)))
+	if (-1 == (s->nb_ants = get_number()) ||
+		!(s->bt_rooms = ft_btree_construct(NULL)))
 		print(destroy_global(s));
     status = 0;
     while ((line = get_line()))
