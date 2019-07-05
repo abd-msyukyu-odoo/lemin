@@ -6,12 +6,22 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 17:32:52 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/05 17:39:48 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
+/*
+**	function get_number
+**
+**	return the number of ants or -1 if there is an error in the order or
+**	in the lines
+**
+**	@input:	/
+**
+**	@out:	-1 if error | the number of ants
+*/
 
 int		get_number(void)
 {
@@ -24,7 +34,8 @@ int		get_number(void)
 			free(line);
 			return (ft_atoi(line));
 		}
-		else if (line[0] != '#' || ft_strcmp(line, "##start") || ft_strcmp(line, "##end"))
+		else if (line[0] != '#' || ft_strcmp(line, "##start") ||
+				ft_strcmp(line, "##end"))
 		{
 			free(line);
 			return (-1);

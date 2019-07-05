@@ -6,7 +6,7 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 17:32:30 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/05 17:48:03 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,17 @@ char	**is_tunnel_line(char *line)
 	return (s);
 }
 
+/*
+**	function add_room
+**
+**	add a room in the bt_room from a line
+**
+**	@input:	a pointer on the global structure
+**	@input:	a pointer on the table issued from the line
+**
+**	@out:	1 of the insert is ok | 0 otherwise
+*/
+
 int		add_room(t_global *s, char **l)
 {
 	int i;
@@ -85,6 +96,17 @@ int		add_room(t_global *s, char **l)
 	return (i);
 }
 
+/*
+**	function add_tunnel
+**
+**	add a tunnel in the bt_room from a line
+**
+**	@input:	a pointer on the global structure
+**	@input:	a pointer on the table issued from the line
+**
+**	@out:	1 of the insert is ok | 0 otherwise
+*/
+
 int		add_tunnel(t_global *s, char **l)
 {
 	int	i;
@@ -97,6 +119,18 @@ int		add_tunnel(t_global *s, char **l)
 	tabfree(&l);
 	return (i);
 }
+
+/*
+**	function add_line2
+**
+**	check and call the right function depending on the type of line
+**
+**	@input:	a pointer on the global structure
+**	@input:	a pointer on the line
+**	@input:	a pointer on the status int
+**
+**	@out:	1 of the insert is ok | 0 otherwise
+*/
 
 int		add_line2(t_global *s, char *line, int *status)
 {
@@ -119,6 +153,18 @@ int		add_line2(t_global *s, char *line, int *status)
 	}
 	return (0);
 }
+
+/*
+**	function add_line
+**
+**	check for the comments and call add_line2
+**
+**	@input:	a pointer on the global structure
+**	@input:	a pointer on the line
+**	@input:	a pointer on the status int
+**
+**	@out:	/
+*/
 
 void    add_line(t_global *s, char *line, int *status)
 {
@@ -143,12 +189,22 @@ void    add_line(t_global *s, char *line, int *status)
 		print(destroy_global(s));
 }
 
+/*
+**	function start_reading
+**
+**	manage the reading
+**
+**	@input:	a pointer on the t_global structure
+**
+**	@out:	a pointer on the t_global structure or NULL if there was an error
+*/
+
 t_global	*start_reading(t_global *s)
 {
     char    *line;
     int     status;
 
-	if (-1 == (s->nb_ants = get_number()) ||
+	if (0 > (s->nb_ants = get_number()) ||
 		!(s->bt_rooms = ft_btree_construct(NULL)))
 		print(destroy_global(s));
     status = 0;
