@@ -123,3 +123,7 @@ reflexion sur le stockage et l'acces aux aretes a partir d'un noeud
 travailler uniquement dans le graphe dedouble ?
 
 osef des coordonnees
+
+
+-> faire gaffe si jamais a l'input on a 2x le meme tunnel, il est present 2x dans le array des rooms, mais 1x dans le btree
+-> voir si ca influence l'algo ou pas
