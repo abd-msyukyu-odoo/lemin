@@ -64,6 +64,7 @@ int						ft_room_create_tube_oriented(t_room *out, t_room *in);
 ** return :
 ** 	1 : success
 ** 	0 : error
+** -1 : no tube added
 */
 int						ft_room_create_tube_pair(char *key1, char *key2,
 							t_btree *bt_rooms);
