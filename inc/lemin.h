@@ -20,4 +20,9 @@
 # include "print.h"
 # include "reading.h"
 
+
+
+
+# include <stdio.h>
+
 #endif

@@ -79,7 +79,7 @@ int		add_room(t_global *s, char **l)
 	int i;
 
 	i = 1;
-	if (!l || !ft_btree_get_data(s->bt_rooms, l[0]))
+	if (!l || ft_btree_get_data(s->bt_rooms, l[0]))
 		return (0);
 	if (s->next_line != 0)
 	{
@@ -90,7 +90,7 @@ int		add_room(t_global *s, char **l)
 			i = 0;
 		s->next_line = 0;
 	}
-	else if (0 == ft_room_create_pair(ft_strdup(l[0]), s->bt_rooms))
+	else if (!ft_room_create_pair(ft_strdup(l[0]), s->bt_rooms))
 		i = 0;
 	tabfree(&l);
 	return (i);
@@ -112,10 +112,10 @@ int		add_tunnel(t_global *s, char **l)
 	int	i;
 
 	i = 0;
-	if (ft_btree_get_data(s->bt_rooms, l[0]) &&
-		ft_btree_get_data(s->bt_rooms, l[1]) &&
-		ft_room_create_tube_pair(l[0], l[1], s->bt_rooms))
+	int j;
+	if (1 == (j = ft_room_create_tube_pair(l[0], l[1], s->bt_rooms)))
 		i = 1;
+	printf("%d %s %s\n", j, l[0], l[1]);
 	tabfree(&l);
 	return (i);
 }
@@ -139,7 +139,7 @@ int		add_line2(t_global *s, char *line, int *status)
 
 	if (*status == 0)
 		r = is_room_line(s, line);
-	if (*status == 0)
+	if (*status == 0 && r)
 		return(add_room(s, r));
 	t = is_tunnel_line(line);
 	if (t)

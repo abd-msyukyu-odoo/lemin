@@ -14,5 +14,18 @@
 
 int		main(void)
 {
+	t_global	*s;
+
+	if (!(s = (t_global *)malloc(sizeof(t_global))))
+		print(NULL);
+
+	if ((s = start_reading(s)))
+	{
+		printf("right line\n");
+	}
+	else
+	{
+		printf("wrong line\n");
+	}
 	return (0);
 }

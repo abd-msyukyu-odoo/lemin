@@ -6,11 +6,15 @@
 #    By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/05 17:21:38 by dabeloos          #+#    #+#              #
-#    Updated: 2019/07/05 14:10:41 by pvanderl         ###   ########.fr        #
+#    Updated: 2019/07/08 11:57:49 by pvanderl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # -g -fsanitize=address
 # -Wno-unused-function
+
+TEST_R		= resources/
+
+TEST		= big1.txt
 
 NAME		= lem-in
 
@@ -36,6 +40,31 @@ O_FILES		= $(addprefix ./src/, $(addsuffix .o,\
 				$(addprefix structs/, $(STRUCT_F)) \
 				$(addprefix print/, $(PRINT_F)) \
 			))
+
+
+
+
+
+
+
+
+
+
+#         !!!!!!!!!!!!!!!!!!! fclean libft
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 END_E		= \033[00m
 RED_E		= \033[01;31m
@@ -68,6 +97,13 @@ fclean:		clean
 			@make -C libft/ fclean
 			@echo "$(RED_E)end fclean$(END_E)"
 
-re:			fclean all
+re:			clear fclean all
+
+clear:
+			@clear
+
+test:		fclean clear all
+			./$(NAME) < $(TEST_R)$(TEST)
+
 
 .PHONY: clean fclean all re

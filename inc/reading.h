@@ -2,6 +2,13 @@
 # define READING_H
 
 /*
+**	start
+**	n functions
+*/
+
+t_global	*start_reading(t_global *s);
+
+/*
 **	r_tools
 **	5 functions
 */

@@ -26,25 +26,25 @@
 int		get_number(void)
 {
 	char	*line;
+	int		i;
 
-	while ((line = get_line()) && ft_strlen(line))
+	i = -2;
+	line = NULL;
+	while (i == -2 && (line = get_line()) && ft_strlen(line))
 	{
 		if (is_integer(line))
-		{
-			free(line);
-			return (ft_atoi(line));
-		}
+			i = ft_atoi(line);
 		else if (line[0] != '#' || ft_strcmp(line, "##start") ||
 				ft_strcmp(line, "##end"))
-		{
-			free(line);
-			return (-1);
-		}
+			i = -1;
 		free(line);
+		line = NULL;
 	}
 	if (line)
 		free(line);
-	return (-1);
+	if (i == -2)
+		i = -1;
+	return (i);
 }
 
 /*
@@ -106,9 +106,9 @@ void	tabfree(char ***t) {
 	if (*t)
 	{
 		i = 0;
-		while (*t[i])
+		while ((*t)[i])
 		{
-			free(*t[i]);
+			free((*t)[i]);
 			i++;
 		}
 		free(*t);

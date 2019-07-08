@@ -14,5 +14,6 @@
 # define PRINT_H
 
 void		print(t_global *s);
+void		print_btree(t_btree *t, char *s);
 
 #endif

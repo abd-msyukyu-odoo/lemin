@@ -1,0 +1,15 @@
+42
+#commentaire
+aaaa 1 1
+gedf 2 1
+##start
+start 0 0
+##hey
+sad 4 5
+##end
+end 100 100
+start-end
+start-aaaa
+gedf-aaaa
+aaaa-end
+start-gedf
