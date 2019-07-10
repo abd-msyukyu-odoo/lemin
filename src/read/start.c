@@ -6,7 +6,7 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 17:48:03 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/10 14:11:58 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ int		add_tunnel(t_global *s, char **l)
 	int j;
 	if (1 == (j = ft_room_create_tube_pair(l[0], l[1], s->bt_rooms)))
 		i = 1;
-	printf("%d %s %s\n", j, l[0], l[1]);
 	tabfree(&l);
 	return (i);
 }
@@ -204,6 +203,7 @@ t_global	*start_reading(t_global *s)
     char    *line;
     int     status;
 
+	s->next_line = 0;
 	if (0 > (s->nb_ants = get_number()) ||
 		!(s->bt_rooms = ft_btree_construct(NULL)))
 		print(destroy_global(s));
