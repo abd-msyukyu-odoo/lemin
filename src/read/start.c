@@ -6,7 +6,7 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/10 14:11:58 by pierre           ###   ########.fr       */
+/*   Updated: 2019/07/10 14:15:45 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ int		add_room(t_global *s, char **l)
 	if (s->next_line != 0)
 	{
 		if ((s->next_line == 1 && !(s->start =
-			ft_room_create_start(ft_strdup(l[0]), s->bt_rooms))) ||
+			ft_room_create_start(ft_strdup(l[0]), s->bt_rooms, ft_atoi(l[1]), ft_atoi(l[2])))) ||
 			(s->next_line == 2 && !(s->end =
-			ft_room_create_end(ft_strdup(l[0]), s->bt_rooms))))//TODO ajouter coordonées
+			ft_room_create_end(ft_strdup(l[0]), s->bt_rooms, ft_atoi(l[1]), ft_atoi(l[2])))))//TODO ajouter coordonées
 			i = 0;
 		s->next_line = 0;
 	}
-	else if (!ft_room_create_pair(ft_strdup(l[0]), s->bt_rooms))
+	else if (!ft_room_create_pair(ft_strdup(l[0]), s->bt_rooms, ft_atoi(l[1]), ft_atoi(l[2])))
 		i = 0;
 	tabfree(&l);
 	return (i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   room.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 21:16:11 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/06/28 21:16:12 by dabeloos         ###   ########.fr       */
+/*   Updated: 2019/07/10 14:16:28 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void					ft_room_free(t_room *room)
 	free(room);
 }
 
-t_room					*ft_room_construct(char *key, unsigned int status)
+t_room					*ft_room_construct(char *key, unsigned int status, int x, int y)
 {
 	t_room				*out;
 
@@ -44,6 +44,7 @@ t_room					*ft_room_construct(char *key, unsigned int status)
 		ft_room_free(out);
 		return (NULL);
 	}
+	out->pos = (t_coordinates){x, y};
 	return (out);
 }
 
@@ -91,14 +92,14 @@ int						ft_room_create_tube_pair(char *key1, char *key2,
 }
 
 static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
-	unsigned int status)
+	unsigned int status, t_coordinates pos)
 {
 	t_room				*extrema;
 
 	if (status)
-		extrema = ft_room_construct(ft_strjoin(key, OUT), 1);
+		extrema = ft_room_construct(ft_strjoin(key, OUT), 1, pos.x, pos.y);
 	else
-		extrema = ft_room_construct(ft_strjoin(key, IN), 0);
+		extrema = ft_room_construct(ft_strjoin(key, IN), 0, pos.x, pos.y);
 	free(key);
 	if (!extrema)
 		return (NULL);
@@ -110,24 +111,24 @@ static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
 	return (extrema);
 }
 
-t_room					*ft_room_create_start(char *key, t_btree *bt_rooms)
+t_room					*ft_room_create_start(char *key, t_btree *bt_rooms, int x, int y)
 {
-	return (ft_room_create_extrema(key, bt_rooms, 1));
+	return (ft_room_create_extrema(key, bt_rooms, 1, (t_coordinates){x, y}));
 }
 
-t_room					*ft_room_create_end(char *key, t_btree *bt_rooms)
+t_room					*ft_room_create_end(char *key, t_btree *bt_rooms, int x, int y)
 {
-	return (ft_room_create_extrema(key, bt_rooms, 0));
+	return (ft_room_create_extrema(key, bt_rooms, 0, (t_coordinates){x, y}));
 }
 
-int						ft_room_create_pair(char *key, t_btree *bt_rooms)
+int						ft_room_create_pair(char *key, t_btree *bt_rooms, int x, int y)
 {
 	t_room				*in;
 	t_room				*out;
 	t_tube				*tube;
 
-	in = ft_room_construct(ft_strjoin(key, IN), 0);
-	out = ft_room_construct(ft_strjoin(key, OUT), 1);
+	in = ft_room_construct(ft_strjoin(key, IN), 0, x, y);
+	out = ft_room_construct(ft_strjoin(key, OUT), 1, x, y);
 	free(key);
 	if (!in || !out)
 	{
