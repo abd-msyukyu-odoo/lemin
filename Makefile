@@ -28,7 +28,7 @@ THISHEAD	= ./inc
 
 MAIN_F		= main
 
-READ_F		= start tools
+READ_F		= start tools tools2
 
 STRUCT_F	= array btree room global tube
 
