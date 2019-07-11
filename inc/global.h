@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   global.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/22 15:23:07 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 11:39:22 by pvanderl         ###   ########.fr       */
+/*   Created: 2019/07/03 14:34:23 by pvanderl          #+#    #+#             */
+/*   Updated: 2019/07/05 17:40:01 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
+#ifndef GLOBAL_H
+# define GLOBAL_H
 
-# include "btree.h"
-# include "room.h"
-# include "global.h"
+typedef struct	s_global
+{
+	t_btree		*bt_rooms;
+	int			nb_ants;
+	t_room		*start;
+	t_room		*end;
+	int			next_line;
+}				t_global;
 
-# include "print.h"
-# include "reading.h"
+/*
+**  s_global
+**  2 functions
+*/
 
-
-
-
-# include <stdio.h>
+t_global    *generate_global();
+t_global    *destroy_global(t_global *s);
 
 #endif

@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   data.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/22 15:23:07 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 11:39:22 by pvanderl         ###   ########.fr       */
+/*   Created: 2019/06/25 11:40:16 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/06/25 11:40:18 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
+#ifndef DATA_H
+# define DATA_H
 
-# include "btree.h"
-# include "room.h"
-# include "global.h"
-
-# include "print.h"
-# include "reading.h"
-
-
-
-
-# include <stdio.h>
+typedef struct					s_data
+{
+	char						*key;
+}								t_data;
 
 #endif

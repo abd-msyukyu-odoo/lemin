@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   print.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/22 15:23:07 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 11:39:22 by pvanderl         ###   ########.fr       */
+/*   Created: 2019/07/05 11:37:59 by pvanderl          #+#    #+#             */
+/*   Updated: 2019/07/05 11:38:47 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
+#ifndef PRINT_H
+# define PRINT_H
 
-# include "btree.h"
-# include "room.h"
-# include "global.h"
-
-# include "print.h"
-# include "reading.h"
-
-
-
-
-# include <stdio.h>
+void		print(t_global *s);
+void		print_btree(t_btree *t, char *s);
 
 #endif

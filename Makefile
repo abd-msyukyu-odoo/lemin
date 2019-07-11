@@ -3,35 +3,68 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dabeloos <dabeloos@students.s19.be>        +#+  +:+       +#+         #
+#    By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/05 17:21:38 by dabeloos          #+#    #+#              #
-#    Updated: 2019/06/22 15:22:53 by pvanderl         ###   ########.fr        #
+#    Updated: 2019/07/08 11:57:49 by pvanderl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # -g -fsanitize=address
 # -Wno-unused-function
 
-NAME		= lemin
+TEST_R		= resources/
+
+TEST		= big1.txt
+
+NAME		= lem-in
 
 CC			= gcc
 
 CFLAGS		= -Wall -Wextra -Werror -O3
 
-PRINTFHEAD	= ./libft/ft_printf/includes
-
-CHEAD		= ./libft
+CHEAD		= ./libft/includes
 
 THISHEAD	= ./inc
 
 MAIN_F		= main
 
-READ_F		= 
+READ_F		= start tools
+
+STRUCT_F	= array btree room global tube
+
+PRINT_F		= start
 
 O_FILES		= $(addprefix ./src/, $(addsuffix .o,\
-				$(addprefix ./main/, $(MAIN_F)) \
-				$(addprefix ./read/, $(READ_F)) \
+				$(MAIN_F) \
+				$(addprefix read/, $(READ_F)) \
+				$(addprefix structs/, $(STRUCT_F)) \
+				$(addprefix print/, $(PRINT_F)) \
 			))
+
+
+
+
+
+
+
+
+
+
+#         !!!!!!!!!!!!!!!!!!! fclean libft
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 END_E		= \033[00m
 RED_E		= \033[01;31m
@@ -51,7 +84,7 @@ $(NAME):	$(O_FILES)
 all:		$(NAME)
 
 %.o:		%.c
-			@$(CC) $(CFLAGS) -c -o $@ $< -I$(CHEAD) -I$(PRINTFHEAD) \
+			@$(CC) $(CFLAGS) -c -o $@ $< -I$(THISHEAD) -I$(CHEAD) \
 			-I$(THISHEAD)
 
 clean:
@@ -64,6 +97,13 @@ fclean:		clean
 			@make -C libft/ fclean
 			@echo "$(RED_E)end fclean$(END_E)"
 
-re:			fclean all
+re:			clear fclean all
+
+clear:
+			@clear
+
+test:		fclean clear all
+			./$(NAME) < $(TEST_R)$(TEST)
+
 
 .PHONY: clean fclean all re

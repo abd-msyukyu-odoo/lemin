@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   global.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/22 15:23:07 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 11:39:22 by pvanderl         ###   ########.fr       */
+/*   Created: 2019/06/29 13:53:19 by pvanderl          #+#    #+#             */
+/*   Updated: 2019/07/03 14:37:17 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
+#include "lemin.h"
 
-# include "btree.h"
-# include "room.h"
-# include "global.h"
+t_global    *generate_global()
+{
+    t_global    *s;
+    if (!(s = (t_global *)malloc(sizeof(t_global))))
+        print(NULL);
+    s->start = NULL;
+    s->end = NULL;
+    s->next_line = 0;
+    return (s);
+}
 
-# include "print.h"
-# include "reading.h"
-
-
-
-
-# include <stdio.h>
-
-#endif
+t_global    *destroy_global(t_global *s)
+{
+    if (s)
+        free(s);
+    return (NULL);
+}
