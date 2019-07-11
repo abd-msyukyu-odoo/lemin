@@ -6,7 +6,7 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 16:52:09 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 17:39:48 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/11 10:47:19 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 **	@out:	-1 if error | the number of ants
 */
 
-int		get_number(void)
+int			get_number(void)
 {
 	char	*line;
 	int		i;
@@ -50,7 +50,8 @@ int		get_number(void)
 /*
 **	function get_line
 **
-**	get a line from the standard input and return "EOF" if there are no more lines
+**	get a line from the standard input and
+**	return "EOF" if there are no more lines
 **
 **	@in:	/
 **
@@ -59,15 +60,15 @@ int		get_number(void)
 
 char		*get_line(void)
 {
-    char    *s;
-    int     x;
+	char	*s;
+	int		x;
 
-    x = get_next_line(0, &s);
-    if (x == 0)
-        return (ft_strdup("EOF"));
-    else if (x == 1)
-        return (s);
-    return (NULL);
+	x = get_next_line(0, &s);
+	if (x == 0)
+		return (ft_strdup("EOF"));
+	else if (x == 1)
+		return (s);
+	return (NULL);
 }
 
 /*
@@ -80,7 +81,7 @@ char		*get_line(void)
 **	@out:	the length of the table
 */
 
-int		tablen(char **t)
+int			tablen(char **t)
 {
 	int		i;
 
@@ -100,7 +101,8 @@ int		tablen(char **t)
 **	@out:	/
 */
 
-void	tabfree(char ***t) {
+void		tabfree(char ***t)
+{
 	int		i;
 
 	if (*t)
@@ -126,7 +128,7 @@ void	tabfree(char ***t) {
 **	@out:	1 if the argument is an integer | 0 if not
 */
 
-int		is_integer(char *s)
+int			is_integer(char *s)
 {
 	long int	i;
 	int			sign;
