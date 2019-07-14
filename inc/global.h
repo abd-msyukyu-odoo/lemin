@@ -6,12 +6,14 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 14:34:23 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/05 17:40:01 by pvanderl         ###   ########.fr       */
+/*   Updated: 2019/07/14 17:12:40 by pierre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GLOBAL_H
 # define GLOBAL_H
+
+# define BUFF_SIZE 32
 
 typedef struct	s_global
 {
@@ -20,6 +22,10 @@ typedef struct	s_global
 	t_room		*start;
 	t_room		*end;
 	int			next_line;
+	t_path		*paths;
+	t_ant		*ants;
+	char		*buff;
+	int			buff_pos;
 }				t_global;
 
 /*
