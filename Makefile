@@ -6,7 +6,7 @@
 #    By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/05 17:21:38 by dabeloos          #+#    #+#              #
-#    Updated: 2019/07/08 11:57:49 by pvanderl         ###   ########.fr        #
+#    Updated: 2019/07/15 08:19:48 by pvanderl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # -g -fsanitize=address
@@ -30,7 +30,7 @@ MAIN_F		= main
 
 READ_F		= start tools tools2
 
-STRUCT_F	= array btree room global tube
+STRUCT_F	= array btree room global tube path ant
 
 PRINT_F		= start
 

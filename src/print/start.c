@@ -6,11 +6,25 @@
 /*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/05 11:16:51 by pvanderl          #+#    #+#             */
-/*   Updated: 2019/07/14 17:31:39 by pierre           ###   ########.fr       */
+/*   Updated: 2019/07/15 08:17:29 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
+
+void	add_to_buff(t_global *g, char *s)
+{
+	while (*s)
+	{
+		g->buff[(g->buff_pos)++] = *s;
+		if (g->buff_pos == BF_SIZE)
+		{
+			write(1, g->buff, g->buff_pos);
+			g->buff_pos = 0;
+		}
+		s++;
+	}
+}
 
 void	move_one_ant(t_global *g, t_ant *a)
 {
@@ -20,7 +34,7 @@ void	move_one_ant(t_global *g, t_ant *a)
 	add_to_buff(g, a->actual_room->key);
 	if (a->next)
 		add_to_buff(g, " ");
-	a->actual_room->key = a->actual_room->next;
+	a->actual_room = a->actual_room->next;
 }
 
 void	move_ants(t_global *g, t_ant **a)
@@ -36,14 +50,14 @@ void	move_ants(t_global *g, t_ant **a)
 		{
 			move_one_ant(g, actual);
 			if (!actual->next)
-				remove_ant(actual, address);
+				remove_ant(address, actual);
 			address = &(actual->next);
 			actual = actual->next;
 		}
 	}
 }
 
-void	launch_ants(s)
+void	launch_ants(t_global *s)
 {
 	t_path	*path;
 	t_path	**pointer;
@@ -52,12 +66,12 @@ void	launch_ants(s)
 	path = s->paths;
 	while (path)
 	{
-		if (path->nb_ants > 0 && s->nb_ants)
-		(
+		if (path->nb_ants > 0 && s->nb_ants)//TODO remove check
+		{
 			s->ants = add_ant(s->ants, s->nb_ants, path->elements);
 			s->nb_ants -= 1;
 			path->nb_ants -= 1;
-		)
+		}
 		if (path->nb_ants == 0)
 			path = remove_path(path);
 		else
@@ -73,19 +87,15 @@ void	launch_ants(s)
 
 void	print(t_global *s) {
 	if (!s)
-		write(1, "PRINT ERROR\n", 12);
+		write(2, "PRINT ERROR\n", 12);
 	else
 	{
-		while (s->nb_ants > 0)
+		while (s->nb_ants > 0 || s->ants)
 		{
-			move_ants(&(s->ants));
-			launch_ants(s);
-			add_to_buff(g, "\n");
-		}
-		while (s->ants)
-		{
-			move_ants(s->ants);
-			add_to_buff(g, "\n");
+			if (s->nb_ants > 0)
+				launch_ants(s);
+			move_ants(s, &(s->ants));
+			add_to_buff(s, "\n");
 		}
 		destroy_global(s);
 	}

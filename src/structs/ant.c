@@ -6,7 +6,7 @@
 /*   By: pierre <pierre@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/13 20:53:03 by pierre            #+#    #+#             */
-/*   Updated: 2019/07/14 17:02:14 by pierre           ###   ########.fr       */
+/*   Updated: 2019/07/15 08:09:35 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_ant	*add_ant(t_ant *ant, int nb, t_p_elem *elem)
 		free(s);
 		return(free_ant(ant));
 	}
+	a->actual_room = elem;
 	a->next = ant;
 	a->key = s;
 	return (a);
