@@ -26,9 +26,9 @@ typedef struct	s_path
 	struct s_path		*next;
 }				t_path;
 
-void		add_path(void *g, int nba, t_p_elem *elems);
-t_path		*remove_path(t_path *p);
-t_p_elem	*add_p_elem(t_p_elem *e);
-void		remove_p_elem(t_p_elem **e);
+void			add_path(void *g, int nba, t_p_elem *elems);
+t_path			*remove_path(t_path *p);
+t_p_elem		*add_p_elem(t_p_elem *e);
+void			remove_p_elem(t_p_elem **e);
 
 #endif

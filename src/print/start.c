@@ -12,6 +12,16 @@
 
 #include "lemin.h"
 
+/*
+**	function add_to_buff
+**
+**	manage the buffer
+**
+**	@input:	a pointer on the t_global structure
+**	@input:	the string to add to the buffer
+**	@out:	/
+*/
+
 void	add_to_buff(t_global *g, char *s)
 {
 	while (*s)
@@ -26,6 +36,16 @@ void	add_to_buff(t_global *g, char *s)
 	}
 }
 
+/*
+**	function move_one_ant
+**
+**	move a ant and print each recommended part of the output
+**
+**	@input: pointer on the t_global structure
+**	@input:	a pointer on the ant to print and move
+**	@out:	/
+*/
+
 void	move_one_ant(t_global *g, t_ant *a)
 {
 	add_to_buff(g, "L");
@@ -36,6 +56,16 @@ void	move_one_ant(t_global *g, t_ant *a)
 		add_to_buff(g, " ");
 	a->actual_room = a->actual_room->next;
 }
+
+/*
+**	function move_ants
+**
+**	call move_one_ant for each ant and delete one when needed
+**
+**	@input:	a pointer on the t_global structure
+**	@input:	a pointer on the address of the poiter on the first ant
+**	@out:	/
+*/
 
 void	move_ants(t_global *g, t_ant **a)
 {
@@ -56,6 +86,15 @@ void	move_ants(t_global *g, t_ant **a)
 		}
 	}
 }
+
+/*
+**	function launch_ants
+**
+**	add ants at the beginning of each path with needs ants in it
+**
+**	@input:	a pointer on the t_global structure
+**	@out:	/
+*/
 
 void	launch_ants(t_global *s)
 {
@@ -82,10 +121,20 @@ void	launch_ants(t_global *s)
 	}
 }
 
-//TODO Gestion d'erreur
-// "ERROR" si pas assez de données mais quoi si malloc error?
+/*IDEA Gestion d'erreur print différent si malloc error
+*/
 
-void	print(t_global *s) {
+/*
+**	function print
+**
+**	print if the global exists and exit
+**
+**	@input:	a pointer on the t_global structure
+**	@out:	/
+*/
+
+void	print(t_global *s)
+{
 	if (!s)
 		write(2, "PRINT ERROR\n", 12);
 	else
@@ -97,6 +146,8 @@ void	print(t_global *s) {
 			move_ants(s, &(s->ants));
 			add_to_buff(s, "\n");
 		}
+		g->buff_pos += 1;
+		write(1, g->buff, g->buff_pos);
 		destroy_global(s);
 	}
 	exit(0);

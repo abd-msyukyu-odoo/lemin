@@ -28,7 +28,8 @@ void					ft_room_free(t_room *room)
 	free(room);
 }
 
-t_room					*ft_room_construct(char *key, unsigned int status, int x, int y)
+t_room					*ft_room_construct(char *key, unsigned int status,
+	int x, int y)
 {
 	t_room				*out;
 
@@ -111,17 +112,20 @@ static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
 	return (extrema);
 }
 
-t_room					*ft_room_create_start(char *key, t_btree *bt_rooms, int x, int y)
+t_room					*ft_room_create_start(char *key, t_btree *bt_rooms,
+	int x, int y)
 {
 	return (ft_room_create_extrema(key, bt_rooms, 1, (t_coordinates){x, y}));
 }
 
-t_room					*ft_room_create_end(char *key, t_btree *bt_rooms, int x, int y)
+t_room					*ft_room_create_end(char *key, t_btree *bt_rooms,
+	int x, int y)
 {
 	return (ft_room_create_extrema(key, bt_rooms, 0, (t_coordinates){x, y}));
 }
 
-int						ft_room_create_pair(char *key, t_btree *bt_rooms, int x, int y)
+int						ft_room_create_pair(char *key, t_btree *bt_rooms,
+	int x, int y)
 {
 	t_room				*in;
 	t_room				*out;

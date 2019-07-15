@@ -58,7 +58,8 @@ void					ft_room_free(t_room *room);
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*ft_room_construct(char *key, unsigned int status, int x, int y);
+t_room					*ft_room_construct(char *key, unsigned int status,
+	int x, int y);
 
 /*
 ** create and add a tube from "OUT" to "IN" rooms
@@ -86,7 +87,8 @@ int						ft_room_create_tube_pair(char *key1, char *key2,
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*ft_room_create_start(char *key, t_btree *bt_rooms, int x, int y);
+t_room					*ft_room_create_start(char *key, t_btree *bt_rooms,
+	int x, int y);
 
 /*
 ** create an IN ending room and add it to a binary tree
@@ -94,7 +96,8 @@ t_room					*ft_room_create_start(char *key, t_btree *bt_rooms, int x, int y);
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*ft_room_create_end(char *key, t_btree *bt_rooms, int x, int y);
+t_room					*ft_room_create_end(char *key, t_btree *bt_rooms,
+	int x, int y);
 
 /*
 ** create the IN and OUT rooms corresponding to key and add them to a binary
@@ -103,6 +106,7 @@ t_room					*ft_room_create_end(char *key, t_btree *bt_rooms, int x, int y);
 ** 	1 : success
 ** 	0 : error
 */
-int						ft_room_create_pair(char *key, t_btree *bt_rooms, int x, int y);
+int						ft_room_create_pair(char *key, t_btree *bt_rooms,
+	int x, int y);
 
 #endif

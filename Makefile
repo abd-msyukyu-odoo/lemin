@@ -102,6 +102,10 @@ re:			clear fclean all
 clear:
 			@clear
 
+norm:		clear
+			@norminette $(addsuffix .c, $(addprefix print/, $(PRINT_F)))
+			@norminette $(THISHEAD)/*
+
 test:		fclean clear all
 			./$(NAME) < $(TEST_R)$(TEST)
 

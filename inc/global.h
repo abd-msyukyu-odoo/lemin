@@ -33,7 +33,7 @@ typedef struct	s_global
 **  2 functions
 */
 
-t_global    *generate_global();
-t_global    *destroy_global(t_global *s);
+t_global		*generate_global();
+t_global		*destroy_global(t_global *s);
 
 #endif

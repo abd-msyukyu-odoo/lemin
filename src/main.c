@@ -18,7 +18,6 @@ int		main(void)
 
 	if (!(s = (t_global *)malloc(sizeof(t_global))))
 		print(NULL);
-
 	if ((s = start_reading(s)))
 	{
 		printf("right line\n");

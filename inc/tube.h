@@ -16,7 +16,6 @@
 # include "data.h"
 # include "room.h"
 
-
 /*
 ** key : contains the char *key which is the id of the t_room item
 ** room1 : first room of the tube
