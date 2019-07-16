@@ -1,17 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   room.c                                             :+:      :+:    :+:   */
+/*   room_1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pvanderl <pvanderl@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/28 21:16:11 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/07/10 14:16:28 by pierre           ###   ########.fr       */
+/*   Created: 2019/07/16 10:06:39 by pvanderl          #+#    #+#             */
+/*   Updated: 2019/07/16 10:06:40 by pvanderl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tube.h"
-#include "room.h"
+#include "lemin.h"
+
+/*
+**	function ft_room_free
+**
+**	free the t_room instance
+**
+**	@input:	a pointer on the t_room to free
+**	@out:	/
+*/
 
 void					ft_room_free(t_room *room)
 {
@@ -28,7 +36,20 @@ void					ft_room_free(t_room *room)
 	free(room);
 }
 
-t_room					*ft_room_construct(char *key, unsigned int status, int x, int y)
+/*
+**	function ft_room_construct
+**
+**	create a t_room instance
+**
+**	@input:	the malloced string for the name
+**	@input:	the status of the room
+**	@input:	the x coordinate
+**	@input:	the y coordinate
+**	@out:	a pointer on the newly created t_room || NULL if fail
+*/
+
+t_room					*ft_room_construct(char *key, unsigned int status,
+	int x, int y)
 {
 	t_room				*out;
 
@@ -48,6 +69,16 @@ t_room					*ft_room_construct(char *key, unsigned int status, int x, int y)
 	return (out);
 }
 
+/*
+**	function ft_room_create_tube_oriented
+**
+**	create and add a tube from "OUT" to "IN" rooms
+**
+**	@input:	a pointer on the out t_room
+**	@input:	a pointer on the in t_room
+**	@out:	an int depending on the success of the creation
+*/
+
 int						ft_room_create_tube_oriented(t_room *out, t_room *in)
 {
 	t_tube				*tube;
@@ -60,6 +91,19 @@ int						ft_room_create_tube_oriented(t_room *out, t_room *in)
 	}
 	return (1);
 }
+
+/*
+**	function
+**
+**	create and add a pair of tube, one from key1 relative "OUT" room to
+**	key2 relative "IN" room, and another from key2 relative "OUT" room to
+**	key1 relative "OUT" room
+**
+**	@input:	the first key
+**	@input:	the second key
+**	@input:	a pointer on the t_room b_tree
+**	@out:	1 if success || 0 if error || -1 if nothing done
+*/
 
 int						ft_room_create_tube_pair(char *key1, char *key2,
 	t_btree *bt_rooms)
@@ -89,62 +133,4 @@ int						ft_room_create_tube_pair(char *key1, char *key2,
 	out = (t_room*)ft_btree_get_data(bt_rooms, key);
 	free(key);
 	return ((in && out) ? ft_room_create_tube_oriented(out, in) : result);
-}
-
-static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
-	unsigned int status, t_coordinates pos)
-{
-	t_room				*extrema;
-
-	if (status)
-		extrema = ft_room_construct(ft_strjoin(key, OUT), 1, pos.x, pos.y);
-	else
-		extrema = ft_room_construct(ft_strjoin(key, IN), 0, pos.x, pos.y);
-	free(key);
-	if (!extrema)
-		return (NULL);
-	if (!extrema || !ft_btree_add(bt_rooms, (t_data*)extrema))
-	{
-		ft_room_free(extrema);
-		return (NULL);
-	}
-	return (extrema);
-}
-
-t_room					*ft_room_create_start(char *key, t_btree *bt_rooms, int x, int y)
-{
-	return (ft_room_create_extrema(key, bt_rooms, 1, (t_coordinates){x, y}));
-}
-
-t_room					*ft_room_create_end(char *key, t_btree *bt_rooms, int x, int y)
-{
-	return (ft_room_create_extrema(key, bt_rooms, 0, (t_coordinates){x, y}));
-}
-
-int						ft_room_create_pair(char *key, t_btree *bt_rooms, int x, int y)
-{
-	t_room				*in;
-	t_room				*out;
-	t_tube				*tube;
-
-	in = ft_room_construct(ft_strjoin(key, IN), 0, x, y);
-	out = ft_room_construct(ft_strjoin(key, OUT), 1, x, y);
-	free(key);
-	if (!in || !out)
-	{
-		ft_room_free(in);
-		return (0);
-	}
-	tube = ft_tube_construct(in, out, 1, 0);
-	if (!tube || !ft_tube_add_to_rooms(tube) ||
-		!ft_btree_add(bt_rooms, (t_data*)in) ||
-		!ft_btree_add(bt_rooms, (t_data*)out))
-	{
-		ft_btree_remove(bt_rooms, in->key.key);
-		ft_tube_free(tube);
-		ft_room_free(in);
-		ft_room_free(out);
-		return (0);
-	}
-	return (1);
 }

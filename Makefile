@@ -6,7 +6,7 @@
 #    By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/05 17:21:38 by dabeloos          #+#    #+#              #
-#    Updated: 2019/07/08 11:57:49 by pvanderl         ###   ########.fr        #
+#    Updated: 2019/07/15 08:19:48 by pvanderl         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 # -g -fsanitize=address
@@ -30,7 +30,8 @@ MAIN_F		= main
 
 READ_F		= start tools tools2
 
-STRUCT_F	= array btree room global tube
+STRUCT_F	=	array_1 array_2 room_1 room_2 global tube path ant\
+				btree_1 btree_2 btree_3 btree_4
 
 PRINT_F		= start
 
@@ -101,6 +102,10 @@ re:			clear fclean all
 
 clear:
 			@clear
+
+norm:		clear
+			@norminette $(addsuffix .c, $(basename $(O_FILES)))
+			@norminette $(THISHEAD)/*
 
 test:		fclean clear all
 			./$(NAME) < $(TEST_R)$(TEST)
