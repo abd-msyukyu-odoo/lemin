@@ -12,10 +12,8 @@
 
 #ifndef BTREE_H
 # define BTREE_H
-# include <stdlib.h>
-# include "data.h"
-# include "array.h"
-# include "libft.h"
+
+# include "lemin.h"
 
 /*
 ** data : pointer to a struct that has a t_data as its first member
@@ -103,5 +101,27 @@ int						ft_btree_fill_copy(t_btree *old_btree,
 ** 	0 : error
 */
 int						ft_btree_fill_array(t_btree *btree, t_array *array);
+
+/*
+**	btree_3
+**	5 functions
+*/
+
+t_btree					*ft_btree_get_btree_with_parent(t_btree *btree,
+	char *key, t_btree **parent);
+int						ft_btree_replace_branch(t_btree *from,
+	t_btree *old_btree, t_btree *new_btree);
+t_btree					*ft_btree_get_min_btree(t_btree *btree,
+	t_btree **parent);
+void					ft_btree_remove_left_sided(t_btree *parent,
+	t_btree *target);
+void					ft_btree_remove_right_sided(t_btree *parent,
+	t_btree *target);
+
+/*
+**	btree_4
+**	1 function
+*/
+int						ft_btree_add_below(t_btree *btree, t_data *item);
 
 #endif

@@ -12,8 +12,7 @@
 
 #ifndef TUBE_H
 # define TUBE_H
-# include <stdlib.h>
-# include "data.h"
+
 # include "room.h"
 
 /*

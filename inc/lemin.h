@@ -13,6 +13,10 @@
 #ifndef LEMIN_H
 # define LEMIN_H
 
+# include <stdlib.h>
+
+# include "data.h"
+# include "array.h"
 # include "btree.h"
 # include "tube.h"
 # include "room.h"

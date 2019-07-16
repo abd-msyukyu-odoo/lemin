@@ -13,10 +13,7 @@
 #ifndef ROOM_H
 # define ROOM_H
 # include <stdlib.h>
-# include "data.h"
 # include "btree.h"
-# include "array.h"
-# include "libft.h"
 # define IN "-IN"
 # define OUT "-OUT"
 

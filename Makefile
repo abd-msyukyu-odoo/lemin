@@ -30,7 +30,8 @@ MAIN_F		= main
 
 READ_F		= start tools tools2
 
-STRUCT_F	= array_1 array_2 btree room_1 room_2 global tube path ant
+STRUCT_F	=	array_1 array_2 room_1 room_2 global tube path ant\
+				btree_1 btree_2 btree_3 btree_4
 
 PRINT_F		= start
 

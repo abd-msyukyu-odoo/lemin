@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tube.h"
+#include "lemin.h"
 
 t_tube				*ft_tube_construct(t_room *room1, t_room *room2,
 		int direction, int cost)
