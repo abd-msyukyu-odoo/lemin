@@ -12,6 +12,13 @@
 
 #include "lemin.h"
 
+/*
+** create a t_btree instance
+** return :
+** 	t_btree* : created instance
+** 	NULL : error
+*/
+
 t_btree				*ft_btree_construct(t_data *data)
 {
 	t_btree			*out;
@@ -25,6 +32,10 @@ t_btree				*ft_btree_construct(t_data *data)
 	out->cmp = ft_strcmp;
 	return (out);
 }
+
+/*
+** free the t_btree instance, but not the items
+*/
 
 void				ft_btree_free(t_btree *btree)
 {
@@ -44,6 +55,13 @@ static void			ft_btree_remove_min_sided(t_btree *parent, t_btree *target)
 	target->data = tmp->data;
 	ft_btree_replace_branch(parent, tmp, tmp->right);
 }
+
+/*
+** remove item with key from the btree
+** return :
+** 	t_data* : removed item
+** 	NULL : btree does not contains key
+*/
 
 t_data				*ft_btree_remove(t_btree *btree, char *key)
 {
@@ -70,6 +88,14 @@ t_data				*ft_btree_remove(t_btree *btree, char *key)
 		ft_btree_remove_min_sided(parent, target);
 	return (out);
 }
+
+/*
+** fill new_btree with all items from old_btree
+** return :
+** 	1 : success
+** 	-1 : btree was not modified
+** 	0 : error
+*/
 
 int					ft_btree_fill_copy(t_btree *old_btree, t_btree *new_btree)
 {
