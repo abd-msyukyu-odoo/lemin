@@ -13,15 +13,6 @@
 #include "lemin.h"
 
 /*
-**	function
-**
-**
-**
-**	@input:
-**	@out:
-*/
-
-/*
 **	function ft_room_free
 **
 **	free the t_room instance

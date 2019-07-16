@@ -14,6 +14,7 @@
 # define LEMIN_H
 
 # include "btree.h"
+# include "tube.h"
 # include "room.h"
 # include "path.h"
 # include "ant.h"

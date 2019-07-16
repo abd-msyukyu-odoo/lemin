@@ -151,8 +151,8 @@ void	print(t_global *s)
 			move_ants(s, &(s->ants));
 			add_to_buff(s, "\n");
 		}
-		g->buff_pos += 1;
-		write(1, g->buff, g->buff_pos);
+		s->buff_pos += 1;
+		write(1, s->buff, s->buff_pos);
 		destroy_global(s);
 	}
 	exit(0);
