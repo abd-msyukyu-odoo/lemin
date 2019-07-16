@@ -96,6 +96,10 @@ void	move_ants(t_global *g, t_ant **a)
 **	@out:	/
 */
 
+/*
+**	TODO remove check line 112
+*/
+
 void	launch_ants(t_global *s)
 {
 	t_path	*path;
@@ -105,7 +109,7 @@ void	launch_ants(t_global *s)
 	path = s->paths;
 	while (path)
 	{
-		if (path->nb_ants > 0 && s->nb_ants)//TODO remove check
+		if (path->nb_ants > 0 && s->nb_ants)
 		{
 			s->ants = add_ant(s->ants, s->nb_ants, path->elements);
 			s->nb_ants -= 1;
@@ -121,7 +125,8 @@ void	launch_ants(t_global *s)
 	}
 }
 
-/*IDEA Gestion d'erreur print différent si malloc error
+/*
+** IDEA Gestion d'erreur print différent si malloc error
 */
 
 /*

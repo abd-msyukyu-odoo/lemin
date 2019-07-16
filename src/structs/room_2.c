@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   room.c                                             :+:      :+:    :+:   */
+/*   room_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <dabeloos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,87 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tube.h"
-#include "room.h"
+#include "lemin.h"
 
-void					ft_room_free(t_room *room)
-{
-	int					i;
-
-	if (!room)
-		return ;
-	i = room->a_tubes->n_items;
-	while (i-- > 0)
-		ft_tube_free((t_tube*)ft_array_get(room->a_tubes, i));
-	ft_array_free(room->a_tubes);
-	ft_btree_free(room->bt_tubes);
-	free(room->key.key);
-	free(room);
-}
-
-t_room					*ft_room_construct(char *key, unsigned int status,
-	int x, int y)
-{
-	t_room				*out;
-
-	out = (t_room*)malloc(sizeof(t_room));
-	if (!out)
-		return (NULL);
-	out->a_tubes = ft_array_construct(0);
-	out->bt_tubes = ft_btree_construct(NULL);
-	out->status = status;
-	out->key = (t_data){key};
-	if (!key || !out->a_tubes || !out->bt_tubes)
-	{
-		ft_room_free(out);
-		return (NULL);
-	}
-	out->pos = (t_coordinates){x, y};
-	return (out);
-}
-
-int						ft_room_create_tube_oriented(t_room *out, t_room *in)
-{
-	t_tube				*tube;
-
-	tube = ft_tube_construct(out, in, 1, 1);
-	if (!tube || !ft_tube_add_to_rooms(tube))
-	{
-		ft_tube_free(tube);
-		return (0);
-	}
-	return (1);
-}
-
-int						ft_room_create_tube_pair(char *key1, char *key2,
-	t_btree *bt_rooms)
-{
-	t_room				*in;
-	t_room				*out;
-	char				*key;
-	int					result;
-
-	result = -1;
-	if (!(key = ft_strjoin(key1, IN)))
-		return (0);
-	in = (t_room*)ft_btree_get_data(bt_rooms, key);
-	free(key);
-	if (!(key = ft_strjoin(key2, OUT)))
-		return (0);
-	out = (t_room*)ft_btree_get_data(bt_rooms, key);
-	free(key);
-	if (in && out)
-		result = ft_room_create_tube_oriented(out, in);
-	if (!result || !(key = ft_strjoin(key2, IN)))
-		return (0);
-	in = (t_room*)ft_btree_get_data(bt_rooms, key);
-	free(key);
-	if (!(key = ft_strjoin(key1, OUT)))
-		return (0);
-	out = (t_room*)ft_btree_get_data(bt_rooms, key);
-	free(key);
-	return ((in && out) ? ft_room_create_tube_oriented(out, in) : result);
-}
+/*
+**	function ft_room_create_extrema
+**
+**	create a start or ending room
+**
+**	@input:	the key of the room
+**	@input:	a pointer on the room binary tree
+**	@input:	the status (start or end)
+**	@input:	the coordinates
+**	@out:	a pointer on the newly t_room
+*/
 
 static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
 	unsigned int status, t_coordinates pos)
@@ -112,17 +44,53 @@ static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
 	return (extrema);
 }
 
+/*
+**	function ft_room_create_start
+**
+**	create an OUT starting room and add it to a binary tree
+**
+**	@input:	the string key of the room
+**	@input:	a pointer on the room binary tree
+**	@input:	the x coordinate
+**	@input:	the y coordinate
+**	@out:	a pointer on the newly created t_room
+*/
+
 t_room					*ft_room_create_start(char *key, t_btree *bt_rooms,
 	int x, int y)
 {
 	return (ft_room_create_extrema(key, bt_rooms, 1, (t_coordinates){x, y}));
 }
 
+/*
+**	function ft_room_create_end
+**
+**	create an IN ending room and add it to a binary tree
+**
+**	@input:	the string key of the room
+**	@input:	a pointer on the room binary tree
+**	@input:	the x coordinate
+**	@input:	the y coordinate
+**	@out:	a pointer on the newly created t_room
+*/
+
 t_room					*ft_room_create_end(char *key, t_btree *bt_rooms,
 	int x, int y)
 {
 	return (ft_room_create_extrema(key, bt_rooms, 0, (t_coordinates){x, y}));
 }
+
+/*
+**	function ft_room_create_pair
+**
+**	create the IN and OUT rooms corresponding to key and add them to a binary
+**
+**	@input:	the string key of the room
+**	@input:	a pointer on the room binary tree
+**	@input:	the x coordinate
+**	@input:	the y coordinate
+**	@out:	1 if success | 0 if failure
+*/
 
 int						ft_room_create_pair(char *key, t_btree *bt_rooms,
 	int x, int y)

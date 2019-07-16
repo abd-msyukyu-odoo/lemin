@@ -103,7 +103,7 @@ clear:
 			@clear
 
 norm:		clear
-			@norminette $(addsuffix .c, $(addprefix print/, $(PRINT_F)))
+			@norminette $(addsuffix .c, $(basename $(O_FILES)))
 			@norminette $(THISHEAD)/*
 
 test:		fclean clear all
