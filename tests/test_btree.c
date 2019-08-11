@@ -4,7 +4,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-//gcc -o test test_btree.c ../globals/array.c ../globals/btree.c -I../includes -I../libft -L../libft/ -lft 
+//gcc -o test test_btree.c ../src/structs/array.c ../src/structs/btree.c -I../includes -I../libft -L../libft/ -lft 
 
 typedef struct 	s_test_btree
 {

@@ -6,7 +6,7 @@
 #include "btree.h"
 #include <time.h>
 
-//gcc -o minimalloc _minimalloc.c ../globals/room.c ../globals/tube.c ../globals/array.c ../globals/btree.c -I../includes -I../libft -L../libft/ -lft
+//gcc -o minimalloc _minimalloc.c ../src/structs/room.c ../src/structs/tube.c ../src/structs/array.c ../src/structs/btree.c -I../includes -I../libft -L../libft/ -lft
 
 int					main(void)
 {

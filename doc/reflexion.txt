@@ -127,3 +127,14 @@ osef des coordonnees
 
 -> faire gaffe si jamais a l'input on a 2x le meme tunnel, il est present 2x dans le array des rooms, mais 1x dans le btree
 -> voir si ca influence l'algo ou pas
+
+---------------------------------------------------------------
+
+? struct path
+	-> contient 1 room
+	-> doit etre triee dans un btree ? 
+	-> contient un lien vers la suite du path
+
+	OU
+
+	-> btree de rooms + array de tunnels trie (-> chiant pour la modification)

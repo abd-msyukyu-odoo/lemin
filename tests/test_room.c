@@ -6,7 +6,7 @@
 #include "room.h"
 #include "tube.h"
 
-//gcc -o test test_room.c ../globals/room.c ../globals/tube.c ../globals/array.c ../globals/btree.c -I../includes -I../libft -L../libft/ -lft 
+//gcc -o test test_room.c ../src/structs/room.c ../src/structs/tube.c ../src/structs/array.c ../src/structs/btree.c -I../includes -I../libft -L../libft/ -lft 
 
 char		*in = "hivadeyfbcgopzwxklmjtunqsr";
 

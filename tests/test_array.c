@@ -1,7 +1,7 @@
 #include "array.h"
 #include "stdio.h"
 
-//gcc -o test test_array.c ../globals/array.c -I../includes -I../libft -L../libft/ -lft 
+//gcc -o test test_array.c ../src/structs/array.c -I../includes -I../libft -L../libft/ -lft 
 
 char		*in = "abcdefghijklmnopqrstuvwxyz";
 

@@ -6,7 +6,7 @@
 #include "btree.h"
 #include <time.h>
 
-//gcc -o maximalloc _maximalloc.c ../globals/room.c ../globals/tube.c ../globals/array.c ../globals/btree.c -I../includes -I../libft -L../libft/ -lft
+//gcc -o maximalloc _maximalloc.c ../src/structs/room.c ../src/structs/tube.c ../src/structs/array.c ../src/structs/btree.c -I../includes -I../libft -L../libft/ -lft
 
 int					main(void)
 {
