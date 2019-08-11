@@ -77,9 +77,9 @@ int				main(void)
 	t_btree		*bt_rooms;
 
 	bt_rooms = ft_btree_construct(NULL);
-	ft_room_create_start(ft_strdup(&(in[0])), bt_rooms);
-	ft_room_create_end(ft_strdup(&(in[25])), bt_rooms);
-	ft_room_create_pair(ft_strdup(&(in[1])), bt_rooms);
+	ft_room_create_start(ft_strdup(&(in[0])), bt_rooms, 0, 0);
+	ft_room_create_end(ft_strdup(&(in[25])), bt_rooms, 0, 0);
+	ft_room_create_pair(ft_strdup(&(in[1])), bt_rooms, 0, 0);
 	ft_room_create_tube_pair(&(in[0]), &(in[1]), bt_rooms);
 	ft_room_create_tube_pair(&(in[0]), &(in[25]), bt_rooms);
 	ft_room_create_tube_pair(&(in[25]), &(in[1]), bt_rooms);
