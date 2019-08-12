@@ -12,12 +12,22 @@
 
 #include "track.h"
 
-void					ft_track_free(t_track_mng *track_mng)
+void					ft_track_mng_free(t_track_mng *track_mng)
 {
-
+	t_track				*cur;
+	t_track				*previous;
+	
+	ft_btree_free(track_mng->bt_tracks);
+	previous = track_mng->track;
+	while (previous)
+	{
+		cur = previous;
+		previous = cur->previous;
+		free(cur);
+	}
 }
 
-int						ft_track_append(t_room *room, t_track_mng *track_mng)
+t_track					*ft_track_construct(t_room *room, t_track *previous)
 {
 	t_track				*out;
 
@@ -26,10 +36,10 @@ int						ft_track_append(t_room *room, t_track_mng *track_mng)
 		return (NULL);
 	out->key = room->key;
 	out->room = room;
-	out->previous = (!track_mng->track) ? NULL : 
+	out->previous = previous;
 }
 
-t_track_mng				*ft_track_construct(t_room *room)
+t_track_mng				*ft_track_mng_construct(t_room *room)
 {
 	t_track_mng				*out;
 
@@ -37,9 +47,10 @@ t_track_mng				*ft_track_construct(t_room *room)
 	if (!out)
 		return (NULL);
 	out->bt_tracks = ft_btree_construct(NULL);
-	if (!out->bt_tracks)
+	out->track = ft_track_construct(room, NULL);
+	if (!out->track || !out->bt_tracks)
+	{
+		ft_track_mng_free(out);
 		return (NULL);
-	out->track = NULL;
-	out->track = ft_track_append(room, out);
-	if (!)
+	}
 }
