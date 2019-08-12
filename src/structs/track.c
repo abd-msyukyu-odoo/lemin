@@ -12,19 +12,22 @@
 
 #include "track.h"
 
-void					ft_track_mng_free(t_track_mng *track_mng)
+void					ft_track_free(t_track *track)
 {
 	t_track				*cur;
-	t_track				*previous;
-	
-	ft_btree_free(track_mng->bt_tracks);
-	previous = track_mng->track;
-	while (previous)
+
+	while (track)
 	{
-		cur = previous;
-		previous = cur->previous;
+		cur = track;
+		track = cur->previous;
 		free(cur);
 	}
+}
+
+void					ft_track_mng_free(t_track_mng *track_mng)
+{
+	ft_btree_free(track_mng->bt_tracks);
+	ft_track_free(track_mng->track);
 }
 
 t_track					*ft_track_construct(t_room *room, t_track *previous)

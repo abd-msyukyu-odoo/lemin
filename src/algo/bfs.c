@@ -10,4 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "bfs.h"
 
+t_bfs					*ft_bfs_construct(t_global *gb)
+{
+	t_bfs				*out;
+
+	out = (t_bfs*)malloc(sizeof(t_bfs));
+	if (!out)
+		return (NULL);
+	out->bt_rooms = ft_btree_construct(NULL);
+	out->gb = gb;
+	out->shortest_track = NULL;
+	if (!out->bt_rooms)
+	{
+		
+	}
+}

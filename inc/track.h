@@ -34,6 +34,8 @@ typedef struct				s_track_mng
 
 void						ft_track_mng_free(t_track_mng *track_mng);
 
+void						ft_track_free(t_track *track);
+
 t_track						*ft_track_construct(t_room *room,
 	t_track *previous);
 

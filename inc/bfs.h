@@ -17,12 +17,10 @@
 # include "btree.h"
 # include "array.h"
 # include "libft.h"
-# include "global.h"
 # include "track.h"
 
 typedef struct			s_bfs
 {
-	t_global			*gb;
 	t_btree				*bt_rooms;
 	t_track				*shortest_track;
 }						t_bfs;

@@ -15,6 +15,7 @@
 # define BF_SIZE 32
 # include "btree.h"
 # include "room.h"
+# include "bfs.h"
 
 typedef struct	s_global
 {
@@ -26,6 +27,7 @@ typedef struct	s_global
 	int			next_line;
 	char		*buff;
 	int			buff_pos;
+	t_bfs		*bfs;
 }				t_global;
 
 /*
