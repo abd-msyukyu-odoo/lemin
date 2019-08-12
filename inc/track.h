@@ -32,4 +32,11 @@ typedef struct				s_track_mng
 	t_btree					*bt_tracks;
 }							t_track_mng;
 
+void						ft_track_mng_free(t_track_mng *track_mng);
+
+t_track						*ft_track_construct(t_room *room,
+	t_track *previous);
+
+t_track_mng					*ft_track_mng_construct(t_room *room);
+
 #endif

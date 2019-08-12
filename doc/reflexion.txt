@@ -130,11 +130,16 @@ osef des coordonnees
 
 ---------------------------------------------------------------
 
-? struct path
-	-> contient 1 room
-	-> doit etre triee dans un btree ? 
-	-> contient un lien vers la suite du path
+etapes code :
 
-	OU
+track (manager, creation, destruction)
+bfs 
+-> test : lecture des rooms + bfs + afficher resultat
+bellmanford
+-> test : lecture des rooms + bellmanford + afficher resultat
+bhandari
+-> test : lecture des rooms + bhandari + afficher resultat
+integrer le print
+implementer l'activation du visu en python a partir du print
 
-	-> btree de rooms + array de tunnels trie (-> chiant pour la modification)
+implementer WAVL pour le btree
