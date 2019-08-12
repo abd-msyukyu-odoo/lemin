@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.h                                             :+:      :+:    :+:   */
+/*   track.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,19 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATH_H
-# define PATH_H
+#ifndef TRACK_H
+# define TRACK_H
 # include <stdlib.h>
 # include "data.h"
 # include "array.h"
+# include "btree.h"
 # include "room.h"
 # include "libft.h"
 
-typedef struct				s_path
+typedef struct				s_track
 {
 	t_data					key;
 	t_room					*room;
-	struct s_path			*next;
-}							t_path;
+	struct s_track			*previous;
+}							t_track;
+
+typedef struct				s_track_mng
+{
+	t_track					*track;
+	t_btree					*bt_tracks;
+}							t_track_mng;
 
 #endif
