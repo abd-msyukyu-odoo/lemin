@@ -127,6 +127,9 @@ TODO
 -> voir si ca influence l'algo ou pas
 -> faire une fonction pour free les rooms et tubes des differents tableaux
 
+-> chaque erreur memoire nettoie localement + appelle la methode de nettoyage de la 
+structure globale
+
 ---------------------------------------------------------------
 
 etapes code :

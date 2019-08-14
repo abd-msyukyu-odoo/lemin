@@ -21,9 +21,10 @@ typedef struct	s_global
 {
 	t_btree		*bt_rooms;
 	t_array		*a_rooms;
-	int			nb_ants;
 	t_room		*start;
 	t_room		*end;
+	t_bfs		*bfs;
+	int			nb_ants;
 	int			next_line;
 	char		*buff;
 	int			buff_pos;

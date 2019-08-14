@@ -40,6 +40,7 @@ t_track					*ft_track_construct(t_room *room, t_track *previous)
 	out->key = room->key;
 	out->room = room;
 	out->previous = previous;
+	return (out);
 }
 
 t_track_mng				*ft_track_mng_construct(t_room *room)
@@ -56,4 +57,5 @@ t_track_mng				*ft_track_mng_construct(t_room *room)
 		ft_track_mng_free(out);
 		return (NULL);
 	}
+	return (out);
 }
