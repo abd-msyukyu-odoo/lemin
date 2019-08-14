@@ -147,3 +147,24 @@ implementer l'activation du visu en python a partir du print
 implementer WAVL pour le btree
 
 global doit contenir toutes les structures a free.
+
+---------------------------------------------------------------
+
+gestion de memoire optimisee (et facilite pour free) : 
+
+Objectifs : 
+	un pointeur sur une zone memoire capable de stocker plusieurs instances d'un
+	type de donnees, a ne malloc qu'une fois.
+	gestion de la memoire liberee (chaque fois qu'une instance n'est plus utile)
+	si la zone memoire est pleine, reallocation sur une taille doublee
+
+pour chaque type de donnees de base (hors tableau) qui va etre malloc : 
+
+on alloue un tableau de taille arbitraire pour le type de donnee, qu'on stocke
+dans une variable "globale" qui sera transferee partout.
+	-> utiliser le type Array deja cree ou insuffisant ? 
+		-> pouvoir definir le sizeof des items
+		-> le stocker dans l'array (pour toutes les fonctions de skip)
+		-< probleme pour ajouter les donnees ?
+			-/> solution1 : passer un pointeur sur une donnee non malloc pre-remplie (2x plus long)
+			-> solution2 : faire une requete d'un emplacement disponible et remplir apres coup
