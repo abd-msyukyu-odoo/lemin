@@ -1,0 +1,41 @@
+fil conducteur pour le visu a partir du code en C | 
+	launch.py -> branche algo_dev, dossier python
+
+-> = conserver
+-< = ne pas conserver
+
+-< ligne 1-28
+
+-> ligne 28 | read_input -> reading.py 
+	// adapter pour lire l'output du C (voir pdf pour le format) 
+	// deduire les chemins (Path) constituant la solution a partir de la partie 
+	// affichage (chaque premier chemin pas encore emprunte lie a une nouvelle
+	// fourmi signale un nouveau Path) | class Path -> visu.py
+	// compter le nombre de fourmis par Path 
+	=> construire 2 tableaux paralleles un contient le nombre de fourmis par
+		Path, et l'autre le Path)
+
+-< ligne 29-35
+
+-> ligne 35 | class Config -> visu.py
+
+-> ligne 37 | class Floor -> visu.py 
+	// creer une variable de type Floor avec un tableau contenant la room de depart
+	// utiliser Btree.get_data(room_name) si besoin | class Btree -> globals.py
+
+-> ligne 38 | dessine le graphe sans solution
+
+-> ligne 40 | class ColorGenerator -> visu.py
+	// donner les Path construits lors de la (nouvelle) lecture (ligne 28)
+
+-> ligne 41
+	// donner les Path construits lors de la (nouvelle) lecture (ligne 28)
+
+-> ligne 42
+
+>- ligne 43-46
+
+-> ligne 47
+	// utiliser les 2 tableaux construits lors de la (nouvelle) lecture 
+	// (ligne 28) (nombres de fourmis par path, paths)
+

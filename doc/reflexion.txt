@@ -168,3 +168,4 @@ dans une variable "globale" qui sera transferee partout.
 		-< probleme pour ajouter les donnees ?
 			-/> solution1 : passer un pointeur sur une donnee non malloc pre-remplie (2x plus long)
 			-> solution2 : faire une requete d'un emplacement disponible et remplir apres coup
+			
