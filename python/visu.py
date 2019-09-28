@@ -138,11 +138,12 @@ class Path:
 		curve.modify(1, color = newcolor, radius = curve.radius * 3)
 
 class Ant:
-	def __init__(self, path):
+	def __init__(self, path, name):
 		self.path = path
 		self.sphere = sphere(pos=path.room.visu.pos, radius = path.room.visu.radius * 0.4, color = color.black)
 		self.sphere.velocity = self.path.previous.room.visu.pos
 		self.origin = path
+		self.name = name
 
 	def update_velocity(self):
 		self.path = self.path.previous
@@ -162,6 +163,7 @@ class Ant:
 
 class DisplayAnts:
 	def __init__(self, n_ants, paths):
+		name = 0
 		self.n_ants = n_ants
 		self.paths = paths
 		self.ants = []
@@ -172,9 +174,11 @@ class DisplayAnts:
 			self.ants.append([])
 			self.finished_ants.append([])
 			for j in range(n_ants[i]):
-				self.stock[i].append(Ant(paths[i]))
+				self.stock[i].append(Ant(paths[i], "L" + str(name)))
+				name += 1
 		deltat = 0.000005
 		t = 0
+		printed = False
 		while True:
 			empty_stock = True
 			empty_on_trail = True
@@ -188,6 +192,7 @@ class DisplayAnts:
 			if empty_on_trail and empty_stock:
 				self.stock = self.finished_ants
 				self.finished_ants = []
+				printed = True
 				for i in range(len(paths)):
 					self.finished_ants.append([])
 			else:
@@ -201,6 +206,14 @@ class DisplayAnts:
 						ant.update_position(deltat)
 				t = t + deltat
 				deltat = Tools.time_multiplier * (time.time() - t_now)
+			## print paths
+			if not printed:
+				string = ""
+				for i in range(len(paths)):
+					for ant in self.ants[i]:
+						string += ant.name + "-" + ant.path.previous.room.name + " "
+				print(string[:len(string) - 1])
+			##
 			for i in range(len(paths)):
 				j = 0
 				while j < len(self.ants[i]):

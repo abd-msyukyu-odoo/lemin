@@ -10,17 +10,17 @@ from platform import system
 import time
 
 parent = dirname(dirname(os.path.abspath(__file__)))
-f = os.path.join(parent, "resources", "big_superposition1.txt")
+f = os.path.join(parent, "resources", "map_plus_6")
 
-n = 1000
+n = 1
 Tools.verbose = False
-visual = False
+visual = True
 
 for i in range(n):
-	if system() == 'Darwin':
-		k = open(f, 'w')
-		d = os.path.join(parent, "resources", "generator")
-		k.write(os.popen(d + " --big-superposition").read())
+	# if system() == 'Darwin':
+	# 	k = open(f, 'w')
+	# 	d = os.path.join(parent, "resources", "generator")
+	# 	k.write(os.popen(d + " --big-superposition").read())
 
 	input = open(f, 'r').read()
 
