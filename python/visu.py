@@ -193,6 +193,7 @@ class DisplayAnts:
 				self.stock = self.finished_ants
 				self.finished_ants = []
 				printed = True
+				#os.kill(os.getpid(), signal.SIGINT)
 				for i in range(len(paths)):
 					self.finished_ants.append([])
 			else:
@@ -207,12 +208,12 @@ class DisplayAnts:
 				t = t + deltat
 				deltat = Tools.time_multiplier * (time.time() - t_now)
 			## print paths
-			if not printed:
-				string = ""
-				for i in range(len(paths)):
-					for ant in self.ants[i]:
-						string += ant.name + "-" + ant.path.previous.room.name + " "
-				print(string[:len(string) - 1])
+			# if not printed:
+			# 	string = ""
+			# 	for i in range(len(paths)):
+			# 		for ant in self.ants[i]:
+			# 			string += ant.name + "-" + ant.path.previous.room.name + " "
+			# 	print(string[:len(string) - 1])
 			##
 			for i in range(len(paths)):
 				j = 0

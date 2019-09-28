@@ -10,7 +10,7 @@ from platform import system
 import time
 
 parent = dirname(dirname(os.path.abspath(__file__)))
-f = os.path.join(parent, "resources", "map_plus_6")
+f = os.path.join(parent, "resources", "big_superposition1.txt")
 
 n = 1
 Tools.verbose = False
@@ -26,7 +26,7 @@ for i in range(n):
 
 	#print(input)
 	rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input)
-
+	nbAnts = 5000
 	start = time.time()
 	bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
 	print(str(i) + " :---" + str(time.time() - start) + "---")
