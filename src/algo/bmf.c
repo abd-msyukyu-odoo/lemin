@@ -4,24 +4,22 @@
 //TODO add bmf_value int to t_room;
 //TODO add bmf_visited int to t_room;
 //TODO add bmf_best_path global;
+//TODO room->bmf_value_is_set = 0;
 
 void    bmf_add_path_to_g(t_global *g)
 {
 	if (g->bhandari->old && g->bhandari->new)
-	{
 		ft_array_free(g->bhandari->old);
-		g->bhandari->old = g->bhandari->new;
-	}
-
-	//TODO add path to the paths list in g
-	//TODO set the path in the correct order
+	if (!(g->bhandari->old = ft_array_dup(g->bhandari->new)) ||
+		ft_array_add(g->bhandari->new, (void *)g->bhandari->best_path) != 1)
+		print(destroy_global(g));
 }
 
 void    bmf_add_path(t_bhandari *b)
 {
 	if (b->best_path)
 		ft_array_free(b->best_path);
-	b->best_path = *ft_array_dup(b->working_path);
+	b->best_path = ft_array_dup(b->working_path);
 }
 
 t_array *bmf_add_possibilities(t_room *current, t_room *previous)
@@ -39,10 +37,11 @@ t_array *bmf_add_possibilities(t_room *current, t_room *previous)
 	{
 		tube = (t_tube *)ft_array_get(current->a_tubes, l);
 		room = ft_tube_get_connection(tube, current);
-		if (room->bmf_visited == 0 || room->bmf_value > (current->bmf_value + tube->cost))
+		if (!room->bmf_value_is_set || room->bmf_visited == 0 || room->bmf_value > (current->bmf_value + tube->cost))
 		{
 			room->bmf_value = current->bmf_value + tube->cost;
-			if (!(ft_array_add(array, (void *)room)))
+			room->bmf_value_is_set = 1;
+			if ((ft_array_add(array, (void *)room)) != 1)
 			{
 				ft_array_free(array);
 				return (NULL);
@@ -52,7 +51,7 @@ t_array *bmf_add_possibilities(t_room *current, t_room *previous)
 	}
 }
 
-void    bmf_recursive(t_global *g, t_room *current, t_toom *previous)
+void    bmf_recursive(t_global *g, t_room *current, t_toom *previous, int weight)
 {
 	unsigned int    i;
 	t_array         *a;
@@ -62,6 +61,7 @@ void    bmf_recursive(t_global *g, t_room *current, t_toom *previous)
 	if (ft_array_add(b->working_path, (void *)current) != 1)
 		return (print(destroy_global(g)));
 	current->bmf_visited = 1;
+	current->bmf_value = weight;
     if (current == g->end)
         return (bmf_add_path(g));
     else
@@ -71,7 +71,8 @@ void    bmf_recursive(t_global *g, t_room *current, t_toom *previous)
     	i = 0;
     	while (i < a->n_items)
     	{
-			bmf_recursive(g, ft_tube_get_connection((t_tube *)ft_array_get(a, i), current), current);
+			bmf_recursive(g, ft_tube_get_connection((t_tube *)ft_array_get(a, i), current), current,
+					((t_tube *)ft_array_get(a, i)->cost) + current->bmf_value);
     		i += 1;
     	}
 	}
