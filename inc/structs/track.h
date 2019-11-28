@@ -15,11 +15,12 @@
 # define TRACK_H
 # include <stdlib.h>
 # include "structs/room.h"
+# include "structs/charkey.h"
 # include "libft.h"
 
 typedef struct				s_track
 {
-	t_data					key;
+	t_charkey				key;
 	t_room					*room;
 	struct s_track			*previous;
 }							t_track;

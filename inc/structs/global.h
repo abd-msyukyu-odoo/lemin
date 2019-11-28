@@ -22,12 +22,10 @@ typedef struct	s_global
 	t_array		*a_rooms;
 	t_room		*start;
 	t_room		*end;
-	t_bfs		*bfs;
 	int			nb_ants;
 	int			next_line;
 	char		*buff;
 	int			buff_pos;
-	t_bfs		*bfs;
 }				t_global;
 
 /*

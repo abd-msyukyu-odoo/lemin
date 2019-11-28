@@ -37,7 +37,7 @@ t_room					*ft_room_construct(char *key, unsigned int status, int x, int y)
 	out->a_tubes = ft_array_construct(0);
 	out->bt_tubes = ft_btree_construct(NULL);
 	out->status = status;
-	out->key = (t_data){key};
+	out->key = (t_charkey){key};
 	if (!key || !out->a_tubes || !out->bt_tubes)
 	{
 		ft_room_free(out);
@@ -102,7 +102,7 @@ static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
 	free(key);
 	if (!extrema)
 		return (NULL);
-	if (!extrema || !ft_btree_add(bt_rooms, (t_data*)extrema))
+	if (!extrema || !ft_btree_add(bt_rooms, (t_charkey*)extrema))
 	{
 		ft_room_free(extrema);
 		return (NULL);
@@ -136,8 +136,8 @@ int						ft_room_create_pair(char *key, t_btree *bt_rooms, int x, int y)
 	}
 	tube = ft_tube_construct(in, out, 1, 0);
 	if (!tube || !ft_tube_add_to_rooms(tube) ||
-		!ft_btree_add(bt_rooms, (t_data*)in) ||
-		!ft_btree_add(bt_rooms, (t_data*)out))
+		!ft_btree_add(bt_rooms, (t_charkey*)in) ||
+		!ft_btree_add(bt_rooms, (t_charkey*)out))
 	{
 		ft_btree_remove(bt_rooms, in->key.key);
 		ft_tube_free(tube);

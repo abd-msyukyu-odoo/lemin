@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   charkey.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 21:33:36 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/11/28 21:33:37 by dabeloos         ###   ########.fr       */
+/*   Created: 2019/11/28 22:04:10 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/11/28 22:04:11 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
-# include "libft.h"
-# include "structs/charkey.h"
-# include "structs/global.h"
-# include "structs/room.h"
-# include "structs/track.h"
-# include "structs/tube.h"
+#ifndef CHARKEY_H
+# define CHARKEY_H
+
+typedef struct		s_charkey
+{
+	char			*key;
+}					t_charkey;
 
 #endif

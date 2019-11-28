@@ -15,6 +15,7 @@
 # include <stdlib.h>
 # include "libft.h"
 # include "structs/room.h"
+# include "structs/charkey.h"
 
 
 /*
@@ -29,7 +30,7 @@
 */
 typedef struct			s_tube
 {
-	t_data				key;
+	t_charkey			key;
 	t_room				*room1;
 	t_room				*room2;
 	int					direction;

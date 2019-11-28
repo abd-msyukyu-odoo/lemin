@@ -8,7 +8,7 @@ void			display_array(t_array *a)
 {
 	for (int i = 0; i < a->n_items; ++i)
 	{
-		printf("%s \n", ((t_data*)ft_array_get(a, i))->key);
+		printf("%s \n", ((t_charkey*)ft_array_get(a, i))->key);
 	}
 	printf("n_items : %d\nsize : %d\n", a->n_items, a->size);
 }

@@ -12,7 +12,8 @@
 
 #ifndef ROOM_H
 # define ROOM_H
-# include "libft.h
+# include "libft.h"
+# include "structs/charkey.h"
 # define IN "-IN"
 # define OUT "-OUT"
 
@@ -36,7 +37,7 @@ typedef struct			s_coordinates
 */
 typedef struct			s_room
 {
-	t_data				key;
+	t_charkey			key;
 	t_btree				*bt_tubes;
 	t_array				*a_tubes;
 	unsigned int		status;
