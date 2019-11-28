@@ -21,7 +21,7 @@ class Config:
 		if ev.event == "mousedown":
 			self.camera_pos = ev.pos
 		elif ev.event == "mousemove":
-			scene.camera.pos -= (ev.pos - self.camera_pos ) / 20
+			scene.camera.pos -= (ev.pos - self.camera_pos) / 20
 	
 	def terminate(self, ev):
 		if ev.key == 'esc':

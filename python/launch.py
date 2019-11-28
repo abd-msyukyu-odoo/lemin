@@ -26,7 +26,7 @@ for i in range(n):
 
 	#print(input)
 	rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input)
-	nbAnts = 5000
+
 	start = time.time()
 	bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
 	print(str(i) + " :---" + str(time.time() - start) + "---")
