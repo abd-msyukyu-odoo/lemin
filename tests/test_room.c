@@ -10,6 +10,7 @@ void			display_tubes(t_array *a)
 {
 	t_tube		*tube;
 
+	printf("======display tubes \n");
 	for (size_t i = 0; i < a->n_items; ++i)
 	{
 		tube = (t_tube*)ft_array_get(a, i);
@@ -21,6 +22,7 @@ void			display_rooms(t_array *a)
 {
 	t_room		*room;
 
+	printf("======display rooms \n");
 	for (size_t i = 0; i < a->n_items; ++i)
 	{
 		room = (t_room*)ft_array_get(a, i);
@@ -30,9 +32,12 @@ void			display_rooms(t_array *a)
 
 int				show_room(void *receiver, void *sent)
 {
+	t_room		*room;
+
+	room = (t_room*)sent;
 	if (!receiver)
 	{
-		printf("%s\n", ((t_room*)sent)->key.key);
+		printf("%s\n", room->key.key);
 		return (1);
 	}
 	return (0);
@@ -40,6 +45,7 @@ int				show_room(void *receiver, void *sent)
 
 void			display_hm(t_mhmap *mhmap, int (*f)(void *receiver, void *sent))
 {
+	printf("======display hashmap rooms \n");
 	ft_hmap_bnode_iteration(NULL, (t_hmap*)mhmap, f);
 }
 

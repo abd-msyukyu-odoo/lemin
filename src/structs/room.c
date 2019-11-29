@@ -146,7 +146,7 @@ static t_room			*room_firewall_initialize(char *key,
 
 	charkey.key = lemin_append_status(key, status);
 	out = NULL;
-	if (!ft_hmap_contains_key((t_hmap*)&lemin->hm_rooms, charkey.key, room_equals))
+	if (!ft_hmap_contains_key((t_hmap*)&lemin->hm_rooms, &charkey, room_equals))
 		out = room_initialize(charkey.key, status);
 	else
 		ft_memanager_refill(lemin->mmng, charkey.key);
