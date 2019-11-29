@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 21:33:36 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/11/28 21:33:37 by dabeloos         ###   ########.fr       */
+/*   Created: 2019/11/29 10:25:41 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/11/29 10:25:43 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
-# include "libft.h"
-# include "print/error.h"
-# include "structs/charkey.h"
-# include "structs/global.h"
-# include "structs/room.h"
-# include "structs/track.h"
-# include "structs/tube.h"
+#ifndef ERROR_H
+# define ERROR_H
+# define LEMIN_MEM_ERR -1
 
-extern t_global		*lemin;
+void			lemin_error(int error);
 
 #endif

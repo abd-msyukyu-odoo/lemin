@@ -18,22 +18,19 @@
 
 typedef struct	s_global
 {
-	t_btree		*bt_rooms;
-	t_array		*a_rooms;
+	t_memanager	*mmng;
+	t_marray	a_rooms;
+	t_marray	a_tubes;
+	t_mhmap		hm_rooms;
 	t_room		*start;
 	t_room		*end;
-	int			nb_ants;
-	int			next_line;
-	char		*buff;
-	int			buff_pos;
 }				t_global;
 
 /*
 **  s_global
 **  2 functions
 */
-
-t_global		*generate_global();
-t_global		*destroy_global(t_global *s);
+int				construct_global(void);
+void			free_global(void);
 
 #endif

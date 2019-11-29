@@ -19,7 +19,6 @@
 
 
 /*
-** key : contains the char *key which is the id of the t_room item
 ** room1 : first room of the tube
 ** room2 : second room of the tube
 ** direction :
@@ -30,7 +29,6 @@
 */
 typedef struct			s_tube
 {
-	t_charkey			key;
 	t_room				*room1;
 	t_room				*room2;
 	int					direction;
@@ -43,18 +41,8 @@ typedef struct			s_tube
 ** 	t_tube* : created instance
 ** 	NULL : error
 */
-t_tube					*ft_tube_construct(t_room *room1, t_room *room2,
-							int direction, int cost);
-
-/*
-** remove a tube from its related rooms
-*/
-void					ft_tube_remove_from_rooms(t_tube *tube);
-
-/*
-** free the t_tube instance
-*/
-void					ft_tube_free(t_tube *tube);
+t_tube					*ft_tube_initialize(t_room *room1, t_room *room2,
+	int direction, int cost);
 
 /*
 ** add a tube to its related rooms

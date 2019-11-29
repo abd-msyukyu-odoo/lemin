@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 21:33:36 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/11/28 21:33:37 by dabeloos         ###   ########.fr       */
+/*   Created: 2019/11/29 10:22:26 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/11/29 10:22:27 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
-# include "libft.h"
-# include "print/error.h"
-# include "structs/charkey.h"
-# include "structs/global.h"
-# include "structs/room.h"
-# include "structs/track.h"
-# include "structs/tube.h"
+#include "lemin.h"
 
-extern t_global		*lemin;
+static char		*error_msg(int error)
+{
+	static char	**errors = {
+		"memory error"};
 
-#endif
+	return (errors[-1 - error]);
+}
+
+void			lemin_error(int error)
+{
+	free_global();
+	ft_printf("%s\n", error_msg(error));
+	exit(EXIT_FAILURE);
+}

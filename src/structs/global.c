@@ -12,29 +12,27 @@
 
 #include "lemin.h"
 
-t_global	*generate_global(void)
+int			construct_global(void)
 {
-	t_global	*s;
-
-	if (!(s = (t_global *)malloc(sizeof(t_global))))
-		print(NULL);
-	if (!(s->buff = (char *)malloc(sizeof(char) * BF_SIZE)))
-	{
-		free(s);
-		return (NULL);
-	}
-	s->start = NULL;
-	s->end = NULL;
-	s->next_line = 0;
-	s->buff_pos = 0;
-	return (s);
+	if (!(lemin = (t_global*)malloc(sizeof(t_global))) ||
+		!(lemin->mmng = ft_memanager_construct_default()) ||
+		!(ft_marray_initialize(&lemin->a_rooms, lemin->mmng, 100,
+			sizeof(t_room))) ||
+		!(ft_marray_initialize(&lemin->a_tubes, lemin->mmng, 100,
+			sizeof(t_tube))))
+		return (0);
+	lemin->hm_rooms.mmng = NULL;
+	lemin->start = NULL;
+	lemin->end = NULL;
+	return (1);
 }
 
-t_global	*destroy_global(t_global *s)
+void		free_global(void)
 {
-	if (s->buff)
-		free(s->buff);
-	if (s)
-		free(s);
-	return (NULL);
+	if (lemin)
+	{
+		if (lemin->mmng)
+			ft_memanager_free(lemin->mmng);
+		free(lemin);
+	}
 }

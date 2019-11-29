@@ -14,17 +14,8 @@
 # define ROOM_H
 # include "libft.h"
 # include "structs/charkey.h"
-# define IN "-IN"
-# define OUT "-OUT"
-
-/*
-** x, y : ref-axis coordinates
-*/
-typedef struct			s_coordinates
-{
-	int					x;
-	int					y;
-}						t_coordinates;
+# define LEMIN_IN 0
+# define LEMIN_OUT 1
 
 /*
 ** key : contains the char *key which is the id of the t_room item
@@ -38,16 +29,14 @@ typedef struct			s_coordinates
 typedef struct			s_room
 {
 	t_charkey			key;
-	t_btree				*bt_tubes;
-	t_array				*a_tubes;
+	t_mhmap				hm_tubes;
 	unsigned int		status;
-	t_coordinates		pos;
 }						t_room;
 
 /*
 ** free the t_room instance
 */
-void					ft_room_free(t_room *room);
+void					ft_room_refill_tubes(t_room *room);
 
 /*
 ** create a t_room instance
@@ -55,7 +44,8 @@ void					ft_room_free(t_room *room);
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*ft_room_construct(char *key, unsigned int status, int x, int y);
+t_room					*ft_room_initialize(char *key, unsigned int status,
+	int x, int y);
 
 /*
 ** create and add a tube from "OUT" to "IN" rooms

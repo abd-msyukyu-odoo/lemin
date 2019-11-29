@@ -12,74 +12,66 @@
 
 #include "lemin.h"
 
-void					ft_room_free(t_room *room)
+static char				*status_str(int status)
 {
-	int					i;
+	static char			**status_str = {"-I", "-O"};
 
-	if (!room)
-		return ;
-	i = room->a_tubes->n_items;
-	while (i-- > 0)
-		ft_tube_free((t_tube*)ft_array_get(room->a_tubes, i));
-	ft_array_free(room->a_tubes);
-	ft_btree_free(room->bt_tubes);
-	free(room->key.key);
-	free(room);
+	return (status_str[status % 2]);
 }
 
-t_room					*ft_room_construct(char *key, unsigned int status, int x, int y)
+void					room_refill_tubes(t_room *room)
+{
+	ft_mhmap_empty(&room->hm_tubes);
+}
+
+t_room					*room_initialize(char *key, unsigned int status
 {
 	t_room				*out;
 
-	out = (t_room*)malloc(sizeof(t_room));
+	out = (t_room*)ft_marray_inject(&lemin->a_rooms);
 	if (!out)
-		return (NULL);
-	out->a_tubes = ft_array_construct(0);
-	out->bt_tubes = ft_btree_construct(NULL);
+		lemin_error(LEMIN_MEM_ERR);
 	out->status = status;
 	out->key = (t_charkey){key};
-	if (!key || !out->a_tubes || !out->bt_tubes)
-	{
-		ft_room_free(out);
-		return (NULL);
-	}
-	out->pos = (t_coordinates){x, y};
+	if (!key || !ft_mhmap_initialize(&out->hm_tubes, lemin->mmng, 8,
+		ft_hmap_hash_addr))
+		lemin_error(LEMIN_MEM_ERR);
 	return (out);
 }
 
-int						ft_room_create_tube_oriented(t_room *out, t_room *in)
+char					*lemin_append_status(char *key, int status)
 {
-	t_tube				*tube;
+	size_t		l;
+	char		*out;
 
-	tube = ft_tube_construct(out, in, 1, 1);
-	if (!tube || !ft_tube_add_to_rooms(tube))
-	{
-		ft_tube_free(tube);
-		return (0);
-	}
-	return (1);
+	l = (key == NULL) ? 0 : ft_strlen(key);
+	out = ft_memanager_get(lemin->mmng, sizeof(char) * (l + 3));
+	if (!out)
+		lemin_error(LEMIN_MEM_ERR);
+	ft_memmove(out, key, l);
+	ft_memmove(out + l, status_str(status), 2);
+	out[l + 2] = '\0';
+	return (out);
 }
 
-int						ft_room_create_tube_pair(char *key1, char *key2,
+int						room_create_tube_pair(char *key1, char *key2,
 	t_btree *bt_rooms)
 {
 	t_room				*in;
 	t_room				*out;
 	char				*key;
-	int					result;
 
-	result = -1;
-	if (!(key = ft_strjoin(key1, IN)))
-		return (0);
-	in = (t_room*)ft_btree_get_data(bt_rooms, key);
-	free(key);
+	key = lemin_append_status(key1, LEMIN_IN);
+	in = ft_hmap_
+	in = (t_room*)ft_hmap_get_data(bt_rooms, key);
+	ft_memanager_refill(lemin->mmng, key);
 	if (!(key = ft_strjoin(key2, OUT)))
 		return (0);
 	out = (t_room*)ft_btree_get_data(bt_rooms, key);
 	free(key);
 	if (in && out)
-		result = ft_room_create_tube_oriented(out, in);
-	if (!result || !(key = ft_strjoin(key2, IN)))
+		ft_tube_add_to_rooms(ft_tube_initialize(out, in, 1, 1));
+	if (!(key = ft_strjoin(key2, IN)))
 		return (0);
 	in = (t_room*)ft_btree_get_data(bt_rooms, key);
 	free(key);
@@ -87,10 +79,10 @@ int						ft_room_create_tube_pair(char *key1, char *key2,
 		return (0);
 	out = (t_room*)ft_btree_get_data(bt_rooms, key);
 	free(key);
-	return ((in && out) ? ft_room_create_tube_oriented(out, in) : result);
+	return ((in && out) ? ft_room_create_tube_oriented(out, in) : -1);
 }
 
-static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
+static t_room			*room_create_extrema(char *key, t_btree *bt_rooms,
 	unsigned int status, t_coordinates pos)
 {
 	t_room				*extrema;
@@ -110,12 +102,12 @@ static t_room			*ft_room_create_extrema(char *key, t_btree *bt_rooms,
 	return (extrema);
 }
 
-t_room					*ft_room_create_start(char *key, t_btree *bt_rooms, int x, int y)
+t_room					*room_create_start(char *key, t_btree *bt_rooms, int x, int y)
 {
 	return (ft_room_create_extrema(key, bt_rooms, 1, (t_coordinates){x, y}));
 }
 
-t_room					*ft_room_create_end(char *key, t_btree *bt_rooms, int x, int y)
+t_room					*room_create_end(char *key, t_btree *bt_rooms, int x, int y)
 {
 	return (ft_room_create_extrema(key, bt_rooms, 0, (t_coordinates){x, y}));
 }

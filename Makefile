@@ -22,7 +22,7 @@ THISHEAD	= ./inc
 
 MAIN_F		= main
 
-ALGO_F		= 
+PRINT_F		= error
 			  
 STRUCTS_F	= 
 
