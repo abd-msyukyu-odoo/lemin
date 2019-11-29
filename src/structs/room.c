@@ -14,7 +14,7 @@
 
 static char				*status_str(int status)
 {
-	static char			**status_str = {"-I", "-O"};
+	static char			*status_str[LEMIN_SIZE_SUFFIX] = {"-I", "-O"};
 
 	return (status_str[status % 2]);
 }
@@ -74,7 +74,7 @@ static t_room			*get_room_status(char *key, int status)
 	t_charkey			ckey;
 
 	ckey.key = (status > -1) ? lemin_append_status(key, status) : key;
-	output = ft_hmap_get(&lemin->hm_rooms, &ckey, room_equals);
+	output = ft_hmap_get((t_hmap*)&lemin->hm_rooms, &ckey, room_equals);
 	ft_memanager_refill(lemin->mmng, ckey.key);
 	return (output);
 }
@@ -84,7 +84,7 @@ t_room					*get_room(char *key)
 	t_charkey			ckey;
 
 	ckey.key = key;
-	return (ft_hmap_get(&lemin->hm_rooms, &ckey, room_equals));
+	return (ft_hmap_get((t_hmap*)&lemin->hm_rooms, &ckey, room_equals));
 }
 
 static int				room_is_connected_iteration(void *receiver, void *sent)
@@ -105,12 +105,11 @@ static int				room_is_connected_iteration(void *receiver, void *sent)
 t_tube					*room_get_connection(t_room *r1, t_room *r2)
 {
 	t_room_wrapper		wrapper;
-	int					out;
 
 	wrapper.r1 = r1;
 	wrapper.r2 = r2;
 	wrapper.tube = NULL;
-	ft_hmap_bnode_iteration(&wrapper, &r1->hm_tubes,
+	ft_hmap_bnode_iteration(&wrapper, (t_hmap*)&r1->hm_tubes,
 		room_is_connected_iteration);
 	return (wrapper.tube);
 }
@@ -147,7 +146,7 @@ static t_room			*room_firewall_initialize(char *key,
 
 	charkey.key = lemin_append_status(key, status);
 	out = NULL;
-	if (!ft_hmap_contains_key(&lemin->hm_rooms, charkey.key, room_equals))
+	if (!ft_hmap_contains_key((t_hmap*)&lemin->hm_rooms, charkey.key, room_equals))
 		out = room_initialize(charkey.key, status);
 	else
 		ft_memanager_refill(lemin->mmng, charkey.key);

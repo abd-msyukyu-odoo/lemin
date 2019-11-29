@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   lemin_error.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#ifndef LEMIN_ERROR_H
+# define LEMIN_ERROR_H
 # define LEMIN_ERR_MEM -1
 # define LEMIN_ERR_INSUFFICIENT_DATA -2
+# define LEMIN_SIZE_ERR_MSG 30
 
 void			lemin_error(int error);
+char			*error_msg(int error);
 
 #endif

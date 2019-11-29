@@ -34,10 +34,10 @@ int					tube_equals(void *o1, void *o2)
 
 	t1 = (t_tube*)o1;
 	t2 = (t_tube*)o2;
-	if ((equals_room(t1->room1, t2->room1) &&
-			equals_room(t1->room2, t2->room2)) ||
-		(equals_room(t1->room2, t2->room1) &&
-			equals_room(t1->room1, t2->room2)))
+	if ((room_equals(t1->room1, t2->room1) &&
+			room_equals(t1->room2, t2->room2)) ||
+		(room_equals(t1->room2, t2->room1) &&
+			room_equals(t1->room1, t2->room2)))
 		return (1);
 	return (0);
 }

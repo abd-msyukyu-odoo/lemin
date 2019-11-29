@@ -16,6 +16,7 @@
 # include "structs/charkey.h"
 # define LEMIN_IN 0
 # define LEMIN_OUT 1
+# define LEMIN_SIZE_SUFFIX 3
 
 /*
 ** key : contains the char *key which is the id of the t_room item
@@ -32,13 +33,6 @@ typedef struct			s_room
 	t_mhmap				hm_tubes;
 	unsigned int		status;
 }						t_room;
-
-typedef struct			s_room_wrapper
-{
-	t_room				*r1;
-	t_room				*r2;
-	t_tube				*tube;
-}						t_room_wrapper;
 
 int						room_equals(void *o1, void *o2);
 
@@ -94,7 +88,5 @@ t_room					*room_create_end(char *key);
 ** 	0 : error
 */
 int						room_create_pair(char *key);
-
-t_tube					*room_get_connection(t_room *r1, t_room *r2);
 
 #endif

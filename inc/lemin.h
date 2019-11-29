@@ -13,7 +13,7 @@
 #ifndef LEMIN_H
 # define LEMIN_H
 # include "libft.h"
-# include "print/error.h"
+# include "print/lemin_error.h"
 # include "structs/charkey.h"
 # include "structs/global.h"
 # include "structs/room.h"

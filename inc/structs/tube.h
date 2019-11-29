@@ -37,6 +37,13 @@ typedef struct			s_tube
 	int					cost;
 }						t_tube;
 
+typedef struct			s_room_wrapper
+{
+	t_room				*r1;
+	t_room				*r2;
+	t_tube				*tube;
+}						t_room_wrapper;
+
 int						tube_equals(void *o1, void *o2);
 
 /*
@@ -63,5 +70,7 @@ void					tube_add_to_rooms(t_tube *tube);
 ** 	NULL : error
 */
 t_room					*tube_get_connection(t_tube *tube, t_room *room);
+
+t_tube					*room_get_connection(t_room *r1, t_room *r2);
 
 #endif

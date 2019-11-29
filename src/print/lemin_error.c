@@ -12,9 +12,9 @@
 
 #include "lemin.h"
 
-static char		*error_msg(int error)
+char			*error_msg(int error)
 {
-	static char	**errors = {
+	static char	*errors[LEMIN_SIZE_ERR_MSG] = {
 		"MEMORY ERROR",
 		"ERROR"};
 
@@ -23,7 +23,7 @@ static char		*error_msg(int error)
 
 void			lemin_error(int error)
 {
-	free_global();
+	global_free();
 	ft_printf("%s\n", error_msg(error));
 	exit(EXIT_FAILURE);
 }

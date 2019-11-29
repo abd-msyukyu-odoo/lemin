@@ -10,7 +10,7 @@ void			display_tubes(t_array *a)
 {
 	t_tube		*tube;
 
-	for (int i = 0; i < a->n_items; ++i)
+	for (size_t i = 0; i < a->n_items; ++i)
 	{
 		tube = (t_tube*)ft_array_get(a, i);
 		ft_printf("%s - %s\n", tube->room1->key.key, tube->room2->key.key);
@@ -21,7 +21,7 @@ void			display_rooms(t_array *a)
 {
 	t_room		*room;
 
-	for (int i = 0; i < a->n_items; ++i)
+	for (size_t i = 0; i < a->n_items; ++i)
 	{
 		room = (t_room*)ft_array_get(a, i);
 		ft_printf("%s\n", room->key.key);
@@ -32,7 +32,7 @@ int				show_room(void *receiver, void *sent)
 {
 	if (!receiver)
 	{
-		printf("%s\n", ((t_room*)sent)->key.key);
+		ft_printf("%s\n", ((t_room*)sent)->key.key);
 		return (1);
 	}
 	return (0);
@@ -58,7 +58,7 @@ int				main(void)
 	room_create_tube_pair(&(in[0]), &(in[25]));
 	room_create_tube_pair(&(in[25]), &(in[1]));
 	display_tubes((t_array*)&lemin->a_tubes);
-	display_rooms(&lemin->a_rooms);
+	display_rooms((t_array*)&lemin->a_rooms);
 	display_hm(&lemin->hm_rooms, show_room);
 	global_free();
 	return (0);

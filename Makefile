@@ -20,16 +20,19 @@ LIBHEAD		= ./libft/includes
 
 THISHEAD	= ./inc
 
-PRINT_F		= error
+PRINT_F		= lemin_error
 			  
 STRUCTS_F	= global \
 			  room \
 			  tube
 
+MAIN_F		= test_room
+
 O_FILES		= $(addsuffix .o, \
 			  	$(addprefix ./src/, \
-					$(addprefix algo/, $(ALGO_F)) \
-					$(addprefix structs/, $(STRUCTS_F))))
+					$(addprefix print/, $(PRINT_F)) \
+					$(addprefix structs/, $(STRUCTS_F))) \
+				$(addprefix tests/, $(MAIN_F)))
 
 END_E		= \033[00m
 RED_E		= \033[01;31m

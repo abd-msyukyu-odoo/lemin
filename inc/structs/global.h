@@ -15,6 +15,7 @@
 # define BF_SIZE 32
 # include "libft.h"
 # include "structs/room.h"
+# include "structs/tube.h"
 
 typedef struct	s_global
 {
