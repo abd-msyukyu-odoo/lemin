@@ -33,12 +33,21 @@ typedef struct			s_room
 	unsigned int		status;
 }						t_room;
 
-int						equals_room(void *o1, void *o2);
+typedef struct			s_room_wrapper
+{
+	t_room				*r1;
+	t_room				*r2;
+	int					found;
+}						t_room_wrapper;
+
+int						room_equals(void *o1, void *o2);
 
 /*
 ** free the t_room instance
 */
-void					ft_room_refill_tubes(t_room *room);
+void					room_refill(t_room *room);
+
+void					room_refill_tubes(t_room *room);
 
 /*
 ** create a t_room instance
@@ -46,16 +55,9 @@ void					ft_room_refill_tubes(t_room *room);
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*ft_room_initialize(char *key, unsigned int status,
-	int x, int y);
+t_room					*room_initialize(char *key, unsigned int status);
 
-/*
-** create and add a tube from "OUT" to "IN" rooms
-** return :
-** 	1 : success
-** 	0 : error
-*/
-int						ft_room_create_tube_oriented(t_room *out, t_room *in);
+t_room					*get_room(char *key);
 
 /*
 ** create and add a pair of tube, one from key1 relative "OUT" room to 
@@ -66,8 +68,7 @@ int						ft_room_create_tube_oriented(t_room *out, t_room *in);
 ** 	0 : error
 ** -1 : no tube added
 */
-int						ft_room_create_tube_pair(char *key1, char *key2,
-							t_btree *bt_rooms);
+int						room_create_tube_pair(char *key1, char *key2);
 
 /*
 ** create an OUT starting room and add it to a binary tree
@@ -75,7 +76,7 @@ int						ft_room_create_tube_pair(char *key1, char *key2,
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*ft_room_create_start(char *key, t_btree *bt_rooms, int x, int y);
+t_room					*room_create_start(char *key);
 
 /*
 ** create an IN ending room and add it to a binary tree
@@ -83,7 +84,7 @@ t_room					*ft_room_create_start(char *key, t_btree *bt_rooms, int x, int y);
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*ft_room_create_end(char *key, t_btree *bt_rooms, int x, int y);
+t_room					*room_create_end(char *key);
 
 /*
 ** create the IN and OUT rooms corresponding to key and add them to a binary 
@@ -92,6 +93,6 @@ t_room					*ft_room_create_end(char *key, t_btree *bt_rooms, int x, int y);
 ** 	1 : success
 ** 	0 : error
 */
-int						ft_room_create_pair(char *key, t_btree *bt_rooms, int x, int y);
+int						room_create_pair(char *key);
 
 #endif

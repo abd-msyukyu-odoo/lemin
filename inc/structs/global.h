@@ -30,7 +30,7 @@ typedef struct	s_global
 **  s_global
 **  2 functions
 */
-int				construct_global(void);
-void			free_global(void);
+int				global_construct(void);
+void			global_free(void);
 
 #endif

@@ -19,7 +19,7 @@ t_tube				*tube_initialize(t_room *room1, t_room *room2,
 
 	out = (t_tube*)ft_marray_inject(&lemin->a_tubes);
 	if (!out)
-		lemin_error(LEMIN_MEM_ERR);
+		lemin_error(LEMIN_ERR_MEM);
 	out->direction = direction;
 	out->cost = cost;
 	out->room1 = room1;
@@ -27,12 +27,26 @@ t_tube				*tube_initialize(t_room *room1, t_room *room2,
 	return (out);
 }
 
+int					tube_equals(void *o1, void *o2)
+{
+	t_tube			*t1;
+	t_tube			*t2;
+
+	t1 = (t_tube*)o1;
+	t2 = (t_tube*)o2;
+	if ((equals_room(t1->room1, t2->room1) &&
+			equals_room(t1->room2, t2->room2)) ||
+		(equals_room(t1->room2, t2->room1) &&
+			equals_room(t1->room1, t2->room2)))
+		return (1);
+	return (0);
+}
+
 void				tube_add_to_rooms(t_tube *tube)
 {
-	
 	if (!ft_mhmap_add(&tube->room1->hm_tubes, tube) ||
 		!ft_mhmap_add(&tube->room2->hm_tubes, tube))
-		lemin_error(LEMIN_MEM_ERR);
+		lemin_error(LEMIN_ERR_MEM);
 }
 
 t_room				*tube_get_connection(t_tube *tube, t_room *room)

@@ -12,7 +12,8 @@
 
 #ifndef ERROR_H
 # define ERROR_H
-# define LEMIN_MEM_ERR -1
+# define LEMIN_ERR_MEM -1
+# define LEMIN_ERR_INSUFFICIENT_DATA -2
 
 void			lemin_error(int error);
 

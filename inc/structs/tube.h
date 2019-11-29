@@ -16,7 +16,9 @@
 # include "libft.h"
 # include "structs/room.h"
 # include "structs/charkey.h"
-
+# define LEMIN_DIR_NATURAL 1
+# define LEMIN_DIR_BOTH 0
+# define LEMIN_DIR_REVERSE -1
 
 /*
 ** room1 : first room of the tube
@@ -35,13 +37,15 @@ typedef struct			s_tube
 	int					cost;
 }						t_tube;
 
+int						tube_equals(void *o1, void *o2);
+
 /*
 ** create a t_tube instance
 ** return :
 ** 	t_tube* : created instance
 ** 	NULL : error
 */
-t_tube					*ft_tube_initialize(t_room *room1, t_room *room2,
+t_tube					*tube_initialize(t_room *room1, t_room *room2,
 	int direction, int cost);
 
 /*
@@ -50,7 +54,7 @@ t_tube					*ft_tube_initialize(t_room *room1, t_room *room2,
 ** 	1 : success
 **	0 : error
 */
-int						ft_tube_add_to_rooms(t_tube *tube);
+void					tube_add_to_rooms(t_tube *tube);
 
 /*
 ** get the room connected to room with tube
@@ -58,6 +62,6 @@ int						ft_tube_add_to_rooms(t_tube *tube);
 ** 	t_room* : connected room
 ** 	NULL : error
 */
-t_room					*ft_tube_get_connection(t_tube *tube, t_room *room);
+t_room					*tube_get_connection(t_tube *tube, t_room *room);
 
 #endif

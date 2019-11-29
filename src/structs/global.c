@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-int			construct_global(void)
+int			global_construct(void)
 {
 	if (!(lemin = (t_global*)malloc(sizeof(t_global))) ||
 		!(lemin->mmng = ft_memanager_construct_default()) ||
@@ -27,7 +27,14 @@ int			construct_global(void)
 	return (1);
 }
 
-void		free_global(void)
+void		global_construct_hashmap_rooms(size_t n_rooms)
+{
+	if (!ft_mhmap_initialize(&lemin->hm_rooms, lemin->mmng, n_rooms,
+		ft_hmap_hash_ascii))
+		lemin_error(LEMIN_ERR_MEM);
+}
+
+void		global_free(void)
 {
 	if (lemin)
 	{
