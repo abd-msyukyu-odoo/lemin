@@ -24,7 +24,7 @@ void					room_refill_tubes(t_room *room)
 	ft_mhmap_empty(&room->hm_tubes);
 }
 
-t_room					*room_initialize(char *key, unsigned int status
+t_room					*room_initialize(char *key, unsigned int status)
 {
 	t_room				*out;
 
@@ -39,7 +39,7 @@ t_room					*room_initialize(char *key, unsigned int status
 	return (out);
 }
 
-char					*lemin_append_status(char *key, int status)
+static char				*lemin_append_status(char *key, int status)
 {
 	size_t		l;
 	char		*out;
@@ -54,32 +54,44 @@ char					*lemin_append_status(char *key, int status)
 	return (out);
 }
 
-int						room_create_tube_pair(char *key1, char *key2,
-	t_btree *bt_rooms)
+int						equals_room(void *o1, void *o2)
+{
+	return (!ft_strcmp(((t_room*)o1)->key.key, ((t_room*)o2)->key.key));
+}
+
+static t_room			*get_room_status(char *key, int status)
+{
+	t_room				*output;
+	t_charkey			ckey;
+
+	ckey.key = (status > -1) ? lemin_append_status(key, status) : key;
+	output = ft_hmap_get(&lemin->hm_rooms, &ckey, equals_room);
+	ft_memanager_refill(lemin->mmng, ckey.key);
+	return (output);
+}
+
+t_room					*get_room(char *key)
+{
+	t_charkey			ckey;
+
+	ckey.key = key;
+	return (ft_hmap_get(&lemin->hm_rooms, &ckey, equals_room));
+}
+
+int						room_create_tube_pair(char *key1, char *key2)
 {
 	t_room				*in;
 	t_room				*out;
-	char				*key;
+	int					
 
-	key = lemin_append_status(key1, LEMIN_IN);
-	in = ft_hmap_
-	in = (t_room*)ft_hmap_get_data(bt_rooms, key);
-	ft_memanager_refill(lemin->mmng, key);
-	if (!(key = ft_strjoin(key2, OUT)))
-		return (0);
-	out = (t_room*)ft_btree_get_data(bt_rooms, key);
-	free(key);
+	in = get_room_status(key1, LEMIN_IN);
+	out = get_room_status(key2, LEMIN_OUT);
 	if (in && out)
-		ft_tube_add_to_rooms(ft_tube_initialize(out, in, 1, 1));
-	if (!(key = ft_strjoin(key2, IN)))
-		return (0);
-	in = (t_room*)ft_btree_get_data(bt_rooms, key);
-	free(key);
-	if (!(key = ft_strjoin(key1, OUT)))
-		return (0);
-	out = (t_room*)ft_btree_get_data(bt_rooms, key);
-	free(key);
-	return ((in && out) ? ft_room_create_tube_oriented(out, in) : -1);
+		tube_add_to_rooms(tube_initialize(out, in, 1, 1));
+	in = get_room_status(key2, LEMIN_IN);
+	out = get_room_status(key1, LEMIN_OUT);
+	if (in && out)
+		tube_add_to_rooms(tube_initialize(out, in, 1, 1));
 }
 
 static t_room			*room_create_extrema(char *key, t_btree *bt_rooms,
@@ -112,7 +124,7 @@ t_room					*room_create_end(char *key, t_btree *bt_rooms, int x, int y)
 	return (ft_room_create_extrema(key, bt_rooms, 0, (t_coordinates){x, y}));
 }
 
-int						ft_room_create_pair(char *key, t_btree *bt_rooms, int x, int y)
+int						room_create_pair(char *key, t_btree *bt_rooms, int x, int y)
 {
 	t_room				*in;
 	t_room				*out;

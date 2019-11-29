@@ -15,7 +15,8 @@
 static char		*error_msg(int error)
 {
 	static char	**errors = {
-		"memory error"};
+		"MEMORY ERROR",
+		"ERROR"};
 
 	return (errors[-1 - error]);
 }

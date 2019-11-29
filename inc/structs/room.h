@@ -33,6 +33,8 @@ typedef struct			s_room
 	unsigned int		status;
 }						t_room;
 
+int						equals_room(void *o1, void *o2);
+
 /*
 ** free the t_room instance
 */

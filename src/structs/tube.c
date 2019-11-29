@@ -29,6 +29,7 @@ t_tube				*tube_initialize(t_room *room1, t_room *room2,
 
 void				tube_add_to_rooms(t_tube *tube)
 {
+	
 	if (!ft_mhmap_add(&tube->room1->hm_tubes, tube) ||
 		!ft_mhmap_add(&tube->room2->hm_tubes, tube))
 		lemin_error(LEMIN_MEM_ERR);
