@@ -13,7 +13,7 @@ void			display_tubes(t_array *a)
 	for (size_t i = 0; i < a->n_items; ++i)
 	{
 		tube = (t_tube*)ft_array_get(a, i);
-		ft_printf("%s - %s\n", tube->room1->key.key, tube->room2->key.key);
+		printf("%s - %s\n", tube->room1->key.key, tube->room2->key.key);
 	}
 }
 
@@ -24,7 +24,7 @@ void			display_rooms(t_array *a)
 	for (size_t i = 0; i < a->n_items; ++i)
 	{
 		room = (t_room*)ft_array_get(a, i);
-		ft_printf("%s\n", room->key.key);
+		printf("%s\n", room->key.key);
 	}
 }
 
@@ -32,7 +32,7 @@ int				show_room(void *receiver, void *sent)
 {
 	if (!receiver)
 	{
-		ft_printf("%s\n", ((t_room*)sent)->key.key);
+		printf("%s\n", ((t_room*)sent)->key.key);
 		return (1);
 	}
 	return (0);
@@ -47,7 +47,7 @@ int				main(void)
 {
 	if (!global_construct())
 	{
-		ft_printf("%s\n", error_msg(LEMIN_ERR_MEM));
+		printf("%s\n", error_msg(LEMIN_ERR_MEM));
 		exit(EXIT_FAILURE);
 	}
 	global_construct_hashmap_rooms(4);

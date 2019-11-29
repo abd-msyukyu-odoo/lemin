@@ -19,6 +19,8 @@
 # include "structs/room.h"
 # include "structs/tube.h"
 
+# include <stdio.h>
+
 extern t_global		*lemin;
 
 #endif

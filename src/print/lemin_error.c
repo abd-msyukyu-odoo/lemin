@@ -24,6 +24,6 @@ char			*error_msg(int error)
 void			lemin_error(int error)
 {
 	global_free();
-	ft_printf("%s\n", error_msg(error));
+	printf("%s\n", error_msg(error));
 	exit(EXIT_FAILURE);
 }
