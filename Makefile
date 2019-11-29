@@ -12,6 +12,13 @@
 
 NAME		= lem-in
 
+OSMAKE		:= 
+ifeq ($(OS),Windows_NT)
+	OSMAKE = mingw32-make.exe
+else
+	OSMAKE = make
+endif
+
 CC			= gcc
 
 CFLAGS		= -Wall -Wextra -Werror -O3
@@ -45,7 +52,7 @@ BOLD_E		= \033[1m
 UNDERLINE_E	= \033[4m
 
 $(NAME):	$(O_FILES)
-			@make -C libft/
+			@$(OSMAKE) -C libft/
 			@gcc -o $(NAME) $(O_FILES) -L./libft/ -lft
 			@echo "$(GREEN_E)end compilation$(END_E)"
 
@@ -56,12 +63,12 @@ all:		$(NAME)
 
 clean:
 			@rm -f $(O_FILES)
-			@make -C libft/ clean
+			@$(OSMAKE) -C libft/ clean
 			@echo "$(PURPLE_E)end clean$(END_E)"
 
 fclean:		clean
 			@rm -f $(NAME)
-			@make -C libft/ fclean
+			@$(OSMAKE) -C libft/ fclean
 			@echo "$(RED_E)end fclean$(END_E)"
 
 re:			fclean all
