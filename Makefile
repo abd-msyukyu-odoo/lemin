@@ -20,15 +20,14 @@ LIBHEAD		= ./libft/includes
 
 THISHEAD	= ./inc
 
-MAIN_F		= main
-
 PRINT_F		= error
 			  
-STRUCTS_F	= 
+STRUCTS_F	= global \
+			  room \
+			  tube
 
 O_FILES		= $(addsuffix .o, \
 			  	$(addprefix ./src/, \
-					$(MAIN_F) \
 					$(addprefix algo/, $(ALGO_F)) \
 					$(addprefix structs/, $(STRUCTS_F))))
 

@@ -4,81 +4,62 @@
 
 char		*in = "hivadeyfbcgopzwxklmjtunqsr";
 
-void			display_array(t_array *a)
+t_global	*lemin = NULL;
+
+void			display_tubes(t_array *a)
 {
+	t_tube		*tube;
+
 	for (int i = 0; i < a->n_items; ++i)
 	{
-		printf("%s \n", ((t_charkey*)ft_array_get(a, i))->key);
-	}
-	printf("n_items : %d\nsize : %d\n", a->n_items, a->size);
-}
-
-char			*char_btree(t_btree *btree)
-{
-	if (btree == NULL)
-	{
-		return ("(null)");
-	}
-	else
-	{
-		return (btree->data->key);
+		tube = (t_tube*)ft_array_get(a, i);
+		ft_printf("%s - %s\n", tube->room1->key.key, tube->room2->key.key);
 	}
 }
 
-void			display_btree(t_btree *b, unsigned int verbose)
+void			display_rooms(t_array *a)
 {
-	if (!b)
-		return ;
-	display_btree(b->left, verbose);
-	printf("%s\n", b->data->key);
-	if (verbose)
-	{
-		printf("	left= %s\n	right= %s\n", char_btree(b->left), char_btree(b->right));
-	}
-	display_btree(b->right, verbose);
-}
-
-void			display_tubes(t_btree *bt_rooms)
-{
-	t_array		*a;
 	t_room		*room;
 
-	a = ft_array_construct(0);
-	ft_btree_fill_array(bt_rooms, a);
 	for (int i = 0; i < a->n_items; ++i)
 	{
 		room = (t_room*)ft_array_get(a, i);
-		printf("%s\n", room->key.key);
-		display_array(room->a_tubes);
+		ft_printf("%s\n", room->key.key);
 	}
-	ft_array_free(a);
 }
 
-void			free_test(t_btree *bt_rooms)
+int				show_room(void *receiver, void *sent)
 {
-	t_array		*a;
+	if (!receiver)
+	{
+		printf("%s\n", ((t_room*)sent)->key.key);
+		return (1);
+	}
+	return (0);
+}
 
-	a = ft_array_construct(0);
-	ft_btree_fill_array(bt_rooms, a);
-	for (int i = 0; i < a->n_items; i++)
-		ft_room_free((t_room*)ft_array_get(a, i));
-	ft_array_free(a);
-	ft_btree_free(bt_rooms);
+void			display_hm(t_mhmap *mhmap, int (*f)(void *receiver, void *sent))
+{
+	ft_hmap_bnode_iteration(NULL, (t_hmap*)mhmap, f);
 }
 
 int				main(void)
 {
-	t_btree		*bt_rooms;
-
-	bt_rooms = ft_btree_construct(NULL);
-	ft_room_create_start(ft_strdup(&(in[0])), bt_rooms, 0, 0);
-	ft_room_create_end(ft_strdup(&(in[25])), bt_rooms, 0, 0);
-	ft_room_create_pair(ft_strdup(&(in[1])), bt_rooms, 0, 0);
-	ft_room_create_tube_pair(&(in[0]), &(in[1]), bt_rooms);
-	ft_room_create_tube_pair(&(in[0]), &(in[25]), bt_rooms);
-	ft_room_create_tube_pair(&(in[25]), &(in[1]), bt_rooms);
-	display_tubes(bt_rooms);
-	display_btree(bt_rooms, 1);
-	free_test(bt_rooms);
+	if (!global_construct())
+	{
+		ft_printf("%s\n", error_msg(LEMIN_ERR_MEM));
+		exit(EXIT_FAILURE);
+	}
+	global_construct_hashmap_rooms(4);
+	room_create_start(&(in[0]));
+	room_create_end(&(in[25]));
+	room_create_pair(&(in[1]));
+	room_create_tube_pair(&(in[0]), &(in[1]));
+	room_create_tube_pair(&(in[0]), &(in[25]));
+	room_create_tube_pair(&(in[25]), &(in[1]));
+	display_tubes((t_array*)&lemin->a_tubes);
+	display_rooms(&lemin->a_rooms);
+	display_hm(&lemin->hm_rooms, show_room);
+	global_free();
 	return (0);
 }

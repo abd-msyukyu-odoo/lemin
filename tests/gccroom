@@ -1,0 +1,4 @@
+gcc -g -fsanitize=address -o test test_room.c -I../inc -L../libft -lft 
+./test
+rm test
+rm -rf test.dSYM

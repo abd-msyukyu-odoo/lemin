@@ -31,6 +31,7 @@ typedef struct	s_global
 **  2 functions
 */
 int				global_construct(void);
+void			global_construct_hashmap_rooms(size_t n_rooms);
 void			global_free(void);
 
 #endif

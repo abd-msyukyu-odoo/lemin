@@ -17,7 +17,6 @@
 # include "structs/charkey.h"
 # include "structs/global.h"
 # include "structs/room.h"
-# include "structs/track.h"
 # include "structs/tube.h"
 
 extern t_global		*lemin;

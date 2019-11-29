@@ -37,7 +37,7 @@ typedef struct			s_room_wrapper
 {
 	t_room				*r1;
 	t_room				*r2;
-	int					found;
+	t_tube				*tube;
 }						t_room_wrapper;
 
 int						room_equals(void *o1, void *o2);
@@ -94,5 +94,7 @@ t_room					*room_create_end(char *key);
 ** 	0 : error
 */
 int						room_create_pair(char *key);
+
+t_tube					*room_get_connection(t_room *r1, t_room *r2);
 
 #endif

@@ -96,23 +96,23 @@ static int				room_is_connected_iteration(void *receiver, void *sent)
 	wrapper = (t_room_wrapper*)receiver;
 	if (wrapper->r1 == tube_get_connection(t, wrapper->r2))
 	{
-		wrapper->found = 1;
+		wrapper->tube = t;
 		return (0);
 	}
 	return (1);
 }
 
-int						room_connect_to(t_room *r1, t_room *r2)
+t_tube					*room_get_connection(t_room *r1, t_room *r2)
 {
 	t_room_wrapper		wrapper;
 	int					out;
 
 	wrapper.r1 = r1;
 	wrapper.r2 = r2;
-	wrapper.found = 0;
+	wrapper.tube = NULL;
 	ft_hmap_bnode_iteration(&wrapper, &r1->hm_tubes,
 		room_is_connected_iteration);
-	return (wrapper.found);
+	return (wrapper.tube);
 }
 
 int						room_create_tube_pair(char *key1, char *key2)
@@ -124,14 +124,14 @@ int						room_create_tube_pair(char *key1, char *key2)
 	in = get_room_status(key1, LEMIN_IN);
 	out = get_room_status(key2, LEMIN_OUT);
 	output = 0;
-	if (in && out && !room_connect_to(out, in))
+	if (in && out && !room_get_connection(out, in))
 	{
 		tube_add_to_rooms(tube_initialize(out, in, LEMIN_DIR_NATURAL, 1));
 		output |= 1;
 	}
 	in = get_room_status(key2, LEMIN_IN);
 	out = get_room_status(key1, LEMIN_OUT);
-	if (in && out && !room_connect_to(out, in))
+	if (in && out && !room_get_connection(out, in))
 	{
 		tube_add_to_rooms(tube_initialize(out, in, LEMIN_DIR_NATURAL, 1));
 		output |= 1;
@@ -168,12 +168,14 @@ static t_room			*room_create_extrema(char *key, unsigned int status)
 
 t_room					*room_create_start(char *key)
 {
-	return (room_create_extrema(key, LEMIN_OUT));
+	lemin->start = room_create_extrema(key, LEMIN_OUT);
+	return (lemin->start);
 }
 
 t_room					*room_create_end(char *key)
 {
-	return (room_create_extrema(key, LEMIN_IN));
+	lemin->end = room_create_extrema(key, LEMIN_IN);
+	return (lemin->end);
 }
 
 int						room_create_pair(char *key)
@@ -183,7 +185,7 @@ int						room_create_pair(char *key)
 
 	in = room_firewall_initialize(key, LEMIN_IN);
 	out = room_firewall_initialize(key, LEMIN_OUT);
-	if (!in || !out || room_connect_to(in, out))
+	if (!in || !out || room_get_connection(in, out))
 		return (0);
 	tube_add_to_rooms(tube_initialize(in, out, LEMIN_DIR_NATURAL, 0));
 	return (1);
