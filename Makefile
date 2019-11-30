@@ -54,22 +54,24 @@ UNDERLINE_E	= \033[4m
 $(NAME):	$(O_FILES)
 			@$(OSMAKE) -C libft/
 			@gcc -o $(NAME) $(O_FILES) -L./libft/ -lft
-			@echo "$(GREEN_E)end compilation$(END_E)"
+			@echo "$(GREEN_E)end compilation : $(NAME)$(END_E)"
 
 all:		$(NAME)
 
 %.o:		%.c
 			@$(CC) $(CFLAGS) -c -o $@ $< -I$(LIBHEAD) -I$(THISHEAD)
 
-clean:
+lemclean:
 			@rm -f $(O_FILES)
-			@$(OSMAKE) -C libft/ clean
-			@echo "$(PURPLE_E)end clean$(END_E)"
+			@echo "$(PURPLE_E)end clean : $(NAME)$(END_E)"
 
-fclean:		clean
+clean:		lemclean
+			@$(OSMAKE) -C libft/ clean
+
+fclean:		lemclean
 			@rm -f $(NAME)
 			@$(OSMAKE) -C libft/ fclean
-			@echo "$(RED_E)end fclean$(END_E)"
+			@echo "$(RED_E)end fclean : $(NAME)$(END_E)"
 
 re:			fclean all
 
