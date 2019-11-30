@@ -1,3 +1,59 @@
 proteger tous les refill lemin ? pas forcement utile mais on perd des addresses
 
--> itoa with memanager
+
+modifier ft_read pour pouvoir parametrer la recherche de lecture
+
+
+algo_lecture
+
+lire jusque \n
+l1 : uniquement nombre (autre = ERROR)
+	-> f(espace, nombre, espace)
+
+1 -> lire jusque # || - || \0
+-> si #
+	-> lire les rooms f(espace, (!L#)non-espace, espace, nombre, espace, nombre, espace)
+		-> si doublon room || ligne vide || erronnee || \0
+			-> ERROR
+	-> au # nouvelle lecture jusque \n || \0
+	-> si commence par #
+		-> si commande connue 
+			-> si commande valide (pas 2x start ou 2x end)
+				-> nouvelle lecture jusque \n
+				-> lire 1 room
+				-> si room valide
+					-> COMMANDE
+					-> REDO 1
+				-> sinon
+					-> ERROR
+			-> sinon
+				-> ERROR
+		-> sinon si \n
+			-> REDO 1
+		-> si \0
+			-> ERROR
+	-> sinon si \n
+		-> REDO 1
+	-> si \0
+		-> ERROR
+-> si -
+	-> si !start || !end
+		-> ERROR
+	-> lire les rooms avec recherche du - en firewall
+		-> si doublon room || ligne vide
+			-> ERROR
+	-> lire jusque \n || \0 (la suite du -) f(espace, (!L#)non-espace, espace, -, espace, (!L#)non-espace, espace)
+		-> lire 1 tube
+		-> si doublon tube || ligne vide || erronnee
+			-> ERROR
+		-> si \0
+			-> STOP
+	2 -> lire jusque # || \0
+	-> lire les tubes f(espace, (!L#)non-espace, espace, -, espace, (!L#)non-espace, espace)
+		-> si doublon tube || ligne vide || erronnee || \0
+			-> STOP (BFS devra dire si ERROR ou pas)
+	-> si #
+		-> lire jusque \n
+		-> REDO 2
+-> sinon
+	-> STOP
