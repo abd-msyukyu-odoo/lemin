@@ -20,9 +20,8 @@ typedef struct		s_ant
 	char			*key;
 }					t_ant;
 
-t_ant				*add_ant(t_ant *ant, int nb, t_p_elem *elem);
-void				new_ant(t_ant **ants, char *key);
-t_ant				*free_ant(t_ant *a);
-void				remove_ant(t_ant **address, t_ant *a);
+t_ant				*ant_add_new(t_ant *ant, int n, t_p_elem *elem);
+t_ant				*ant_refill_all(t_ant *a);
+void				ant_remove_refill(t_ant **address, t_ant *a);
 
 #endif

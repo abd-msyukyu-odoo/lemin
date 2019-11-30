@@ -1,9 +1,3 @@
--> corriger la base rework pour que le test compile, en utilisant memanager
-
--> inclure les fichier de lecture de la branche "optimisation_reading"
-
-
-
-
-
 proteger tous les refill lemin ? pas forcement utile mais on perd des addresses
+
+-> itoa with memanager

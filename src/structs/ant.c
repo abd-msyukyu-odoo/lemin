@@ -25,18 +25,15 @@
 **	@out:	a pointer on the new generated ant
 */
 
-t_ant	*add_ant(t_ant *ant, int nb, t_p_elem *elem)
+t_ant		*ant_add_new(t_ant *ant, int n, t_p_elem *elem)
 {
 	char	*s;
 	t_ant	*a;
 
-	if (!(s = ft_itoa(nb)))
-		return (free_ant(ant));
-	if (!(a = (t_ant *)malloc(sizeof(t_ant))))
-	{
-		free(s);
-		return (free_ant(ant));
-	}
+	if (!(s = ft_mitoa(n, lemin->mmng)))
+		lemin_error(LEMIN_ERR_MEM);
+	if (!(a = (t_ant *)ft_memanager_get(lemin->mmng, sizeof(t_ant))))
+		lemin_error(LEMIN_ERR_MEM);
 	a->actual_room = elem;
 	a->next = ant;
 	a->key = s;
@@ -53,12 +50,12 @@ t_ant	*add_ant(t_ant *ant, int nb, t_p_elem *elem)
 **	@out:	/
 */
 
-void	remove_ant(t_ant **address, t_ant *a)
+void		ant_remove_refill(t_ant **address, t_ant *a)
 {
 	*address = a->next;
-	free(a->key);
+	ft_memanager_refill(lemin->mmng, a->key);
 	a->next = NULL;
-	free(a);
+	ft_memanager_refill(lemin->mmng, a);
 }
 
 /*
@@ -70,12 +67,12 @@ void	remove_ant(t_ant **address, t_ant *a)
 **	@out:	NULL
 */
 
-t_ant	*free_ant(t_ant *a)
+t_ant		*ant_refill_all(t_ant *a)
 {
 	if (a->next)
-		a->next = free_ant(a->next);
+		a->next = ant_refill_all(a->next);
 	if (a->key)
-		free(a->key);
-	free(a);
+		ft_memanager_refill(lemin->mmng, a->key);
+	ft_memanager_refill(lemin->mmng, a);
 	return (NULL);
 }
