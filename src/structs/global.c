@@ -43,3 +43,24 @@ void		global_free(void)
 		free(lemin);
 	}
 }
+
+
+//ADDON
+
+t_global	*generate_global(void)
+{
+	t_global	*s;
+
+	if (!(s = (t_global *)malloc(sizeof(t_global))))
+		print(NULL);
+	if (!(s->buff = (char *)malloc(sizeof(char) * BF_SIZE)))
+	{
+		free(s);
+		return (NULL);
+	}
+	s->start = NULL;
+	s->end = NULL;
+	s->next_line = 0;
+	s->buff_pos = 0;
+	return (s);
+}
