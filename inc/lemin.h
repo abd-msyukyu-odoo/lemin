@@ -18,6 +18,9 @@
 # include "structs/global.h"
 # include "structs/room.h"
 # include "structs/tube.h"
+# include "read/reading.h"
+# include "structs/ant.h"
+# include "structs/path.h"
 
 # include <stdio.h>
 

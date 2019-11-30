@@ -13,16 +13,16 @@
 
 #include "lemin.h"
 
-t_p_elem	*free_p_elem(t_p_elem *elem)
+t_p_elem		*path_refill_elems(t_p_elem *elem)
 {
 	if (elem->next)
-		elem->next = free_p_elem(elem->next);
+		elem->next = path_refill_elems(elem->next);
 	elem->key = NULL;
-	free(elem);
+	ft_memanager_refill(lemin->mmng, elem);
 	return (NULL);
 }
 
-t_p_elem	*add_t_p_elem(t_p_elem *elem, char *key)
+t_p_elem		*p_elem_add(t_p_elem *elem, char *key)
 {
 	t_p_elem	*current;
 
@@ -31,8 +31,9 @@ t_p_elem	*add_t_p_elem(t_p_elem *elem, char *key)
 		current = elem;
 		while (current->next)
 			current = current->next;
-		if (!(current->next = (t_p_elem *)malloc(sizeof(t_p_elem))))
-			return (free_p_elem(elem));
+		if (!(current->next = (t_p_elem *)ft_memanager_get(lemin->mmng,
+			sizeof(t_p_elem))))
+			lemin_error(LEMIN_ERR_MEM);
 		current = current->next;
 		current->next = NULL;
 		current->key = key;
@@ -45,25 +46,23 @@ t_p_elem	*add_t_p_elem(t_p_elem *elem, char *key)
 	return (elem);
 }
 
-t_path		*remove_path(t_path *p)
+t_path			*path_refill_all(t_path *p)
 {
 	if (p->next)
-		p->next = remove_path(p->next);
-	p->elements = free_p_elem(p->elements);
-	free(p);
+		p->next = path_refill_elems(p->next);
+	p->elems = path_refill_elems(p->elems);
+	ft_memanager_refill(lemin->mmng, p);
 	return (NULL);
 }
 
-void		add_path(void *s, int nba, t_p_elem *elems)
+void			path_add_new(int n_ants, t_p_elem *elems)
 {
-	t_global	*g;
 	t_path		*p;
 
-	g = (t_global *)s;
-	if (!(p = (t_path *)malloc(sizeof(t_path))))
-		print(destroy_global(g));
-	p->nb_ants = nba;
-	p->next = g->paths;
-	g->paths = p;
-	p->elements = elems;
+	if (!(p = (t_path*)ft_memanager_get(lemin->mmng, sizeof(t_path))))
+		lemin_error(LEMIN_ERR_MEM);
+	p->n_ants = n_ants;
+	p->next = lemin->paths;
+	p->elems = elems;
+	lemin->paths = p;
 }

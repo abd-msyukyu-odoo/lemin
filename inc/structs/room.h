@@ -51,7 +51,7 @@ void					room_refill_tubes(t_room *room);
 */
 t_room					*room_initialize(char *key, unsigned int status);
 
-t_room					*get_room(char *key);
+t_room					*room_get(char *key);
 
 /*
 ** create and add a pair of tube, one from key1 relative "OUT" room to 

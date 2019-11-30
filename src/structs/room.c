@@ -54,7 +54,7 @@ static char				*lemin_append_status(char *key, int status)
 	char		*out;
 
 	l = (key == NULL) ? 0 : ft_strlen(key);
-	out = ft_memanager_get(lemin->mmng, sizeof(char) * (l + 3));
+	out = (char*)ft_memanager_get(lemin->mmng, sizeof(char) * (l + 3));
 	if (!out)
 		lemin_error(LEMIN_ERR_MEM);
 	ft_memmove(out, key, l);
@@ -68,7 +68,7 @@ int						room_equals(void *o1, void *o2)
 	return (!ft_strcmp(((t_room*)o1)->key.key, ((t_room*)o2)->key.key));
 }
 
-static t_room			*get_room_status(char *key, int status)
+static t_room			*room_get_status(char *key, int status)
 {
 	t_room				*output;
 	t_charkey			ckey;
@@ -79,7 +79,7 @@ static t_room			*get_room_status(char *key, int status)
 	return (output);
 }
 
-t_room					*get_room(char *key)
+t_room					*room_get(char *key)
 {
 	t_charkey			ckey;
 
@@ -120,16 +120,16 @@ int						room_create_tube_pair(char *key1, char *key2)
 	t_room				*out;
 	int					output;
 
-	in = get_room_status(key1, LEMIN_IN);
-	out = get_room_status(key2, LEMIN_OUT);
+	in = room_get_status(key1, LEMIN_IN);
+	out = room_get_status(key2, LEMIN_OUT);
 	output = 0;
 	if (in && out && !room_get_connection(out, in))
 	{
 		tube_add_to_rooms(tube_initialize(out, in, LEMIN_DIR_NATURAL, 1));
 		output |= 1;
 	}
-	in = get_room_status(key2, LEMIN_IN);
-	out = get_room_status(key1, LEMIN_OUT);
+	in = room_get_status(key2, LEMIN_IN);
+	out = room_get_status(key1, LEMIN_OUT);
 	if (in && out && !room_get_connection(out, in))
 	{
 		tube_add_to_rooms(tube_initialize(out, in, LEMIN_DIR_NATURAL, 1));

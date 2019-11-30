@@ -12,8 +12,6 @@
 
 #ifndef TUBE_H
 # define TUBE_H
-# include <stdlib.h>
-# include "libft.h"
 # include "structs/room.h"
 # include "structs/charkey.h"
 # define LEMIN_DIR_NATURAL 1

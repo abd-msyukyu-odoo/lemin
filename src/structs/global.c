@@ -15,15 +15,21 @@
 int			global_construct(void)
 {
 	if (!(lemin = (t_global*)malloc(sizeof(t_global))) ||
-		!(lemin->mmng = ft_memanager_construct_default()) ||
-		!(ft_marray_initialize(&lemin->a_rooms, lemin->mmng, 100,
+		!(lemin->mmng = ft_memanager_construct_default()))
+		return (0);
+	if (!(ft_marray_initialize(&lemin->a_rooms, lemin->mmng, 100,
 			sizeof(t_room))) ||
 		!(ft_marray_initialize(&lemin->a_tubes, lemin->mmng, 100,
-			sizeof(t_tube))))
-		return (0);
+			sizeof(t_tube))) ||
+		!(lemin->buff = (char*)ft_memanager_get(lemin->mmng,
+			BF_SIZE * sizeof(char))))
+		lemin_error(LEMIN_ERR_MEM);
 	lemin->hm_rooms.mmng = NULL;
 	lemin->start = NULL;
 	lemin->end = NULL;
+	lemin->nb_ants = 0;
+	lemin->next_line = 0;
+	lemin->buff_pos = 0;
 	return (1);
 }
 
@@ -42,25 +48,4 @@ void		global_free(void)
 			ft_memanager_free(lemin->mmng);
 		free(lemin);
 	}
-}
-
-
-//ADDON
-
-t_global	*generate_global(void)
-{
-	t_global	*s;
-
-	if (!(s = (t_global *)malloc(sizeof(t_global))))
-		print(NULL);
-	if (!(s->buff = (char *)malloc(sizeof(char) * BF_SIZE)))
-	{
-		free(s);
-		return (NULL);
-	}
-	s->start = NULL;
-	s->end = NULL;
-	s->next_line = 0;
-	s->buff_pos = 0;
-	return (s);
 }

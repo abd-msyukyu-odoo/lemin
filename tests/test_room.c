@@ -54,6 +54,7 @@ int				main(void)
 	if (!global_construct())
 	{
 		printf("%s\n", error_msg(LEMIN_ERR_MEM));
+		free(lemin);
 		exit(EXIT_FAILURE);
 	}
 	global_construct_hashmap_rooms(4);
