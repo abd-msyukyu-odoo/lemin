@@ -35,11 +35,14 @@ STRUCT_F	=	array_1 array_2 room_1 room_2 global tube path ant\
 
 PRINT_F		= start
 
+ALGO_F		= bfs_start bfs_tools
+
 O_FILES		= $(addprefix ./src/, $(addsuffix .o,\
 				$(MAIN_F) \
 				$(addprefix read/, $(READ_F)) \
 				$(addprefix structs/, $(STRUCT_F)) \
 				$(addprefix print/, $(PRINT_F)) \
+				$(addprefix algo/, $(ALGO_F)) \
 			))
 
 

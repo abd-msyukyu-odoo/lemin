@@ -27,6 +27,8 @@
 # include "print.h"
 # include "reading.h"
 
+# include "bfs.h"
+
 # include <stdio.h>
 
 #endif
