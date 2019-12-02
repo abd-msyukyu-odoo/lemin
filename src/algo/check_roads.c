@@ -1,12 +1,11 @@
 
 static      cr_find_other(t_room *a, t_room *b)
 {
-	// TODO: recupérer la globale
 	t_array         *roads;
 	unsigned int    i;
 	t_p_elem        *curr;
 
-	roads = g->bhandari; //TODO be sure of the lot
+	roads = lemin->bhandari; //TODO be sure of the lot
 	i = 0;
 	while (i < roads->size - 1)
 	{

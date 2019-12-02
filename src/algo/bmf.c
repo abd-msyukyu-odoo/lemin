@@ -6,12 +6,12 @@
 //TODO add bmf_best_path global;
 //TODO room->bmf_value_is_set = 0;
 
-void    bmf_add_path_to_g(t_global *g)
+void    bmf_add_path_to_g()
 {
-	if (g->bhandari->old && g->bhandari->new)
-		ft_array_free(g->bhandari->old);
-	if (!(g->bhandari->old = ft_array_dup(g->bhandari->new)) ||
-		ft_array_add(g->bhandari->new, (void *)g->bhandari->best_path) != 1)
+	if (lemin->bhandari->old && lemin->bhandari->new)
+		ft_array_free(lemin->bhandari->old);
+	if (!(lemin->bhandari->old = ft_array_dup(lemin->bhandari->new)) ||
+		ft_array_add(lemin->bhandari->new, (void *)lemin->bhandari->best_path) != 1)
 		print(destroy_global(g));
 }
 
@@ -51,23 +51,23 @@ t_array *bmf_add_possibilities(t_room *current, t_room *previous)
 	}
 }
 
-void    bmf_recursive(t_global *g, t_room *current, t_toom *previous, int weight)
+void    bmf_recursive(t_room *current, t_toom *previous, int weight)
 {
 	unsigned int    i;
 	t_array         *a;
 	t_bhandari      *b;
 
-	b = g->bhandari;
+	b = lemin->bhandari;
 	if (ft_array_add(b->working_path, (void *)current) != 1)
-		return (print(destroy_global(g)));
+		return (print(destroy_global())); //TODO error flow
 	current->bmf_visited = 1;
 	current->bmf_value = weight;
-    if (current == g->end)
-        return (bmf_add_path(g));
+    if (current == lemin->end)
+        return (bmf_add_path());
     else
 	{
     	if (!(a = bmf_add_possibilities(current, previous)))
-    		return (print(destroy_global(g)));
+    		return (print(destroy_global())); // TODO error flow
     	i = 0;
     	while (i < a->n_items)
     	{
@@ -84,13 +84,13 @@ void    bellmand_ford(t_global *g)
 	t_array         *a;
 	t_bhandari      *b;
 
-	b = g->bhandari;
-	if (!b || !(b->working_path = ft_array_construct(2)) || !(a = bmf_add_possibilities(g->start, NULL)))
+	b = lemin->bhandari;
+	if (!b || !(b->working_path = ft_array_construct(2)) || !(a = bmf_add_possibilities(lemin->start, NULL)))
 		return (print(destroy_global(g)));
 	i = 0;
 	while (i < a->n_items)
 	{
-		bmf_recursive(g, ft_tube_get_connection((t_tube *)ft_array_get(a, i), g->start), g->start);
+		bmf_recursive(g, ft_tube_get_connection((t_tube *)ft_array_get(a, i), lemin->start), lemin->start);
 		i += 1;
 	}
 	bmf_add_path_to_g(g);
