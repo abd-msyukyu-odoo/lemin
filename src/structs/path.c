@@ -66,3 +66,46 @@ void		add_path(void *s, int nba, t_p_elem *elems)
 	g->paths = p;
 	p->elements = elems;
 }
+
+
+
+///// ADDED
+
+void        path_elem_pop(s_p_elem **elem)
+{
+	s_p_elem    *curr;
+
+	curr = *elem;
+	if (!(curr->next))
+		return path_elem_free(elem);
+	while ((*elem)->next && (*elem)->next->next)
+	{
+		(*elem) = (*elem)->next;
+	}
+	path_elem_free(&((*elem)->next))
+}
+
+void        path_elem_add_end(s_p_elem **elem, t_room *room)
+{
+	s_p_elem    *end;
+	s_p_elem    *curr;
+
+	//end = //mem_alloc
+	end->room = room;
+	end->next = NULL;
+	curr = *elem;
+	if (!curr)
+		*elem = end;
+	else
+	{
+		while (curr->next)
+			curr = curr->next;
+		curr->next = end;
+	}
+}
+
+void        path_elem_free(s_p_elem **elem)
+{
+	// TODO mem_free///
+	*elem = NULL;
+}

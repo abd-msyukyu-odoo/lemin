@@ -17,7 +17,6 @@
 
 typedef struct	s_p_elem
 {
-	char			*key;
 	struct s_p_elem	*next;
 	void            *room;
 }				t_p_elem;
