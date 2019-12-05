@@ -109,3 +109,30 @@ void        path_elem_free(s_p_elem **elem)
 	// TODO mem_free///
 	*elem = NULL;
 }
+
+s_path      *path_dup(s_path *path)
+{
+	t_path  *new;
+
+	if (!path)
+		return (NULL);
+	// TODO MALLOCC
+	// new =
+	new->nb_ants = path->nb_ants;
+	new->nb_elements = path->nb_elements;
+	new->next = NULL;
+	if (path->elements)
+		new->elements = path_elem_dup(paths->elements);
+	return new;
+}
+
+s_p_elem    *path_elem_dup(t_p_elem *elem)
+{
+	t_p_elem    *new;
+
+	// TODO MALLOC
+	new->room = elem->room;
+	if (elem->next)
+		new->next = path_elem_dup(elem->next);
+	return (new);
+}
