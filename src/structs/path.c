@@ -12,6 +12,8 @@
 
 #include "lemin.h"
 
+///// USED for printing
+
 t_p_elem	*free_p_elem(t_p_elem *elem)
 {
 	if (elem->next)
@@ -69,7 +71,7 @@ void		add_path(void *s, int nba, t_p_elem *elems)
 
 
 
-///// ADDED
+///// ADDED for BFS
 
 void        path_elem_pop(s_p_elem **elem)
 {
@@ -104,35 +106,64 @@ void        path_elem_add_end(s_p_elem **elem, t_room *room)
 	}
 }
 
-void        path_elem_free(s_p_elem **elem)
+t_p_elem    *path_elem_dup(t_p_elem *elem)
 {
-	// TODO mem_free///
+	t_p_elem    *new;
+
+	if (!(new = (t_p_elem *)ft_memanager_get(lemin->mmmg, sizeof(t_p_elem))))
+	{
+		lemin_error(LEMIN_ERR_MEM);
+		return (NULL);
+	}
+	new->room = elem->room;
+	if (elem->next)
+		new->next = path_elem_dup(elem->next);
+	return (new);
+}
+
+void        path_elem_free(t_p_elem **elem)
+{
+	if (ft_memanager_refill(lemin->mmng, (void *)*elem) !== 1) // TODO ajuster chiffre
+		return (lemin_error(LEMIN_ERR_MEM));
 	*elem = NULL;
 }
 
-s_path      *path_dup(s_path *path)
+t_path      *paths_dup(t_path *path)
 {
 	t_path  *new;
 
 	if (!path)
 		return (NULL);
-	// TODO MALLOCC
-	// new =
+	if (!(new = (t_path *)ft_memanager_get(lemin->mmmg, sizeof(s_path))))
+	{
+		lemin_error(LEMIN_ERR_MEM);
+		return (NULL);
+	}
 	new->nb_ants = path->nb_ants;
 	new->nb_elements = path->nb_elements;
 	new->next = NULL;
 	if (path->elements)
 		new->elements = path_elem_dup(paths->elements);
+	if (path->next)
+		new->next = paths_dup(path->next);
 	return new;
 }
 
-s_p_elem    *path_elem_dup(t_p_elem *elem)
+void        path_add_end(t_path **path, s_p_elem *element)
 {
-	t_p_elem    *new;
+	t_elem  *end;
+	t_elem  *curr;
 
-	// TODO MALLOC
-	new->room = elem->room;
-	if (elem->next)
-		new->next = path_elem_dup(elem->next);
-	return (new);
+	//end = //mem_alloc
+	end->room = room;
+	end->next = NULL;
+	curr = *path;
+	if (!curr)
+		*path = end;
+	else
+	{
+		while (curr->next)
+			curr = curr->next;
+		curr->next = end;
+	}
 }

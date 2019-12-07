@@ -25,7 +25,7 @@ void    bmf_recursive(t_room *current, int weight)
 
 	if (current == lemin->end)
 		return bfs_update_path(weight + 1);
-	if (current->visited == TRUE || current->weight <= weight || weight <= lemin->end->weight)
+	if (current->visited == TRUE || current->weight <= weight || lemin->end->weight < 0 || weight <= lemin->end->weight)
 		return ;
 	current->weight = weight;
 	current->visited = TRUE;
@@ -45,10 +45,8 @@ void    bmf_recursive(t_room *current, int weight)
 
 void    bfs()
 {
-	unsigned int    i;
-	t_room          *start;
-	bfs_recursive(start, 0);
+	lemin->end->weight = -1;
+	bfs_recursive(lemin->start, 0);
 	if (!(lemin->best_path))
-		lemin_error();
-
+		lemin_error(LEM_ERR_DISJOINT);
 }

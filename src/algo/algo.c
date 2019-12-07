@@ -6,9 +6,16 @@
 
 
 //TODO update transfert best path in s_path elem from best path to old paths
-void    algo_push_best_path()
+
+void    algo_add_best_path_to_paths()
 {
-	ft_array_add(lemin->old_paths, (void *)path_dup);
+	path_add_end(&(lemin->paths), lemin->best_path);
+	lemin->best_path = NULL;
+}
+
+void    algo_add_paths_to_old_paths()
+{
+	ft_array_add(lemin->old_paths, (void *)paths_dup())
 }
 
 void    algo_start()
@@ -28,7 +35,8 @@ void    algo_start()
 	{
 		bmf();
 		algo_add_best_path_to_paths();
-		check_roads();
+		check_roads(); // TODO check
+		cost(); // TODO check
 		algo_add_paths_to_old_paths();
 		nb_paths++;
 	}
