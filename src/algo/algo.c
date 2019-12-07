@@ -15,7 +15,8 @@ void    algo_add_best_path_to_paths()
 
 void    algo_add_paths_to_old_paths()
 {
-	ft_array_add(lemin->old_paths, (void *)paths_dup())
+	if (ft_array_add(lemin->old_paths, (void *)paths_dup(lemin->paths)) != 1)
+		lemin_error(LEMIN_ERR_ARRAY);
 }
 
 void    algo_start()
