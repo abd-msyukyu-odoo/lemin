@@ -12,25 +12,22 @@
 
 #include "lemin.h"
 
-int			global_construct(void)
+void		global_construct(void)
 {
-	if (!(lemin = (t_global*)malloc(sizeof(t_global))) ||
-		!(lemin->mmng = ft_memanager_construct_default()))
-		return (0);
+	if (!(lemin = (t_global*)malloc(sizeof(t_global))))
+		lemin_error(LEMIN_ERR_MEM);
+	lemin->lrmng = NULL;
+	if (!(lemin->mmng = ft_memanager_construct_default()))
+		lemin_error(LEMIN_ERR_MEM);
 	if (!(ft_marray_initialize(&lemin->a_rooms, lemin->mmng, 100,
 			sizeof(t_room))) ||
 		!(ft_marray_initialize(&lemin->a_tubes, lemin->mmng, 100,
-			sizeof(t_tube))) ||
-		!(lemin->buff = (char*)ft_memanager_get(lemin->mmng,
-			BF_SIZE * sizeof(char))))
+			sizeof(t_tube))))
 		lemin_error(LEMIN_ERR_MEM);
 	lemin->hm_rooms.mmng = NULL;
 	lemin->start = NULL;
 	lemin->end = NULL;
-	lemin->nb_ants = 0;
-	lemin->next_line = 0;
-	lemin->buff_pos = 0;
-	return (1);
+	lemin->n_ants = 0;
 }
 
 void		global_construct_hashmap_rooms(size_t n_rooms)
@@ -46,6 +43,8 @@ void		global_free(void)
 	{
 		if (lemin->mmng)
 			ft_memanager_free(lemin->mmng);
+		if (lemin->lrmng)
+			lrmanager_free(lemin->lrmng);
 		free(lemin);
 	}
 }

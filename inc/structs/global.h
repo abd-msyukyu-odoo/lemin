@@ -17,29 +17,23 @@
 # include "structs/tube.h"
 # include "structs/ant.h"
 # include "structs/path.h"
-# define BF_SIZE 32
+# include "read/reading.h"
 
 typedef struct	s_global
 {
 	t_memanager	*mmng;
+	t_lrmanager	*lrmng;
 	t_marray	a_rooms;
 	t_marray	a_tubes;
 	t_mhmap		hm_rooms;
 	t_room		*start;
 	t_room		*end;
-	char		*buff;
-	int			buff_pos;
-	int			next_line;
 	t_ant		*ants;
-	int			nb_ants;
+	int			n_ants;
 	t_path		*paths;
 }				t_global;
 
-/*
-**  s_global
-**  2 functions
-*/
-int				global_construct(void);
+void			global_construct(void);
 void			global_construct_hashmap_rooms(size_t n_rooms);
 void			global_free(void);
 

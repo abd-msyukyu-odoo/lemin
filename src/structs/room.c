@@ -40,8 +40,8 @@ t_room					*room_initialize(char *key, unsigned int status)
 		lemin_error(LEMIN_ERR_MEM);
 	out->status = status;
 	out->key = (t_charkey){key};
-	if (!key || !ft_mhmap_initialize(&out->hm_tubes, lemin->mmng, 8,
-		ft_hmap_hash_addr))
+	if (!key || !ft_mhmap_initialize(&out->hm_tubes, lemin->mmng,
+		LEMIN_ROOM_HMAP_TUBE_SIZE, ft_hmap_hash_addr))
 		lemin_error(LEMIN_ERR_MEM);
 	if (!ft_mhmap_add(&lemin->hm_rooms, out))
 		lemin_error(LEMIN_ERR_MEM);

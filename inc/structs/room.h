@@ -17,6 +17,7 @@
 # define LEMIN_IN 0
 # define LEMIN_OUT 1
 # define LEMIN_SIZE_SUFFIX 3
+# define LEMIN_ROOM_HMAP_TUBE_SIZE 8
 
 /*
 ** key : contains the char *key which is the id of the t_room item
