@@ -341,4 +341,6 @@ void				read_lemin(void)
 		;
 	while (read_tube(lemin->lrmng))
 		;
+	if (!lemin->start || !lemin->end)
+		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
 }
