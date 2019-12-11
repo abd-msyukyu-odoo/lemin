@@ -17,6 +17,5 @@
 # define LEMIN_SIZE_ERR_MSG 30
 
 void			lemin_error(int error);
-char			*error_msg(int error);
 
 #endif

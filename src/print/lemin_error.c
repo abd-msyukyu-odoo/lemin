@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-char			*error_msg(int error)
+static char		*error_msg(int error)
 {
 	static char	*errors[LEMIN_SIZE_ERR_MSG] = {
 		"MEMORY ERROR",

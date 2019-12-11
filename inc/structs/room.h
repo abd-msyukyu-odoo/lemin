@@ -71,7 +71,7 @@ int						room_create_tube_pair(char *key1, char *key2);
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*room_create_start(char *key);
+int						room_create_start(char *key);
 
 /*
 ** create an IN ending room and add it to a binary tree
@@ -79,7 +79,7 @@ t_room					*room_create_start(char *key);
 ** 	t_room* : created instance
 ** 	NULL : error
 */
-t_room					*room_create_end(char *key);
+int						room_create_end(char *key);
 
 /*
 ** create the IN and OUT rooms corresponding to key and add them to a binary 

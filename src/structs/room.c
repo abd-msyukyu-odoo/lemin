@@ -43,8 +43,6 @@ t_room					*room_initialize(char *key, unsigned int status)
 	if (!key || !ft_mhmap_initialize(&out->hm_tubes, lemin->mmng,
 		LEMIN_ROOM_HMAP_TUBE_SIZE, ft_hmap_hash_addr))
 		lemin_error(LEMIN_ERR_MEM);
-	if (!ft_mhmap_add(&lemin->hm_rooms, out))
-		lemin_error(LEMIN_ERR_MEM);
 	return (out);
 }
 
@@ -147,7 +145,11 @@ static t_room			*room_firewall_initialize(char *key,
 	charkey.key = lemin_append_status(key, status);
 	out = NULL;
 	if (!ft_hmap_contains_key((t_hmap*)&lemin->hm_rooms, &charkey, room_equals))
+	{
 		out = room_initialize(charkey.key, status);
+		if (!ft_mhmap_add(&lemin->hm_rooms, out))
+			lemin_error(LEMIN_ERR_MEM);
+	}
 	else
 		ft_memanager_refill(lemin->mmng, charkey.key);
 	return (out);
@@ -165,16 +167,20 @@ static t_room			*room_create_extrema(char *key, unsigned int status)
 	return (extrema);
 }
 
-t_room					*room_create_start(char *key)
+int						room_create_start(char *key)
 {
+	if (lemin->start)
+		return (0);
 	lemin->start = room_create_extrema(key, LEMIN_OUT);
-	return (lemin->start);
+	return (lemin->start != NULL);
 }
 
-t_room					*room_create_end(char *key)
+int						room_create_end(char *key)
 {
+	if (lemin->end)
+		return (0);
 	lemin->end = room_create_extrema(key, LEMIN_IN);
-	return (lemin->end);
+	return (lemin->end != NULL);
 }
 
 int						room_create_pair(char *key)
@@ -184,7 +190,7 @@ int						room_create_pair(char *key)
 
 	in = room_firewall_initialize(key, LEMIN_IN);
 	out = room_firewall_initialize(key, LEMIN_OUT);
-	if (!in || !out || room_get_connection(in, out))
+	if (!in || !out)//seems useless ->  || room_get_connection(in, out))
 		return (0);
 	tube_add_to_rooms(tube_initialize(in, out, LEMIN_DIR_NATURAL, 0));
 	return (1);
