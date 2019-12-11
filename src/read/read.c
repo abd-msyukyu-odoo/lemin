@@ -23,7 +23,7 @@ static int			read_end_line(t_lrmanager *mng)
 	return (LEMIN_EOL);
 }
 
-void				lrmanager_construct(void)
+static void			lrmanager_construct(void)
 {
 	if (!(lemin->lrmng = ft_memanager_get(lemin->mmng, sizeof(t_lrmanager))) ||
 		!(lemin->lrmng->file = ft_read(0, "\0")))
@@ -173,9 +173,9 @@ static int			read_command_end_room(t_lrmanager *mng, int critical)
 	return (read_command_extrema_room(mng, room_create_end, critical));
 }
 
-static t_command_f	*command_function(int command)
+static t_command_f	command_function(int command)
 {
-	static t_command_f	*commands[LEMIN_SIZE_COMMANDS] = {
+	static t_command_f	commands[LEMIN_SIZE_COMMANDS] = {
 		read_command_start_room,
 		read_command_end_room};
 	
@@ -253,10 +253,10 @@ static int			read_command(t_lrmanager *mng, int critical)
 			lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
 		return (0);
 	}
-	else if (status == LEMIN_COMMENT)
-		return (read_comment(mng, critical));
-	else if (status <= LEMIN_SIZE_COMMANDS)
+	else if (status > LEMIN_COMMENT && status <= LEMIN_SIZE_COMMANDS)
 		return ((*command_function(status))(mng, critical));
+	else
+		return (read_comment(mng, critical));
 }
 
 static int			read_room(t_lrmanager *mng)
@@ -278,6 +278,7 @@ static int			read_tube_room(t_lrmanager *mng)
 		;
 	if (!read_tube_legal_separator(mng->file[mng->cur]))
 		return (LEMIN_BAD_LINE);
+	return (LEMIN_TUBE_ROOM_LEGAL);
 }
 
 static int			read_tube_format(t_lrmanager *mng)

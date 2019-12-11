@@ -25,6 +25,7 @@
 # define LEMIN_COMMENT 0
 # define LEMIN_TUBE_ILLEGAL_START -1
 # define LEMIN_TUBE_LEGAL 1
+# define LEMIN_TUBE_ROOM_LEGAL 1
 
 typedef struct				s_lrmanager
 {
@@ -42,5 +43,7 @@ typedef struct				s_char_memory
 typedef						int (*t_command_f)(t_lrmanager*, int);
 
 void						lrmanager_free(t_lrmanager *lrmng);
+
+void						read_lemin(void);
 
 #endif

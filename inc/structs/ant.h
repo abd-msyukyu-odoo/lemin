@@ -12,6 +12,7 @@
 
 #ifndef ANT_H
 # define ANT_H
+# include "structs/path.h"
 
 typedef struct		s_ant
 {

@@ -14,11 +14,11 @@
 # define LEMIN_H
 # include "libft.h"
 # include "print/lemin_error.h"
+# include "read/reading.h"
 # include "structs/charkey.h"
 # include "structs/global.h"
 # include "structs/room.h"
 # include "structs/tube.h"
-# include "read/reading.h"
 # include "structs/ant.h"
 # include "structs/path.h"
 

@@ -28,6 +28,8 @@ LIBHEAD		= ./libft/includes
 THISHEAD	= ./inc
 
 PRINT_F		= lemin_error
+
+READ_F		= read
 			  
 STRUCTS_F	= global \
 			  room \
@@ -37,6 +39,7 @@ MAIN_F		= test_room
 
 O_FILES		= $(addsuffix .o, \
 			  	$(addprefix ./src/, \
+				  	$(addprefix read/, $(READ_F)) \
 					$(addprefix print/, $(PRINT_F)) \
 					$(addprefix structs/, $(STRUCTS_F))) \
 				$(addprefix tests/, $(MAIN_F)))
