@@ -1,7 +1,5 @@
 #include "lemin.h"
 
-//gcc -o test test_room.c ../src/structs/room.c ../src/structs/tube.c ../src/structs/array.c ../src/structs/btree.c -I../includes -I../libft -L../libft/ -lft 
-
 char		*in = "hivadeyfbcgopzwxklmjtunqsr";
 
 t_global	*lemin = NULL;
@@ -53,12 +51,7 @@ int				main(void)
 {
 	global_construct();
 	global_construct_hashmap_rooms(4);
-	room_create_start(&(in[0]));
-	room_create_end(&(in[25]));
-	room_create_pair(&(in[1]));
-	room_create_tube_pair(&(in[0]), &(in[1]));
-	room_create_tube_pair(&(in[0]), &(in[25]));
-	room_create_tube_pair(&(in[25]), &(in[1]));
+	read_lemin();
 	display_tubes((t_array*)&lemin->a_tubes);
 	display_rooms((t_array*)&lemin->a_rooms);
 	display_hm(&lemin->hm_rooms, show_room);

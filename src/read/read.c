@@ -38,18 +38,6 @@ void				lrmanager_free(t_lrmanager *lrmng)
 		free(lrmng->file);
 }
 
-static void			read_n_ants(t_lrmanager *mng)
-{
-	mng = lemin->lrmng;
-	while (ft_isdigit(mng->file[mng->cur]))
-		mng->cur++;
-	if (mng->cur == mng->cur_line)
-		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
-	lemin->n_ants = ft_atoi(mng->file);
-	if (LEMIN_EOL > read_end_line(mng))
-		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
-}
-
 static int			read_room_legal_separator(char c)
 {
 	return (c == ' ');
@@ -138,22 +126,22 @@ static int			read_room_format(t_lrmanager *mng,
 	while (read_room_legal_content(mng->file[1 + mng->cur++]))
 		;
 	if (!read_room_legal_separator(mng->file[mng->cur]))
-		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
+		return (LEMIN_ROOM_ILLEGAL);
 	char_memory_replace(&memory, &mng->file[mng->cur++], '\0');
 	read_room_coordinates(mng);
 	if (!room_create(&mng->file[mng->cur_line]) ||
 		LEMIN_EOL > read_end_line(mng))
-		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
+		return(LEMIN_ROOM_ILLEGAL);
 	char_memory_recover(&memory);
 	return (LEMIN_ROOM_LEGAL);
 }
 
 static int			read_command_extrema_room(t_lrmanager *mng,
-	int (*room_create)(char*), int critical)
+	int (*room_create)(char*), int context)
 {
 	int				status;
 
-	if (!critical)
+	if (context != LEMIN_CONTEXT_ROOMS)
 		return (0);
 	if (LEMIN_EOL > read_end_line(mng))
 		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
@@ -163,14 +151,14 @@ static int			read_command_extrema_room(t_lrmanager *mng,
 	return (1);
 }
 
-static int			read_command_start_room(t_lrmanager *mng, int critical)
+static int			read_command_start_room(t_lrmanager *mng, int context)
 {
-	return (read_command_extrema_room(mng, room_create_start, critical));
+	return (read_command_extrema_room(mng, room_create_start, context));
 }
 
-static int			read_command_end_room(t_lrmanager *mng, int critical)
+static int			read_command_end_room(t_lrmanager *mng, int context)
 {
-	return (read_command_extrema_room(mng, room_create_end, critical));
+	return (read_command_extrema_room(mng, room_create_end, context));
 }
 
 static t_command_f	command_function(int command)
@@ -229,34 +217,61 @@ static int			read_command_format(t_lrmanager *mng)
 	return (LEMIN_COMMENT);
 }
 
-static int			read_comment(t_lrmanager *mng, int critical)
+static int			read_comment(t_lrmanager *mng, int context)
 {
 	while (read_command_legal_content(mng->file[mng->cur]))
 		mng->cur++;
 	if (LEMIN_EOL > read_end_line(mng))
 	{
-		if (critical)
+		if (context > LEMIN_CONTEXT_TUBES)
 			lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
 		return (0);
 	}
 	return (1);
 }
 
-static int			read_command(t_lrmanager *mng, int critical)
+static int			read_command(t_lrmanager *mng, int context)
 {
 	int				status;
 
 	status = read_command_format(mng);
 	if (status == LEMIN_COMMAND_ILLEGAL_START)
 	{
-		if (critical)
+		if (context > LEMIN_CONTEXT_TUBES)
 			lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
 		return (0);
 	}
 	else if (status > LEMIN_COMMENT && status <= LEMIN_SIZE_COMMANDS)
-		return ((*command_function(status))(mng, critical));
+		return ((*command_function(status))(mng, context));
 	else
-		return (read_comment(mng, critical));
+		return (read_comment(mng, context));
+}
+
+static int			read_ants_format(t_lrmanager *mng)
+{
+	mng = lemin->lrmng;
+	while (ft_isdigit(mng->file[mng->cur]))
+		mng->cur++;
+	if (mng->cur == mng->cur_line)
+		return (LEMIN_BAD_LINE);
+	lemin->n_ants = ft_atoi(mng->file);
+	if (LEMIN_EOL > read_end_line(mng))
+		return (LEMIN_BAD_LINE);
+	return (LEMIN_ANTS_LEGAL);
+}
+
+static int			read_ants(t_lrmanager *mng)
+{
+	int				status;
+
+	if (mng->file[mng->cur] == '#')
+		return (read_command(mng, LEMIN_CONTEXT_ANTS));
+	else if (mng->file[mng->cur] == '+')
+		mng->cur++;
+	status = read_ants_format(mng);
+	if (status < LEMIN_ANTS_LEGAL)
+		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
+	return (status);
 }
 
 static int			read_room(t_lrmanager *mng)
@@ -264,10 +279,12 @@ static int			read_room(t_lrmanager *mng)
 	int				status;
 
 	status = read_room_format(mng, room_create_pair);
-	if (status > LEMIN_ROOM_ILLEGAL_START)
+	if (status < LEMIN_ROOM_ILLEGAL_START)
+		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
+	else if (status > LEMIN_ROOM_ILLEGAL_START)
 		return (status);
 	else
-		return (read_command(mng, 1));
+		return (read_command(mng, LEMIN_CONTEXT_ROOMS));
 }
 
 static int			read_tube_room(t_lrmanager *mng)
@@ -312,13 +329,16 @@ static int			read_tube(t_lrmanager *mng)
 	if (status > LEMIN_TUBE_ILLEGAL_START)
 		return (status);
 	else
-		return (read_command(mng, 0));
+		return (read_command(mng, LEMIN_CONTEXT_TUBES));
 }
 
 void				read_lemin(void)
 {
+	int				status;
+
 	lrmanager_construct();
-	read_n_ants(lemin->lrmng);
+	while (read_ants(lemin->lrmng) < LEMIN_ANTS_LEGAL)
+		;
 	while (read_room(lemin->lrmng))
 		;
 	while (read_tube(lemin->lrmng))

@@ -35,7 +35,7 @@ STRUCTS_F	= global \
 			  room \
 			  tube
 
-MAIN_F		= test_room
+MAIN_F		= test_lemin
 
 O_FILES		= $(addsuffix .o, \
 			  	$(addprefix ./src/, \
