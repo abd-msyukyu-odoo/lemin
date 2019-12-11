@@ -82,6 +82,7 @@ static int			read_coordinate_legal_start(char c)
 static int			read_room_coordinate(t_lrmanager *mng)
 {
 	size_t			check;
+	intmax_t		result;
 
 	check = mng->cur;
 	if (read_coordinate_legal_start(mng->file[mng->cur]))
@@ -92,6 +93,10 @@ static int			read_room_coordinate(t_lrmanager *mng)
 	while (ft_isdigit(mng->file[mng->cur]))
 		mng->cur++;
 	if (check == mng->cur)
+		return (0);
+	result = ft_atoi3(&mng->file[check]);
+	if (result > (int)((~((unsigned int)0)) >> 1) ||
+		result < (int)(~((~((unsigned int)0)) >> 1)))
 		return (0);
 	return (1);
 }
@@ -206,10 +211,12 @@ static int			read_command_format(t_lrmanager *mng)
 {
 	int				command;
 
-	if (!read_command_legal_start(mng->file[mng->cur++]))
+	if (!read_command_legal_start(mng->file[mng->cur]))
 		return (LEMIN_COMMAND_ILLEGAL_START);
-	if (!read_command_legal_start(mng->file[mng->cur++]))
+	mng->cur++;
+	if (!read_command_legal_start(mng->file[mng->cur]))
 		return (LEMIN_COMMENT);
+	mng->cur++;
 	command = 0;
 	while (++command <= LEMIN_SIZE_COMMANDS)
 		if (read_command_compare(mng, command))
@@ -249,14 +256,19 @@ static int			read_command(t_lrmanager *mng, int context)
 
 static int			read_ants_format(t_lrmanager *mng)
 {
+	intmax_t		result;
+
 	mng = lemin->lrmng;
 	while (ft_isdigit(mng->file[mng->cur]))
 		mng->cur++;
 	if (mng->cur == mng->cur_line)
 		return (LEMIN_BAD_LINE);
-	lemin->n_ants = ft_atoi(&mng->file[mng->cur_line]);
-	if (LEMIN_EOL > read_end_line(mng))
+	result = ft_atoi3(&mng->file[mng->cur_line]);
+	if (result > (int)((~((unsigned int)0)) >> 1) ||
+		result == (intmax_t)0 ||
+		LEMIN_EOL > read_end_line(mng))
 		return (LEMIN_BAD_LINE);
+	lemin->n_ants = (int)result;
 	return (LEMIN_ANTS_LEGAL);
 }
 
@@ -343,4 +355,5 @@ void				read_lemin(void)
 		;
 	if (!lemin->start || !lemin->end)
 		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
+	printf("%s\n", lemin->lrmng->file);
 }
