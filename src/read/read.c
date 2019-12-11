@@ -26,7 +26,7 @@ static int			read_end_line(t_lrmanager *mng)
 static void			lrmanager_construct(void)
 {
 	if (!(lemin->lrmng = ft_memanager_get(lemin->mmng, sizeof(t_lrmanager))) ||
-		!(lemin->lrmng->file = ft_read(0, "\0")))
+		!(lemin->lrmng->file = ft_read(LEMIN_MAX_READING_SIZE, NULL)))
 		lemin_error(LEMIN_ERR_MEM);
 	lemin->lrmng->cur = 0;
 	lemin->lrmng->cur_line = 0;
@@ -254,7 +254,7 @@ static int			read_ants_format(t_lrmanager *mng)
 		mng->cur++;
 	if (mng->cur == mng->cur_line)
 		return (LEMIN_BAD_LINE);
-	lemin->n_ants = ft_atoi(mng->file);
+	lemin->n_ants = ft_atoi(&mng->file[mng->cur_line]);
 	if (LEMIN_EOL > read_end_line(mng))
 		return (LEMIN_BAD_LINE);
 	return (LEMIN_ANTS_LEGAL);
@@ -281,19 +281,19 @@ static int			read_room(t_lrmanager *mng)
 	status = read_room_format(mng, room_create_pair);
 	if (status < LEMIN_ROOM_ILLEGAL_START)
 		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
-	else if (status > LEMIN_ROOM_ILLEGAL_START)
+	if (status > LEMIN_ROOM_ILLEGAL_START)
 		return (status);
 	else
 		return (read_command(mng, LEMIN_CONTEXT_ROOMS));
 }
 
-static int			read_tube_room(t_lrmanager *mng)
+static int			read_tube_room(t_lrmanager *mng, char separator)
 {
 	if (!read_room_legal_start(mng->file[mng->cur]))
 		return (LEMIN_TUBE_ILLEGAL_START);
 	while (read_room_legal_content(mng->file[1 + mng->cur++]))
 		;
-	if (!read_tube_legal_separator(mng->file[mng->cur]))
+	if (mng->file[mng->cur] != separator)
 		return (LEMIN_BAD_LINE);
 	return (LEMIN_TUBE_ROOM_LEGAL);
 }
@@ -305,11 +305,11 @@ static int			read_tube_format(t_lrmanager *mng)
 	char			*cur;
 	int				status;
 
-	if ((status = read_tube_room(mng)) < 1)
+	if ((status = read_tube_room(mng, '-')) < 1)
 		return (status);
 	char_memory_replace(&memory, &mng->file[mng->cur++], '\0');
 	cur = &mng->file[mng->cur];
-	if ((status = read_tube_room(mng)) < 1)
+	if ((status = read_tube_room(mng, '\n')) < 1)
 		return (status);
 	char_memory_replace(&memory2, &mng->file[mng->cur], '\0');
 	if (!room_create_tube_pair(&mng->file[mng->cur_line], cur))
@@ -334,8 +334,6 @@ static int			read_tube(t_lrmanager *mng)
 
 void				read_lemin(void)
 {
-	int				status;
-
 	lrmanager_construct();
 	while (read_ants(lemin->lrmng) < LEMIN_ANTS_LEGAL)
 		;

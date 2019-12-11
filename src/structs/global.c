@@ -41,10 +41,10 @@ void		global_free(void)
 {
 	if (lemin)
 	{
-		if (lemin->mmng)
-			ft_memanager_free(lemin->mmng);
 		if (lemin->lrmng)
 			lrmanager_free(lemin->lrmng);
+		if (lemin->mmng)
+			ft_memanager_free(lemin->mmng);
 		free(lemin);
 	}
 }
