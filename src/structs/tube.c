@@ -17,7 +17,7 @@ t_tube				*tube_initialize(t_room *room1, t_room *room2,
 {
 	t_tube			*out;
 
-	out = (t_tube*)ft_marray_inject(&lemin->a_tubes);
+	out = (t_tube*)ft_typemanager_get(lemin->tubes_tmng, &lemin->tubes_used);
 	if (!out)
 		lemin_error(LEMIN_ERR_MEM);
 	out->direction = direction;

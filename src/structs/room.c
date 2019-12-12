@@ -35,7 +35,7 @@ t_room					*room_initialize(char *key, unsigned int status)
 {
 	t_room				*out;
 
-	out = (t_room*)ft_marray_inject(&lemin->a_rooms);
+	out = (t_room*)ft_typemanager_get(lemin->rooms_tmng, &lemin->rooms_used);
 	if (!out)
 		lemin_error(LEMIN_ERR_MEM);
 	out->status = status;
@@ -63,7 +63,7 @@ static char				*lemin_append_status(char *key, int status)
 
 int						room_equals(void *o1, void *o2)
 {
-	return (!ft_strcmp(((t_room*)o1)->key.key, ((t_room*)o2)->key.key));
+	return (!ft_strcmp(((t_charkey*)o1)->key, ((t_charkey*)o2)->key));
 }
 
 static t_room			*room_get_status(char *key, int status)

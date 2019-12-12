@@ -17,13 +17,16 @@ void		global_construct(void)
 	if (!(lemin = (t_global*)malloc(sizeof(t_global))))
 		lemin_error(LEMIN_ERR_MEM);
 	lemin->lrmng = NULL;
-	if (!(lemin->mmng = ft_memanager_construct_default()))
+	lemin->rooms_tmng = NULL;
+	lemin->tubes_tmng = NULL;
+	if (!(lemin->mmng = ft_memanager_construct_default()) ||
+		!(lemin->rooms_tmng =
+		ft_typemanager_construct(LEMIN_DEFAULT_ROOMS_COUNT, sizeof(t_room))) ||
+		!(lemin->tubes_tmng =
+		ft_typemanager_construct(LEMIN_DEFAULT_TUBES_COUNT, sizeof(t_tube))))
 		lemin_error(LEMIN_ERR_MEM);
-	if (!(ft_marray_initialize(&lemin->a_rooms, lemin->mmng, 100,
-			sizeof(t_room))) ||
-		!(ft_marray_initialize(&lemin->a_tubes, lemin->mmng, 100,
-			sizeof(t_tube))))
-		lemin_error(LEMIN_ERR_MEM);
+	ft_typeused_initialize(&lemin->rooms_used);
+	ft_typeused_initialize(&lemin->tubes_used);
 	lemin->hm_rooms.mmng = NULL;
 	lemin->start = NULL;
 	lemin->end = NULL;
@@ -41,6 +44,10 @@ void		global_free(void)
 {
 	if (lemin)
 	{
+		if (lemin->tubes_tmng)
+			ft_typemanager_free(lemin->tubes_tmng);
+		if (lemin->rooms_tmng)
+			ft_typemanager_free(lemin->rooms_tmng);
 		if (lemin->lrmng)
 			lrmanager_free(lemin->lrmng);
 		if (lemin->mmng)
