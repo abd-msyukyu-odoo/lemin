@@ -18,8 +18,8 @@
 # include "structs/ant.h"
 # include "structs/path.h"
 # include "read/reading.h"
-# define LEMIN_DEFAULT_ROOMS_COUNT 2000
-# define LEMIN_DEFAULT_TUBES_COUNT 4000
+# define LEMIN_DEFAULT_ROOMS_COUNT 800000
+# define LEMIN_DEFAULT_TUBES_COUNT 1600000
 
 typedef struct	s_global
 {

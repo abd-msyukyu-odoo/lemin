@@ -19,7 +19,9 @@ void		global_construct(void)
 	lemin->lrmng = NULL;
 	lemin->rooms_tmng = NULL;
 	lemin->tubes_tmng = NULL;
-	if (!(lemin->mmng = ft_memanager_construct_default()) ||
+	if (!(lemin->mmng = ft_memanager_construct(MMNG_DEFAULT_SIZE_COUNT,
+		5 * LEMIN_DEFAULT_ROOMS_COUNT,
+		500 * LEMIN_DEFAULT_ROOMS_COUNT, 1)) ||
 		!(lemin->rooms_tmng =
 		ft_typemanager_construct(LEMIN_DEFAULT_ROOMS_COUNT, sizeof(t_room))) ||
 		!(lemin->tubes_tmng =
