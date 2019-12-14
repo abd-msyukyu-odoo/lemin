@@ -67,7 +67,7 @@ int				main(void)
 	global_construct();
 	global_construct_hashmap_rooms(4);
 	read_lemin();
-	printf("======display lemin's room hasmap\n");
+	printf("======display lemin's room hashmap\n");
 	display_hm(&lemin->hm_rooms, show_room);
 	display_start(lemin->start);
 	display_end(lemin->end);

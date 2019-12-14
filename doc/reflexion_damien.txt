@@ -57,3 +57,68 @@ l1 : uniquement nombre (autre = ERROR)
 		-> REDO 2
 -> sinon
 	-> STOP
+
+
+
+
+
+
+
+-> retirer les bzero des hmap dans la libft
+-> iterer le tableau et set root a NULL
+-> pour les remove -> set root a NULL
+
+
+
+->ft_mbtree_initialize > 1
+
+
+
+
+
+transition 9 vers 10 dans test_mhmap -> hash_btree a ete modifie
+
+destroyed mbnode = right de root
+
+call :
+ft_mhmap_add
+ft_mbtree_add
+ft_mbtree_construct_leaves
+
+a faire :
+=> faire un test de thashmap separe de mhmap pour voir si la meme erreur se produit
+	-> si erreur : erreur dans btree OU hmap OU typemanager
+	-> si pas erreur : erreur dans memanager
+
+possibilites :
+ft_memanager_get_as_is_addr => spot on dude ;)
+
+
+
+ce qui est sur : une addresse de noeud est donnee alors qu'elle est utilisee.
+ce noeud est de type : t_bnode et fourni par le memanager
+
+=> hypothese : l'addresse du noeud est disponible dans le memanager alors qu'elle ne devrait pas
+-> hypothese verifiee.
+=> hypothese : l'addresse est presente sous 2 tailles differentes apres le refill
+-> hypothese verifiee
+=> on lui rend 2 fois a des moments differents
+=> probleme dans le code de la hmap ou dans tbtree/mbtree OU mauvaise recombinaison de 2 addresses
+-> situation : a la base c'est un noeud d'un btree dans une hmap
+
+-> verification : afficher le memanager a chaque addition, puis chaque suppression puis chaque addition
+
+
+a regarder : 0xc00430
+
+premier usage : 78
+premiere suppression 2123
+deuxieme suppression 2491
+
+
+cible : quand on supprime un element, le noeud possedant l'element ne change pas forcement.
+	=> switch de l'element a retirer avec un autre noeud
+cible : quand on supprime un element dont un des enfant est une feuille, une feuille et lui meme disparaissent
+
+
+a tester : mbtree ajouter retirer ajouter + afficher le memanager

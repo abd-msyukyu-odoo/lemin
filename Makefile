@@ -21,7 +21,7 @@ endif
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -O3 #g -pg
 
 LIBHEAD		= ./libft/includes
 
@@ -54,6 +54,9 @@ WHITE_E		= \033[01;37m
 BOLD_E		= \033[1m
 UNDERLINE_E	= \033[4m
 
+#profiling -pg
+#run executable compiled with g pg
+#gprof executable.exe gmon.out > analysis.txt
 $(NAME):	$(O_FILES)
 			@$(OSMAKE) -C libft/
 			@gcc -o $(NAME) $(O_FILES) -L./libft/ -lft

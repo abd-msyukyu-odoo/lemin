@@ -347,7 +347,6 @@ static int			read_tube(t_lrmanager *mng)
 void				read_lemin(void)
 {
 	lrmanager_construct();
-	//printf("%s\n", lemin->lrmng->file);
 	while (read_ants(lemin->lrmng) < LEMIN_ANTS_LEGAL)
 		;
 	while (read_room(lemin->lrmng))
