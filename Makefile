@@ -21,7 +21,7 @@ endif
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror -O3 #g -pg
+CFLAGS		= -Wall -Wextra -Werror -O3
 
 LIBHEAD		= ./libft/includes
 
