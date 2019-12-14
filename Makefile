@@ -21,7 +21,7 @@ endif
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror -O3 #g -pg
+CFLAGS		= -Wall -Wextra -Werror -g -pg #-O3 #g -pg
 
 LIBHEAD		= ./libft/includes
 
@@ -59,7 +59,7 @@ UNDERLINE_E	= \033[4m
 #gprof executable.exe gmon.out > analysis.txt
 $(NAME):	$(O_FILES)
 			@$(OSMAKE) -C libft/
-			@gcc -o $(NAME) $(O_FILES) -L./libft/ -lft
+			@gcc -g -pg -o $(NAME) $(O_FILES) -L./libft/ -lft
 			@echo "$(GREEN_E)end compilation : $(NAME)$(END_E)"
 
 all:		$(NAME)
