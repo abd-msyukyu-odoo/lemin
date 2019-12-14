@@ -7,6 +7,25 @@
 
 //TODO update transfert best path in s_path elem from best path to old paths
 
+/*
+**  function update_path
+**
+**  update the best path with the working path if it is better.
+**
+**  used by bmf && bfs
+**
+**
+*/
+
+void    update_path(int weight)
+{
+	if (lemin->end->weight < weight)
+		return ;
+	lemin->end->weight = weight;
+	path_elem_free(&(lemin->best_path));
+	path_duplicate(lemin->working_path, &(lemin->best_path));
+}
+
 void    algo_add_best_path_to_paths()
 {
 	path_add_end(&(lemin->paths), lemin->best_path);
@@ -34,6 +53,7 @@ void    algo_start()
 	nb_paths = 1;
 	while (nb_paths <= limit)
 	{
+		// TODO set negative tunnel
 		bmf();
 		algo_add_best_path_to_paths();
 		check_roads(); // TODO check

@@ -9,23 +9,15 @@
 // TODO add error message no path found between start and end
 
 
-void    bfs_update_path(int weight)
-{
-	if (lemin->end->weight < weight)
-		return ;
-	lemin->end->weight = weight;
-	path_elem_free(&(lemin->best_path));
-	path_duplicate(lemin->working_path, &(lemin->best_path));
-}
 
-void    bmf_recursive(t_room *current, int weight)
+void    bfs_recursive(t_room *current, int weight)
 {
 	unsigned int    top;
 	unsigned int    d;
 
 	if (current == lemin->end)
-		return bfs_update_path(weight + 1);
-	if (current->visited == TRUE || current->weight <= weight || lemin->end->weight < 0 || weight <= lemin->end->weight)
+		return update_path(weight);
+	if (current->visited == TRUE || current->weight <= weight || !(lemin->end->weight < 0 || weight <= lemin->end->weight))
 		return ;
 	current->weight = weight;
 	current->visited = TRUE;
@@ -34,7 +26,7 @@ void    bmf_recursive(t_room *current, int weight)
 	d = 0;
 	while (d < top)
 	{
-		bmf_recursive(
+		bfs_recursive(
 				ft_tube_get_connection(
 						ft_array_get(current->a_tubes, d), current), weight + 1);
 		d++;

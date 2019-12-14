@@ -1,97 +1,35 @@
 
 #include "lemin.h"
 
-//TODO add bmf_value int to t_room;
-//TODO add bmf_visited int to t_room;
-//TODO add bmf_best_path global;
-//TODO room->bmf_value_is_set = 0;
-
-void    bmf_add_path_to_g()
+void    bmf_recursive(t_room *current, int weight)
 {
-	if (lemin->bhandari->old && lemin->bhandari->new)
-		ft_array_free(lemin->bhandari->old);
-	if (!(lemin->bhandari->old = ft_array_dup(lemin->bhandari->new)) ||
-		ft_array_add(lemin->bhandari->new, (void *)lemin->bhandari->best_path) != 1)
-		print(destroy_global(g));
-}
+	unsigned int    top;
+	unsigned int    d;
+	t_tube          *t;
 
-void    bmf_add_path(t_bhandari *b)
-{
-	if (b->best_path)
-		ft_array_free(b->best_path);
-	b->best_path = ft_array_dup(b->working_path);
-}
-
-t_array *bmf_add_possibilities(t_room *current, t_room *previous)
-{
-	unsigned int    i;
-	unsigned int    l;
-	t_room          *room;
-	t_array         *array;
-	t_tube          *tube;
-
-	l = current->a_tubes->n_items - 1;
-	if (!(array = ft_array_construct(2)))
-		return (NULL);
-	while (l >= 0)
+	if (current == lemin->end)
+		return update_path(weight);
+	if (current->visited == TRUE || current->weight <= weight)
+		return ;
+	current->weight = weight;
+	current->visited = TRUE;
+	path_elem_add_end(&(lemin->working_path), current);
+	top = current->a_tubes->n_items;
+	d = 0;
+	while (d < top)
 	{
-		tube = (t_tube *)ft_array_get(current->a_tubes, l);
-		room = ft_tube_get_connection(tube, current);
-		if (!room->bmf_value_is_set || room->bmf_visited == 0 || room->bmf_value > (current->bmf_value + tube->cost))
-		{
-			room->bmf_value = current->bmf_value + tube->cost;
-			room->bmf_value_is_set = 1;
-			if ((ft_array_add(array, (void *)room)) != 1)
-			{
-				ft_array_free(array);
-				return (NULL);
-			}
-		}
-		l--;
+		t = ft_tube_get_connection(ft_array_get(current->a_tubes, d), current);
+		bmf_recursive(ft_tube_get_connection(t, weight + t->cost);
+		d++;
 	}
+	path_elem_pop(&(lemin->working_path));
+	current->visited = FALSE;
 }
 
-void    bmf_recursive(t_room *current, t_toom *previous, int weight)
+void    bellmand_ford()
 {
-	unsigned int    i;
-	t_array         *a;
-	t_bhandari      *b;
-
-	b = lemin->bhandari;
-	if (ft_array_add(b->working_path, (void *)current) != 1)
-		return (print(destroy_global())); //TODO error flow
-	current->bmf_visited = 1;
-	current->bmf_value = weight;
-    if (current == lemin->end)
-        return (bmf_add_path());
-    else
-	{
-    	if (!(a = bmf_add_possibilities(current, previous)))
-    		return (print(destroy_global())); // TODO error flow
-    	i = 0;
-    	while (i < a->n_items)
-    	{
-			bmf_recursive(g, ft_tube_get_connection((t_tube *)ft_array_get(a, i), current), current,
-					((t_tube *)ft_array_get(a, i)->cost) + current->bmf_value);
-    		i += 1;
-    	}
-	}
-}
-
-void    bellmand_ford(t_global *g)
-{
-	unsigned int    i;
-	t_array         *a;
-	t_bhandari      *b;
-
-	b = lemin->bhandari;
-	if (!b || !(b->working_path = ft_array_construct(2)) || !(a = bmf_add_possibilities(lemin->start, NULL)))
-		return (print(destroy_global(g)));
-	i = 0;
-	while (i < a->n_items)
-	{
-		bmf_recursive(g, ft_tube_get_connection((t_tube *)ft_array_get(a, i), lemin->start), lemin->start);
-		i += 1;
-	}
-	bmf_add_path_to_g(g);
+	if (lemin->working_path)
+		return (lemin_error(LEMIN_ERR_MEM));
+	lemin->end->weight = -1;
+	bmf_recursive(lemin->start, 0);
 }

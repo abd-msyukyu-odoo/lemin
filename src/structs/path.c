@@ -123,6 +123,8 @@ t_p_elem    *path_elem_dup(t_p_elem *elem)
 
 void        path_elem_free(t_p_elem **elem)
 {
+	if (*elem == NULL)
+		return ;
 	if (ft_memanager_refill(lemin->mmng, (void *)*elem) != 1) // TODO ajuster chiffre
 		return (lemin_error(LEMIN_ERR_MEM));
 	*elem = NULL;
