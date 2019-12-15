@@ -1,23 +1,7 @@
 
-//TODO add lemin->working_path *s_p_elem
-//TODO add lemin->best_path *s_p_elem
-//TODO add lemin->paths *s_path
-//TODO add lemin->old_paths *t_array<s_path>
+#include "lemin.h"
 
-
-//TODO update transfert best path in s_path elem from best path to old paths
-
-/*
-**  function update_path
-**
-**  update the best path with the working path if it is better.
-**
-**  used by bmf && bfs
-**
-**
-*/
-
-void    update_path(int weight)
+void	update_path(int weight)
 {
 	if (lemin->end->weight < weight)
 		return ;
@@ -26,22 +10,49 @@ void    update_path(int weight)
 	path_duplicate(lemin->working_path, &(lemin->best_path));
 }
 
-void    algo_add_best_path_to_paths()
+static void		algo_add_best_path_to_paths()
 {
+	t_p_elem	*elem;
+
+	elem = lemin->best_path;
+	while (elem->next)
+	{
+		if (!(elem->tube = ft_room_get_tube(elem->room, elem->next->room)))
+			return (lemin_error(LEM_ERR_MEM));
+		elem = elem->next;
+	}
 	path_add_end(&(lemin->paths), lemin->best_path);
 	lemin->best_path = NULL;
 }
 
-void    algo_add_paths_to_old_paths()
+static void		algo_add_paths_to_old_paths()
 {
 	if (ft_array_add(lemin->old_paths, (void *)paths_dup(lemin->paths)) != 1)
 		lemin_error(LEMIN_ERR_ARRAY);
 }
 
-void    algo_start()
+void			set_negatives()
 {
-	unsigned int    limit;
-	unsigned int    nb_paths;
+	t_path		*paths;
+	t_p_elem	elem;
+
+	paths = lemin->paths;
+	while (paths)
+	{
+		elem = path->elements;
+		while(elem)
+		{
+			elem->tube->cost = -1;
+			elem = elem->next;
+		}
+		paths = paths->next;
+	}
+}
+
+void	algo()
+{
+	unsigned int	limit;
+	unsigned int	nb_paths;
 
 	if (lemin->start->a_tubes->n_items < lemin->end->a_tubes->n_items)
 		limit = lemin->start->a_tubes->n_items;
@@ -53,10 +64,11 @@ void    algo_start()
 	nb_paths = 1;
 	while (nb_paths <= limit)
 	{
-		// TODO set negative tunnel
+		set_negatives();
 		bmf();
-		algo_add_best_path_to_paths();
 		check_roads(); // TODO check
+		algo_add_best_path_to_paths();
+		// TODO count length
 		cost(); // TODO check
 		algo_add_paths_to_old_paths();
 		nb_paths++;

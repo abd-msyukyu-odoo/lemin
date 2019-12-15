@@ -1,18 +1,18 @@
 #include "lemin.h"
 
-
+// TODO update cost
 //	Meilleure repartition des fourmis :
 //	Soient :
-//	      n		: nombre de fourmis
+//		  n		: nombre de fourmis
 //			i		: nombre de chemins
 //			c_i		: nombre de coups
 //			a_ix	: nombre d'aretes du chemin x
 //
 //	i = 1
 //		c_1 = {n}				# fourmis dans le chemin
-//		+ {a_11 - 1}		    # fin du parcours du chemin par la derniere fourmi
+//		+ {a_11 - 1}			# fin du parcours du chemin par la derniere fourmi
 //	i = 2
-//	    c_2 = {(n - (a_22 - a_21) [-1]) / 2} 	# fourmis dans les 2 chemins
+//		c_2 = {(n - (a_22 - a_21) [-1]) / 2} 	# fourmis dans les 2 chemins
 //		+ {a_22 - a_21 [+1]} 				# fourmis supplementaires dans le chemin plus court
 //		+ {a_21 - 1}						# fin du parcours du petit chemin par la derniere fourmi
 //		#[] a adapter pour que la division soit entiere
@@ -31,8 +31,8 @@
 
 static int  compute_x(int a, t_array *p)
 {
-	int     rtn;
-	int     i;
+	int	 rtn;
+	int	 i;
 
 	rtn = a;
 	rtn += (p->n_items - 1) * (((t_array *)ft_array_get(p, p->n_items - 1))->n_items - 1);
@@ -45,11 +45,11 @@ static int  compute_x(int a, t_array *p)
 	return rtn;
 }
 
-int     get_cost(t_array *paths, int ants)
+int	 get_cost(t_array *paths, int ants)
 {
-	int     minus_one;
-	int     x;
-	int     cost;
+	int	 minus_one;
+	int	 x;
+	int	 cost;
 
 	x = compute_x(ants, paths);
 	minus_one = paths->n_items > 1 ? x % (paths->n_items - 1) : 0;

@@ -1,11 +1,11 @@
 
 #include "lemin.h"
 
-void    bmf_recursive(t_room *current, int weight)
+void	bmf_recursive(t_room *current, int weight)
 {
-	unsigned int    top;
-	unsigned int    d;
-	t_tube          *t;
+	unsigned int	top;
+	unsigned int	d;
+	t_tube		  *t;
 
 	if (current == lemin->end)
 		return update_path(weight);
@@ -26,7 +26,7 @@ void    bmf_recursive(t_room *current, int weight)
 	current->visited = FALSE;
 }
 
-void    bellmand_ford()
+void	bellmand_ford()
 {
 	if (lemin->working_path)
 		return (lemin_error(LEMIN_ERR_MEM));

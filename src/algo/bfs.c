@@ -1,19 +1,9 @@
-
 #include "lemin.h"
 
-// dans algo.h
-# define FALSE 0
-# define TRUE 1
-// dans print.h
-# define LEM_ERR_DISJOINT -3
-// TODO add error message no path found between start and end
-
-
-
-void    bfs_recursive(t_room *current, int weight)
+static void	 bfs_recursive(t_room *current, int weight)
 {
-	unsigned int    top;
-	unsigned int    d;
+	unsigned int	top;
+	unsigned int	d;
 
 	if (current == lemin->end)
 		return update_path(weight);
@@ -35,7 +25,7 @@ void    bfs_recursive(t_room *current, int weight)
 	current->visited = FALSE;
 }
 
-void    bfs()
+void			bfs()
 {
 	lemin->end->weight = -1;
 	bfs_recursive(lemin->start, 0);
