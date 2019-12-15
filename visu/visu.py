@@ -2,6 +2,8 @@ from vpython import *
 from platform import system
 import os
 from reading import read_lines
+from rendering import *
+from structs import *
 
 lines = []
 while True:
@@ -11,5 +13,14 @@ while True:
 		break
 	lines.append(line)
 
- = read_lines(lines)
+n_ants, rooms, Floor.start, Floor.end, paths = read_lines(lines)
 
+Config()
+
+visu = Floor([Floor.start])
+visu.draw()
+
+cg = PathsColorGenerator(paths)
+cg.draw_paths()
+
+Ant.display_ants(paths)

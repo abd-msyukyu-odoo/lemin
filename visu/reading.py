@@ -1,12 +1,12 @@
 import os
 import signal
+from structs import *
 
 def read_lines(lines):
-	nb_ants = 0
+	n_ants = 0
 	rooms = {}
 	path_starts = {} #room name to ant_pioneer name
 	ants_pioneer = {} #ant_pioneer name to path
-	ants_count = {} #ant_pioneer name to n_ants
 	ants_follower = {} #ant name to ant_pioneer_name
 	start = None
 	is_start = False
@@ -31,7 +31,7 @@ def read_lines(lines):
 		if status == 0:
 			if line[0] != '#':
 				status = 1
-				nb_ants = int(line)
+				n_ants = int(line)
 		elif status == 1:
 			if line == "##start":
 				is_start = True
@@ -39,7 +39,7 @@ def read_lines(lines):
 				is_end = True
 			elif line[0] != '#':
 				data = line.split(' ')
-				rooms[data[0]] = Room(data[0])# room
+				rooms[data[0]] = Room(data[0])
 				if is_start:
 					start = rooms[data[0]]
 					is_start = False
@@ -51,10 +51,10 @@ def read_lines(lines):
 			if len(data) != 2 or data[0] not in rooms.keys() \
 				or data[1] not in rooms.keys() \
 				or data[0] in rooms[data[1]].tubes.keys() \
-				or data[1] in rooms[data[0]].tubes.keys():# tubes dictionary with key other room
+				or data[1] in rooms[data[0]].tubes.keys():
 				is_incomplete = True
 				continue
-			tube = Tube(rooms[data[0]], rooms[data[1]]) # tube
+			tube = Tube(rooms[data[0]], rooms[data[1]])
 			rooms[data[0]].add_tube(tube)
 			rooms[data[1]].add_tube(tube)
 	for i in range(l_paths, len(lines)):
@@ -63,14 +63,14 @@ def read_lines(lines):
 			for predata in predatas:
 				data = predata.split('-')
 				if data[0] in ants_pioneer.keys():
-					ants_pioneer[data[0]].add_room(rooms[data[1]])#add_room (path)
-				elif data[1] != start.name and data[0] not in ants_follower.keys(): #name
+					ants_pioneer[data[0]].add_room(rooms[data[1]])
+				elif data[1] != start.name and data[0] not in ants_follower.keys():
 					if data[1] not in path_starts.keys():
-						ants_pioneer[data[0]] = Path(start) #path
+						ants_pioneer[data[0]] = Path(start)
 						ants_pioneer[data[0]].add_room(rooms[data[1]])
 						path_starts[data[1]] = data[0]
-						ants_count[data[0]] = 1
 						ants_follower[data[0]] = data[0]
 					else:
 						ants_follower[data[0]] = path_starts[data[1]]
-						ants_count[ants_follower[data[0]]] += 1
+						ants_pioneer[ants_follower[data[0]]].n_ants += 1
+	return n_ants, rooms, start, end, ants_pioneer.values()
