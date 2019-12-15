@@ -29,32 +29,39 @@
 //		+ {a_42 - a_41 [+1]}
 //		+ {a_41 - 1}
 
-static int  compute_x(int a, t_array *p)
+static int	compute_x(int a, t_path *p, int nb_paths)
 {
-	int	 rtn;
-	int	 i;
+	t_path	*last;
+	int		rtn;
 
+	last = p;
+	while (last->next)
+		last = last->next;
 	rtn = a;
-	rtn += (p->n_items - 1) * (((t_array *)ft_array_get(p, p->n_items - 1))->n_items - 1);
-	i = 0;
-	while (i < p->n_items - 1)
+	rtn += (nb_paths - 1) * (last->nb_elements - 1);
+	last = p;
+	while (last)
 	{
-		rtn += (((t_array *)ft_array_get(p, p->n_items - 1))->n_items - 1);
-		i++;
+		rtn += last->nb_elements - 1;
+		last = last->next;
 	}
-	return rtn;
+	return (rtn);
 }
 
-int	 get_cost(t_array *paths, int ants)
+static int	get_cost(t_path *paths, int nb_paths)
 {
-	int	 minus_one;
-	int	 x;
-	int	 cost;
+	int		minus_one;
+	int		x;
+	int		cost;
+	t_path	*last;
 
-	x = compute_x(ants, paths);
-	minus_one = paths->n_items > 1 ? x % (paths->n_items - 1) : 0;
+	last = paths;
+	while (last->next)
+		last = last->next;
+	x = compute_x(lemin->nb_ants, pahts, nb_paths);
+	minus_one = nb_paths > 1 ? x % (nb_paths - 1) : 0;
 	x -= minus_one;
-	cost = (x / paths->n_items) + (((t_array *)ft_array_get(p, p->n_items - 1))->n_items - 1);
+	cost = (x / nb_paths) + (last->nb_elements - 1);
 	cost -= (minus_one == 0 ? 1 : 0);
 	return (cost);
 }

@@ -25,13 +25,18 @@ static void		algo_add_best_path_to_paths()
 	lemin->best_path = NULL;
 }
 
-static void		algo_add_paths_to_old_paths()
+static void		algo_add_paths_to_old_paths(int cost)
 {
-	if (ft_array_add(lemin->old_paths, (void *)paths_dup(lemin->paths)) != 1)
+	t_paths_with_cost	*paths_with_cost;
+
+	if (!(paths_with_cost = (t_paths_with_cost *)ft_memanager_get(lemin->mmng, sizeof(t_paths_with_cost))) ||
+		!(paths_with_cost->path = paths_dup(lemin->paths)) ||
+		!(paths_with_cost->cost = cost) ||
+		!(ft_array_add(lemin->old_paths, paths_with_cost)))
 		lemin_error(LEMIN_ERR_ARRAY);
 }
 
-void			set_negatives()
+static void		set_negatives()
 {
 	t_path		*paths;
 	t_p_elem	elem;
@@ -49,6 +54,25 @@ void			set_negatives()
 	}
 }
 
+static void		set_nb_elements()
+{
+	t_path		*path;
+	t_p_elem	*elem;
+
+	path = lemin->paths;
+	while (path)
+	{
+		path->nb_elements = 0;
+		elem = path->elements;
+		while (elem)
+		{
+			(path->nb_elements)++;
+			elem = elem->next;
+		}
+		path = path->next;
+	}
+}
+
 void	algo()
 {
 	unsigned int	limit;
@@ -60,17 +84,16 @@ void	algo()
 		limit = lemin->end->a_tubes->n_items;
 	bfs();
 	algo_add_best_path_to_paths();
-	algo_add_paths_to_old_paths();
 	nb_paths = 1;
+	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)nb_paths));
 	while (nb_paths <= limit)
 	{
 		set_negatives();
 		bmf();
-		check_roads(); // TODO check
+		check_roads();
 		algo_add_best_path_to_paths();
-		// TODO count length
-		cost(); // TODO check
-		algo_add_paths_to_old_paths();
+		set_nb_elements();
+		algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)nb_paths));
 		nb_paths++;
 	}
 

@@ -3,6 +3,11 @@
 # define FALSE 0
 # define TRUE 1
 
+typedef struct	s_paths_with_cost
+{
+	int		cost;
+	t_path	*path;
+}				t_paths_with_cost;
 
 /*
 **  function update_path
