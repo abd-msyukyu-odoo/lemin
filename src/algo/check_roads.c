@@ -23,15 +23,16 @@ static t_room	*cr_find_other(t_tube *tube)
 static void		cr_exchange(t_p_elem *cur, t_p_elem *other, t_p_elem **pointer)
 {
 	s_p_elem	*tmp;
+	t_tube		*tmp_tube;
 
 	tmp = other->next->next;
+	tmp_tube = other->next->tube;
 	remove_p_elem(&(other->next));
 	other->next = cur->next->next;
+	other->tube = cur->next->tube;
 	remove_p_elem(&(cur->next));
 	cur->next = tmp;
-	if (!(cur->tube = ft_room_get_tube(cur->room, cur->next->room)) ||
-		!(other->tube = ft_room_get_tube(other->room, other->next->room)))
-		return (lemin_error(LEM_ERR_MEM));
+	cur->tube = tmp_tube;
 	*pointer = other;
 }
 
