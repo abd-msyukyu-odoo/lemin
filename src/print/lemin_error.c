@@ -29,7 +29,3 @@ void			lemin_error(int error)
 	printf("%s\n", error_msg(error));
 	exit(EXIT_FAILURE);
 }
-
-
-// TODO add error message no path found between start and end
-// TODO add error message algo prolem

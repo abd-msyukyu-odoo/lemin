@@ -1,6 +1,5 @@
 #include "lemin.h"
 
-// TODO update cost
 //	Meilleure repartition des fourmis :
 //	Soient :
 //		  n		: nombre de fourmis
