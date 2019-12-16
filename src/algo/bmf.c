@@ -18,7 +18,7 @@ void	bmf_recursive(t_room *current, int weight)
 	d = 0;
 	while (d < top)
 	{
-		t = ft_tube_get_connection(ft_array_get(current->a_tubes, d), current);
+		t = ft_tube_get_connection(ft_marray_get(current->a_tubes, d), current);
 		bmf_recursive(ft_tube_get_connection(t, weight + t->cost);
 		d++;
 	}

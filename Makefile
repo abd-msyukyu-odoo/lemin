@@ -1,74 +1,48 @@
 # **************************************************************************** #
-#																			  #
-#														 :::	  ::::::::	#
-#	Makefile										   :+:	  :+:	:+:	#
-#													 +:+ +:+		 +:+	  #
-#	By: dabeloos <dabeloos@student.42.fr>		  +#+  +:+	   +#+		 #
-#												 +#+#+#+#+#+   +#+			#
-#	Created: 2019/03/05 17:21:38 by dabeloos		  #+#	#+#			  #
-#	Updated: 2019/07/15 08:19:48 by pvanderl		 ###   ########.fr		#
-#																			  #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: dabeloos <dabeloos@students.s19.be>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/03/05 17:21:38 by dabeloos          #+#    #+#              #
+#    Updated: 2019/06/22 12:23:03 by pvanderl         ###   ########.fr        #
+#                                                                              #
 # **************************************************************************** #
-# -g -fsanitize=address
-# -Wno-unused-function
-
-TEST_R		= resources/
-
-TEST		= big1.txt
 
 NAME		= lem-in
 
+OSMAKE		:= 
+ifeq ($(OS),Windows_NT)
+	OSMAKE = mingw32-make.exe
+else
+	OSMAKE = make
+endif
+
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror -O3
+CFLAGS		= -Wall -Wextra -Werror -g
 
-CHEAD		= ./libft/includes
+LIBHEAD		= ./libft/includes
 
 THISHEAD	= ./inc
 
-MAIN_F		= main
+PRINT_F		= lemin_error
 
-READ_F		= start tools tools2
+STRUCTS_F	= global \
+			  room \
+			  tube
 
-STRUCT_F	=	array_1 array_2 room_1 room_2 global tube path ant\
-				btree_1 btree_2 btree_3 btree_4
+MAIN_F		= test_room
 
-PRINT_F		= start
+ALGO_F		= algo bfs bmf check_roads cost
 
-ALGO_F		= bfs_start bfs_tools
-
-O_FILES		= $(addprefix ./src/, $(addsuffix .o,\
-				$(MAIN_F) \
-				$(addprefix read/, $(READ_F)) \
-				$(addprefix structs/, $(STRUCT_F)) \
-				$(addprefix print/, $(PRINT_F)) \
-				$(addprefix algo/, $(ALGO_F)) \
-			))
-
-
-
-
-
-
-
-
-
-
-#		 !!!!!!!!!!!!!!!!!!! fclean libft
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+O_FILES		= $(addsuffix .o, \
+			  	$(addprefix ./src/, \
+					$(addprefix print/, $(PRINT_F)) \
+					$(addprefix structs/, $(STRUCTS_F)) \
+					$(addprefix algo/, $(ALGO_F))) \
+				$(addprefix tests/, $(MAIN_F)))
 
 END_E		= \033[00m
 RED_E		= \033[01;31m
@@ -81,37 +55,27 @@ BOLD_E		= \033[1m
 UNDERLINE_E	= \033[4m
 
 $(NAME):	$(O_FILES)
-			@make -C libft/
+			@$(OSMAKE) -C libft/
 			@gcc -o $(NAME) $(O_FILES) -L./libft/ -lft
-			@echo "$(GREEN_E)end compilation$(END_E)"
+			@echo "$(GREEN_E)end compilation : $(NAME)$(END_E)"
 
 all:		$(NAME)
 
 %.o:		%.c
-			@$(CC) $(CFLAGS) -c -o $@ $< -I$(THISHEAD) -I$(CHEAD) \
-			-I$(THISHEAD)
+			@$(CC) $(CFLAGS) -c -o $@ $< -I$(LIBHEAD) -I$(THISHEAD)
 
-clean:
+lemclean:
 			@rm -f $(O_FILES)
-			@make -C libft/ clean
-			@echo "$(PURPLE_E)end clean$(END_E)"
+			@echo "$(PURPLE_E)end clean : $(NAME)$(END_E)"
 
-fclean:		clean
+clean:		lemclean
+			@$(OSMAKE) -C libft/ clean
+
+fclean:		lemclean
 			@rm -f $(NAME)
-			@make -C libft/ fclean
-			@echo "$(RED_E)end fclean$(END_E)"
+			@$(OSMAKE) -C libft/ fclean
+			@echo "$(RED_E)end fclean : $(NAME)$(END_E)"
 
-re:			clear fclean all
-
-clear:
-			@clear
-
-norm:		clear
-			@norminette $(addsuffix .c, $(basename $(O_FILES)))
-			@norminette $(THISHEAD)/*
-
-test:		fclean clear all
-			./$(NAME) < $(TEST_R)$(TEST)
-
+re:			fclean all
 
 .PHONY: clean fclean all re

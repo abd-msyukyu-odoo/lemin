@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   lemin_error.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 21:33:36 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/11/28 21:33:37 by dabeloos         ###   ########.fr       */
+/*   Created: 2019/11/29 10:25:41 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/11/29 10:25:43 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
-# include "libft.h"
-# include "print/lemin_error.h"
-# include "structs/charkey.h"
-# include "structs/global.h"
-# include "structs/room.h"
-# include "structs/tube.h"
-# include "structs/path.h"
-# include "algo/algo.h"
+#ifndef LEMIN_ERROR_H
+# define LEMIN_ERROR_H
+# define LEMIN_ERR_MEM -1
+# define LEMIN_ERR_INSUFFICIENT_DATA -2
+# define LEMIN_ERR_DISJOINT -3
+# define LEMIN_ERR_ALGO -4
+# define LEMIN_SIZE_ERR_MSG 30
 
-# include <stdio.h>
-
-extern t_global		*lemin;
+void			lemin_error(int error);
+char			*error_msg(int error);
 
 #endif

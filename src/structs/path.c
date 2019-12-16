@@ -128,6 +128,8 @@ void		path_elem_free(t_p_elem **elem)
 {
 	if (*elem == NULL)
 		return ;
+	if ((*elem)->next)
+		path_elem_free(&((*elem)->next));
 	if (ft_memanager_refill(lemin->mmng, (void *)*elem) != 1) // TODO ajuster chiffre
 		return (lemin_error(LEMIN_ERR_MEM));
 	*elem = NULL;
@@ -154,7 +156,7 @@ t_path	  *paths_dup(t_path *path)
 	return new;
 }
 
-void		path_add_end(t_path **path, s_p_elem *element)
+void		path_add_end(t_path **path, t_p_elem *element)
 {
 	t_path		*end;
 	t_path		*curr;

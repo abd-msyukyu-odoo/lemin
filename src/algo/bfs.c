@@ -18,7 +18,7 @@ static void	 bfs_recursive(t_room *current, int weight)
 	{
 		bfs_recursive(
 				ft_tube_get_connection(
-						ft_array_get(current->a_tubes, d), current), weight + 1);
+						ft_marray_get(current->a_tubes, d), current), weight + 1);
 		d++;
 	}
 	path_elem_pop(&(lemin->working_path));

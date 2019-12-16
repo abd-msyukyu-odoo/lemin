@@ -48,7 +48,7 @@ static int	compute_x(int a, t_path *p, int nb_paths)
 	return (rtn);
 }
 
-static int	get_cost(t_path *paths, int nb_paths)
+int			get_cost(t_path *paths, int nb_paths)
 {
 	int		minus_one;
 	int		x;

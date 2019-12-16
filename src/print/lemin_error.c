@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 21:33:36 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/11/28 21:33:37 by dabeloos         ###   ########.fr       */
+/*   Created: 2019/11/29 10:22:26 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/11/29 10:22:27 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
-# include "libft.h"
-# include "print/lemin_error.h"
-# include "structs/charkey.h"
-# include "structs/global.h"
-# include "structs/room.h"
-# include "structs/tube.h"
-# include "structs/path.h"
-# include "algo/algo.h"
+#include "lemin.h"
 
-# include <stdio.h>
+char			*error_msg(int error)
+{
+	static char	*errors[LEMIN_SIZE_ERR_MSG] = {
+		"MEMORY ERROR",
+		"ERROR",
+		"DISJOINT",
+		"ALGO ERROR"};
 
-extern t_global		*lemin;
+	return (errors[-1 - error]);
+}
 
-#endif
+void			lemin_error(int error)
+{
+	global_free();
+	printf("%s\n", error_msg(error));
+	exit(EXIT_FAILURE);
+}
+
+
+// TODO add error message no path found between start and end
+// TODO add error message algo prolem

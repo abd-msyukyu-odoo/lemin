@@ -7,7 +7,7 @@ void	update_path(int weight)
 		return ;
 	lemin->end->weight = weight;
 	path_elem_free(&(lemin->best_path));
-	path_duplicate(lemin->working_path, &(lemin->best_path));
+	lemin->best_path = path_elem_dup(lemin->working_path);
 }
 
 static void		algo_add_best_path_to_paths()
@@ -17,8 +17,8 @@ static void		algo_add_best_path_to_paths()
 	elem = lemin->best_path;
 	while (elem->next)
 	{
-		if (!(elem->tube = ft_room_get_tube(elem->room, elem->next->room)))
-			return (lemin_error(LEM_ERR_MEM));
+		if (!(elem->tube = room_get_connection(elem->room, elem->next->room)))
+			return (lemin_error(LEMIN_ERR_MEM));
 		elem = elem->next;
 	}
 	path_add_end(&(lemin->paths), lemin->best_path);
@@ -32,19 +32,19 @@ static void		algo_add_paths_to_old_paths(int cost)
 	if (!(paths_with_cost = (t_paths_with_cost *)ft_memanager_get(lemin->mmng, sizeof(t_paths_with_cost))) ||
 		!(paths_with_cost->path = paths_dup(lemin->paths)) ||
 		!(paths_with_cost->cost = cost) ||
-		!(ft_array_add(lemin->old_paths, paths_with_cost)))
-		lemin_error(LEMIN_ERR_ARRAY);
+		!(ft_marray_add(lemin->old_paths, paths_with_cost)))
+		lemin_error(LEMIN_ERR_MEM);
 }
 
 static void		set_negatives()
 {
 	t_path		*paths;
-	t_p_elem	elem;
+	t_p_elem	*elem;
 
 	paths = lemin->paths;
 	while (paths)
 	{
-		elem = path->elements;
+		elem = paths->elements;
 		while(elem)
 		{
 			elem->tube->cost = -1;
