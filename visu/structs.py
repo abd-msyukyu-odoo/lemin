@@ -33,7 +33,7 @@ class Room:
 
 	def get_tube(self, room):
 		if room.name in self.tubes.keys():
-			return tubes[room.name]
+			return self.tubes[room.name]
 		return None
 
 class Path:
@@ -61,5 +61,6 @@ class Path:
 		if self.n < len(self.rooms):
 			result = self.rooms[self.n]
 			self.n += 1
+			return result
 		else:
 			raise StopIteration

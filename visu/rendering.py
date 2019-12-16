@@ -3,24 +3,24 @@ import os
 import signal
 import time
 from structs import *
-from math import pi, cos, sin
+from math import pi, cos, sin, sqrt
 
 class Config:
 	time_multiplier = 1
 
 	def __init__(self, width = 1800, height = 1000):
 		scene.width = width
-		scene.height= width
+		scene.height = height
 		self.camera_pos = scene.camera.pos
-		scene.bind('mousemove mousedown', self.move_camera)
+		scene.bind('mousedown mousemove', self.move_camera)
 		scene.bind('keyup', self.terminate)
 		self.slide = slider(pos=scene.caption_anchor, bind=self.update_time_multiplier,
 			step=0.1, value=0.5, top=10)
 
 	def move_camera(self, ev):
-		if ev.event == "mousedown":
+		if ev.event == 'mousedown':
 			self.camera_pos = ev.pos
-		elif ev.event == "mousemove":
+		elif ev.event == 'mousemove':
 			scene.camera.pos -= (ev.pos - self.camera_pos) / 20
 	
 	def terminate(self, ev):
@@ -74,7 +74,7 @@ class Floor:
 		for room in self.rooms:
 			joint_rooms = room.get_other_rooms()
 			for subroom in joint_rooms:
-				if subroom.name not in self.rSet and subroom.name not in self.tmpSet:
+				if subroom.name not in self.rSet and subroom.name not in tmpSet:
 					next_rooms.append(subroom)
 					tmpSet.add(subroom.name)
 		return next_rooms
@@ -109,7 +109,7 @@ class PathsColorGenerator:
 		self.paths = paths
 		self.min = None
 		self.max = None
-		for path in paths:
+		for path in self.paths:
 			if self.min is None or path.cost < self.min:
 				self.min = path.cost
 			if self.max is None or path.cost > self.max:
@@ -124,7 +124,7 @@ class PathsColorGenerator:
 		return vector(red, green, 0)
 
 	def draw_paths(self):
-		for path in paths:
+		for path in self.paths:
 			color = self.color(path.cost)
 			i = 0
 			for room in path:
@@ -153,12 +153,12 @@ class Ant:
 		if self.i + 1 == len(self.path.rooms):
 			self.i = 0
 			self.sphere.velocity = self.path.rooms[1].visu.pos
-			self.sphere.pos = self.path.room[0].visu.pos
+			self.sphere.pos = self.path.rooms[0].visu.pos
 			return False
-		self.sphere.pos = self.path.rooms[i].visu.pos
-		self.sphere.velocity = vector(self.path.rooms[i + 1].visu.pos.x - self.path.rooms[i].visu.pos.x, \
-			self.path.rooms[i + 1].visu.pos.y - self.path.rooms[i].visu.pos.y, \
-			self.path.rooms[i + 1].visu.pos.z - self.path.rooms[i].visu.pos.z)
+		self.sphere.pos = self.path.rooms[self.i].visu.pos
+		self.sphere.velocity = vector(self.path.rooms[self.i + 1].visu.pos.x - self.path.rooms[self.i].visu.pos.x, \
+			self.path.rooms[self.i + 1].visu.pos.y - self.path.rooms[self.i].visu.pos.y, \
+			self.path.rooms[self.i + 1].visu.pos.z - self.path.rooms[self.i].visu.pos.z)
 		return True
 
 	def update_position(self, deltat):

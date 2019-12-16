@@ -122,3 +122,14 @@ cible : quand on supprime un element dont un des enfant est une feuille, une feu
 
 
 a tester : mbtree ajouter retirer ajouter + afficher le memanager
+
+
+
+
+
+
+
+
+visu lemin : adaptation de la camera
+
+capturer la position de la camera

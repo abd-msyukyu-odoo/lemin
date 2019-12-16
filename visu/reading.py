@@ -73,4 +73,4 @@ def read_lines(lines):
 					else:
 						ants_follower[data[0]] = path_starts[data[1]]
 						ants_pioneer[ants_follower[data[0]]].n_ants += 1
-	return n_ants, rooms, start, end, ants_pioneer.values()
+	return n_ants, rooms, start, end, list(ants_pioneer.values())
