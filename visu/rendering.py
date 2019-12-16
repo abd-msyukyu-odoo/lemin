@@ -4,36 +4,49 @@ import signal
 import time
 from structs import *
 from math import pi, cos, sin, sqrt
+import random
 
 class Config:
 	time_multiplier = 1
 
-	def __init__(self, width = 1800, height = 1000):
+	def __init__(self, width = 1800, height = 900):
 		scene.width = width
 		scene.height = height
-		self.camera_pos = scene.camera.pos
-		scene.bind('mousedown mousemove', self.move_camera)
+		scene.bind('mousedown mouseup', self.move_camera)
 		scene.bind('keyup', self.terminate)
-		self.slide = slider(pos=scene.caption_anchor, bind=self.update_time_multiplier,
+		self.slider = slider(pos=scene.caption_anchor, bind=self.update_time_multiplier,
 			step=0.1, value=0.5, top=10)
+		self.checkbox = checkbox(pos=scene.caption_anchor, bind=self.update_ant_follower,
+			text="Follow a random Ant")
 
 	def move_camera(self, ev):
+		if scene.autoscale:
+			scene.autoscale = False
 		if ev.event == 'mousedown':
-			self.camera_pos = ev.pos
-		elif ev.event == 'mousemove':
-			scene.camera.pos -= (ev.pos - self.camera_pos) / 20
+			self.tmp_pos = ev.pos
+		elif ev.event == 'mouseup':
+			scene.camera.pos = (scene.center + (self.tmp_pos - ev.pos) - scene.camera.axis)
+
+	def update_ant_follower(self):
+		if Ant.ants_pool is not None:
+			if self.checkbox.checked:
+				i = random.randint(0, len(Ant.ants_pool) - 1)
+				Ant.followed = Ant.ants_pool[i]
+				scene.camera.axis = scene.forward
+			else:
+				Ant.followed = None
 	
 	def terminate(self, ev):
 		if ev.key == 'esc':
 			os.kill(os.getpid(), signal.SIGINT)
 
 	def update_time_multiplier(self):
-		if self.slide.value == 0.5:
+		if self.slider.value == 0.5:
 			Config.time_multiplier = 1
-		elif self.slide.value < 0.5:
-			Config.time_multiplier = self.slide.value * 2
+		elif self.slider.value < 0.5:
+			Config.time_multiplier = self.slider.value * 2
 		else:
-			Config.time_multiplier = (self.slide.value - 0.5) * 10 + 1
+			Config.time_multiplier = (self.slider.value - 0.5) * 10 + 1
 
 class Floor:
 	start = None
@@ -142,6 +155,9 @@ class PathsColorGenerator:
 		curve.modify(1, color = new_color, radius = curve.radius * 3)
 
 class Ant:
+	ants_pool = None
+	followed = None
+
 	def __init__(self, path):
 		self.path = path
 		self.sphere = sphere(pos=path.rooms[0].visu.pos, radius = path.rooms[0].visu.radius * 0.4, color = color.black)
@@ -163,18 +179,23 @@ class Ant:
 
 	def update_position(self, deltat):
 		self.sphere.pos = self.sphere.pos + self.sphere.velocity * deltat
+		if self is Ant.followed:
+			scene.camera.pos = (self.sphere.pos - scene.camera.axis)
 
 	@staticmethod
 	def display_ants(paths):
 		ants = []
 		finished_ants = []
 		stock = []
+		Ant.ants_pool = []
 		for i in range(len(paths)):
 			stock.append([])
 			ants.append([])
 			finished_ants.append([])
 			for j in range(paths[i].n_ants):
-				stock[i].append(Ant(paths[i]))
+				ant = Ant(paths[i])
+				stock[i].append(ant)
+				Ant.ants_pool.append(ant)
 		deltat = 0.000005
 		t = 0
 		while True:

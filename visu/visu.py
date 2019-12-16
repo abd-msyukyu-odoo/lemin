@@ -4,7 +4,6 @@ import os
 from reading import read_lines
 from rendering import *
 from structs import *
-from threading import Thread
 
 lines = []
 while True:
