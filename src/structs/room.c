@@ -190,6 +190,14 @@ int						room_create_pair(char *key)
 	return (1);
 }
 
+static int				room_pt_marray_add(void *receiver, void *sent)
+{
+	t_tube				*tube;
+
+	tube = (t_tube*)sent;
+	return (ft_marray_add((t_marray*)receiver, &tube));
+}
+
 int						room_copy_hmap_to_marray(void *receiver, void *sent)
 {
 	t_room				*room;
@@ -197,5 +205,6 @@ int						room_copy_hmap_to_marray(void *receiver, void *sent)
 	if (receiver)
 		return (0);
 	room = (t_room*)sent;
-	return (ft_hmap_fill_marray((t_hmap*)&room->hm_tubes, &room->a_tubes));
+	return (ft_hmap_bnode_iteration(&room->a_tubes, (t_hmap*)&room->hm_tubes,
+		room_pt_marray_add));
 }

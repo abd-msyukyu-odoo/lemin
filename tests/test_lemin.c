@@ -5,6 +5,27 @@ char		*in = "hivadeyfbcgopzwxklmjtunqsr";
 
 t_global	*lemin = NULL;
 
+int				show_tube(void *receiver, void *sent)
+{
+	t_tube		*tube;
+
+	tube = (t_tube*)sent;
+	if (!receiver)
+	{
+		printf("%s - %s\n", tube->room1->key.key, tube->room2->key.key);
+		return (1);
+	}
+	return (0);
+}
+
+int				show_tube_ptr(void *receiver, void *sent)
+{
+	t_tube		**tube;
+
+	tube = (t_tube**)sent;
+	return (show_tube(receiver, *tube));
+}
+
 void			display_hm(t_mhmap *mhmap, int (*f)(void *receiver, void *sent))
 {
 	printf("======display hashmap \n");
@@ -16,7 +37,9 @@ void			display_room(t_room *room)
 	//printf("--------display room \n");
 	printf("		name : %s\n", room->key.key);
 	//printf("		display room's tube hasmap\n");
-	//display_hm(&room->hm_tubes, show_tube);
+	display_hm(&room->hm_tubes, show_tube);
+	printf("___array\n");
+	ft_array_iteration(NULL, (t_array*)&room->a_tubes, show_tube_ptr);
 }
 
 int				display_room_bnode(void *receiver, void *sent)
@@ -61,19 +84,6 @@ void			display_hmap_repartition(t_mhmap *m)
 		m->hmap.array->size);
 }
 
-int				show_tube(void *receiver, void *sent)
-{
-	t_tube		*tube;
-
-	tube = (t_tube*)sent;
-	if (!receiver)
-	{
-		printf("%s - %s\n", tube->room1->key.key, tube->room2->key.key);
-		return (1);
-	}
-	return (0);
-}
-
 int				show_room(void *receiver, void *sent)
 {
 	t_room		*room;
@@ -115,8 +125,8 @@ int				main(void)
 	global_construct_hashmap_rooms(LEMIN_DEFAULT_ROOMS_COUNT);
 	read_lemin();
 	printf("======display lemin's room hashmap\n");
-	display_hmap_repartition(&lemin->hm_rooms);
-	//display_hm(&lemin->hm_rooms, show_room);
+	//display_hmap_repartition(&lemin->hm_rooms);
+	display_hm(&lemin->hm_rooms, show_room);
 	display_start(lemin->start);
 	display_end(lemin->end);
 	display_n_ants(lemin->n_ants);
