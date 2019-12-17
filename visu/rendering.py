@@ -12,12 +12,31 @@ class Config:
 	def __init__(self, width = 1800, height = 900):
 		scene.width = width
 		scene.height = height
-		scene.bind('mousedown mouseup', self.move_camera)
-		scene.bind('keyup', self.terminate)
+		#scene.bind('mousedown mouseup', self.move_camera)
+		scene.bind('keyup', self.navigate)
 		self.slider = slider(pos=scene.caption_anchor, bind=self.update_time_multiplier,
 			step=0.1, value=0.5, top=10)
 		self.checkbox = checkbox(pos=scene.caption_anchor, bind=self.update_ant_follower,
 			text="Follow a random Ant")
+		self.navigate_keys = {
+			'q': self.prevFloor,
+			'e': self.nextFloor
+		}
+
+	def prevFloor(self):
+		scene.center = vector(round(scene.center.x - 1), 0, 0)
+
+	def nextFloor(self):
+		scene.center = vector(round(scene.center.x + 1), 0, 0)
+
+	def navigate(self, ev):
+		if scene.autoscale:
+			scene.autoscale = False
+		if ev.key in self.navigate_keys.keys():
+			self.navigate_keys[ev.key]()
+		elif ev.key == 'esc':
+			os.kill(os.getpid(), signal.SIGINT)
+		print(scene.center)
 
 	def move_camera(self, ev):
 		if scene.autoscale:
@@ -35,10 +54,6 @@ class Config:
 				scene.camera.axis = scene.forward
 			else:
 				Ant.followed = None
-	
-	def terminate(self, ev):
-		if ev.key == 'esc':
-			os.kill(os.getpid(), signal.SIGINT)
 
 	def update_time_multiplier(self):
 		if self.slider.value == 0.5:
