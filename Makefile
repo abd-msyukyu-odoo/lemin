@@ -28,17 +28,20 @@ LIBHEAD		= ./libft/includes
 THISHEAD	= ./inc
 
 PRINT_F		= lemin_error
-			  
+
 STRUCTS_F	= global \
 			  room \
 			  tube
 
 MAIN_F		= test_room
 
+ALGO_F		= algo bfs bmf check_roads cost
+
 O_FILES		= $(addsuffix .o, \
 			  	$(addprefix ./src/, \
 					$(addprefix print/, $(PRINT_F)) \
-					$(addprefix structs/, $(STRUCTS_F))) \
+					$(addprefix structs/, $(STRUCTS_F)) \
+					$(addprefix algo/, $(ALGO_F))) \
 				$(addprefix tests/, $(MAIN_F)))
 
 END_E		= \033[00m

@@ -18,6 +18,8 @@
 # include "structs/global.h"
 # include "structs/room.h"
 # include "structs/tube.h"
+# include "structs/path.h"
+# include "algo/algo.h"
 
 # include <stdio.h>
 

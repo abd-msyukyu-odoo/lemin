@@ -31,6 +31,8 @@ typedef struct			s_room
 {
 	t_charkey			key;
 	t_mhmap				hm_tubes;
+	int					weight;
+	int					visited;
 	unsigned int		status;
 }						t_room;
 
