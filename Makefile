@@ -27,11 +27,12 @@ LIBHEAD		= ./libft/includes
 
 THISHEAD	= ./inc
 
-PRINT_F		= lemin_error
+PRINT_F		= lemin_error print
 
 STRUCTS_F	= global \
 			  room \
-			  tube
+			  tube \
+			  ant
 
 MAIN_F		= test_room
 

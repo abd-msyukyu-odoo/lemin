@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   global.h										   :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: pvanderl <pvanderl@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2019/07/03 14:34:23 by pvanderl		  #+#	#+#			 */
-/*   Updated: 2019/07/15 07:57:34 by pvanderl		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   global.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvanderl <pvanderl@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/03 14:34:23 by pvanderl          #+#    #+#             */
+/*   Updated: 2019/07/15 07:57:34 by pvanderl         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GLOBAL_H
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "structs/room.h"
 # include "structs/tube.h"
+# include "structs/ant.h"
 # include "path.h"
 
 typedef struct	s_global
@@ -30,6 +31,10 @@ typedef struct	s_global
 	t_p_elem		*best_path;
 	t_path			*paths;
 	t_marray		*old_paths;
+	t_ant           *ants;
+	int             buff_pos;
+	char            *buff;
+	int             nb_ants;
 }				t_global;
 
 /*

@@ -22,15 +22,15 @@
 **	@out:	/
 */
 
-void	add_to_buff(t_global *g, char *s)
+void	add_to_buff(char *s)
 {
 	while (*s)
 	{
-		g->buff[(g->buff_pos)++] = *s;
-		if (g->buff_pos == BF_SIZE)
+		lemin->buff[(lemin->buff_pos)++] = *s;
+		if (lemin->buff_pos == BF_SIZE)
 		{
-			write(1, g->buff, g->buff_pos);
-			g->buff_pos = 0;
+			write(1, lemin->buff, lemin->buff_pos);
+			lemin->buff_pos = 0;
 		}
 		s++;
 	}
@@ -46,15 +46,15 @@ void	add_to_buff(t_global *g, char *s)
 **	@out:	/
 */
 
-void	move_one_ant(t_global *g, t_ant *a)
+void	move_one_ant(t_ant *a)
 {
-	add_to_buff(g, "L");
-	add_to_buff(g, a->key);
-	add_to_buff(g, "-");
-	add_to_buff(g, a->actual_room->key);
-	if (a->next)
-		add_to_buff(g, " ");
-	a->actual_room = a->actual_room->next;
+	add_to_buff("L");
+	add_to_buff(a->key);
+	add_to_buff("-");
+	add_to_buff(a->elem->next->room->key.key);
+	if (a->elem->next)
+		add_to_buff(" ");
+	a->elem = a->elem->next;
 }
 
 /*
@@ -67,7 +67,7 @@ void	move_one_ant(t_global *g, t_ant *a)
 **	@out:	/
 */
 
-void	move_ants(t_global *g, t_ant **a)
+void	move_ants(t_ant **a)
 {
 	t_ant	*actual;
 	t_ant	**address;
@@ -78,8 +78,8 @@ void	move_ants(t_global *g, t_ant **a)
 	{
 		while (actual)
 		{
-			move_one_ant(g, actual);
-			if (!actual->next)
+			move_one_ant(actual);
+			if (!actual->elem->next)
 				remove_ant(address, actual);
 			address = &(actual->next);
 			actual = actual->next;
@@ -100,7 +100,7 @@ void	move_ants(t_global *g, t_ant **a)
 **	TODO remove check line 112
 */
 
-void	launch_ants(t_global *s)
+void	launch_ants()
 {
 	t_path	*path;
 	t_path	**pointer;
@@ -126,10 +126,6 @@ void	launch_ants(t_global *s)
 }
 
 /*
-** IDEA Gestion d'erreur print différent si malloc error
-*/
-
-/*
 **	function print
 **
 **	print if the global exists and exit
@@ -140,17 +136,15 @@ void	launch_ants(t_global *s)
 
 void	print()
 {
-	if (lemin->visu) //TODO update if no visu used
-		print_visu(s);
 	while (lemin->nb_ants > 0 || lemin->ants)
 	{
 		if (lemin->nb_ants > 0)
-			launch_ants(s);
-		move_ants(s, &(lemin->ants));
-		add_to_buff(s, "\n");
+			launch_ants();
+		move_ants(&(lemin->ants));
+		add_to_buff("\n");
 	}
 	lemin->buff_pos += 1;
 	write(1, lemin->buff, lemin->buff_pos);
-	destroy_global(s);
+	ft_memanager_free(lemin->mmng);
 	exit(0);
 }

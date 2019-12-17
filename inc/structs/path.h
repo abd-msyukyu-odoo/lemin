@@ -16,6 +16,7 @@ typedef struct	s_path
 	struct s_path		*next;
 }				t_path;
 
+t_path		    *remove_path(t_path *p);
 t_p_elem		*path_elem_dup(t_p_elem *elem);
 void			path_elem_free(t_p_elem **elem);
 t_path			*paths_dup(t_path *path);

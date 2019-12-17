@@ -17,6 +17,4 @@ void		print(t_global *s);
 void		print_btree(t_btree *t, char *s);
 void		add_to_buff(t_global *g, char *s);
 
-void		print_visu(t_global *s);
-
 #endif

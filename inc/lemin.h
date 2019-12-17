@@ -20,6 +20,7 @@
 # include "structs/tube.h"
 # include "structs/path.h"
 # include "algo/algo.h"
+# include "structs/ant.h"
 
 # include <stdio.h>
 

@@ -18,7 +18,8 @@ char			*error_msg(int error)
 		"MEMORY ERROR",
 		"ERROR",
 		"DISJOINT",
-		"ALGO ERROR"};
+		"ALGO ERROR",
+		"PRINTING ERROR"};
 
 	return (errors[-1 - error]);
 }
