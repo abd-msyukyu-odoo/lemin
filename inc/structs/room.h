@@ -32,6 +32,7 @@ typedef struct			s_room
 {
 	t_charkey			key;
 	t_mhmap				hm_tubes;
+	t_marray			a_tubes;
 	unsigned int		status;
 }						t_room;
 
@@ -51,8 +52,6 @@ void					room_refill_tubes(t_room *room);
 ** 	NULL : error
 */
 t_room					*room_initialize(char *key, unsigned int status);
-
-t_room					*room_get(char *key);
 
 /*
 ** create and add a pair of tube, one from key1 relative "OUT" room to 
@@ -89,5 +88,7 @@ int						room_create_end(char *key);
 ** 	0 : error
 */
 int						room_create_pair(char *key);
+
+int						room_copy_hmap_to_marray(void *receiver, void *sent);
 
 #endif

@@ -355,4 +355,7 @@ void				read_lemin(void)
 		;
 	if (!lemin->start || !lemin->end)
 		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
+	if (1 > ft_hmap_bnode_iteration(NULL, (t_hmap*)&lemin->hm_rooms,
+		room_copy_hmap_to_marray))
+		lemin_error(LEMIN_ERR_MEM);
 }
