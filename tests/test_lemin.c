@@ -34,10 +34,7 @@ void			display_hm(t_mhmap *mhmap, int (*f)(void *receiver, void *sent))
 
 void			display_room(t_room *room)
 {
-	//printf("--------display room \n");
 	printf("		name : %s\n", room->key.key);
-	//printf("		display room's tube hasmap\n");
-	display_hm(&room->hm_tubes, show_tube);
 	printf("___array\n");
 	ft_array_iteration(NULL, (t_array*)&room->a_tubes, show_tube_ptr);
 }

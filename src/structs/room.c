@@ -19,14 +19,15 @@ static char				*status_str(int status)
 	return (status_str[status % 2]);
 }
 
-void					room_refill_tubes(t_room *room)
+static int				room_refill_tube(void *receiver, void *sent)
 {
-	ft_mhmap_empty(&room->hm_tubes);
+	return (ft_memanager_refill((t_memanager*)receiver, *(t_tube**)sent));
 }
 
 void					room_refill(t_room *room)
 {
-	ft_mhmap_free(&room->hm_tubes);
+	ft_array_iteration(lemin->mmng, (t_array*)&room->a_tubes, room_refill_tube);
+	ft_marray_empty(&room->a_tubes);
 	ft_memanager_refill(lemin->mmng, room->key.key);
 	ft_memanager_refill(lemin->mmng, room);
 }
@@ -40,10 +41,8 @@ t_room					*room_initialize(char *key, unsigned int status)
 		lemin_error(LEMIN_ERR_MEM);
 	out->status = status;
 	out->key = (t_charkey){key};
-	if (!key || !ft_mhmap_initialize(&out->hm_tubes, lemin->mmng,
-		LEMIN_ROOM_HMAP_TUBE_SIZE, ft_hmap_hash_addr) ||
-		!ft_marray_initialize(&out->a_tubes, lemin->mmng,
-		LEMIN_ROOM_HMAP_TUBE_SIZE, sizeof(void*)))
+	if (!key || !ft_marray_initialize(&out->a_tubes, lemin->mmng,
+		LEMIN_ROOM_ARRAY_TUBE_SIZE, sizeof(t_tube*)))
 		lemin_error(LEMIN_ERR_MEM);
 	return (out);
 }
@@ -84,7 +83,7 @@ static int				room_is_connected_iteration(void *receiver, void *sent)
 	t_tube				*t;
 	t_room_wrapper		*wrapper;
 
-	t = (t_tube*)sent;
+	t = *(t_tube**)sent;
 	wrapper = (t_room_wrapper*)receiver;
 	if (wrapper->r1 == tube_get_connection(t, wrapper->r2))
 	{
@@ -101,7 +100,7 @@ t_tube					*room_get_connection(t_room *r1, t_room *r2)
 	wrapper.r1 = r1;
 	wrapper.r2 = r2;
 	wrapper.tube = NULL;
-	ft_hmap_bnode_iteration(&wrapper, (t_hmap*)&r1->hm_tubes,
+	ft_array_iteration(&wrapper, (t_array*)&r1->a_tubes,
 		room_is_connected_iteration);
 	return (wrapper.tube);
 }
@@ -188,23 +187,4 @@ int						room_create_pair(char *key)
 		return (0);
 	tube_add_to_rooms(tube_initialize(in, out, LEMIN_DIR_NATURAL, 0));
 	return (1);
-}
-
-static int				room_pt_marray_add(void *receiver, void *sent)
-{
-	t_tube				*tube;
-
-	tube = (t_tube*)sent;
-	return (ft_marray_add((t_marray*)receiver, &tube));
-}
-
-int						room_copy_hmap_to_marray(void *receiver, void *sent)
-{
-	t_room				*room;
-
-	if (receiver)
-		return (0);
-	room = (t_room*)sent;
-	return (ft_hmap_bnode_iteration(&room->a_tubes, (t_hmap*)&room->hm_tubes,
-		room_pt_marray_add));
 }

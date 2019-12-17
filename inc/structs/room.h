@@ -17,7 +17,7 @@
 # define LEMIN_IN 0
 # define LEMIN_OUT 1
 # define LEMIN_SIZE_SUFFIX 3
-# define LEMIN_ROOM_HMAP_TUBE_SIZE 8
+# define LEMIN_ROOM_ARRAY_TUBE_SIZE 8
 
 /*
 ** key : contains the char *key which is the id of the t_room item
@@ -31,7 +31,6 @@
 typedef struct			s_room
 {
 	t_charkey			key;
-	t_mhmap				hm_tubes;
 	t_marray			a_tubes;
 	unsigned int		status;
 }						t_room;
@@ -42,8 +41,6 @@ int						room_equals(void *o1, void *o2);
 ** free the t_room instance
 */
 void					room_refill(t_room *room);
-
-void					room_refill_tubes(t_room *room);
 
 /*
 ** create a t_room instance
@@ -88,7 +85,5 @@ int						room_create_end(char *key);
 ** 	0 : error
 */
 int						room_create_pair(char *key);
-
-int						room_copy_hmap_to_marray(void *receiver, void *sent);
 
 #endif

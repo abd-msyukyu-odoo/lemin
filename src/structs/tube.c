@@ -44,8 +44,8 @@ int					tube_equals(void *o1, void *o2)
 
 void				tube_add_to_rooms(t_tube *tube)
 {
-	if (!ft_mhmap_add(&tube->room1->hm_tubes, tube) ||
-		!ft_mhmap_add(&tube->room2->hm_tubes, tube))
+	if (!ft_marray_add(&tube->room1->a_tubes, &tube) ||
+		!ft_marray_add(&tube->room2->a_tubes, &tube))
 		lemin_error(LEMIN_ERR_MEM);
 }
 
