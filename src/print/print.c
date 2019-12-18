@@ -80,7 +80,7 @@ void	move_ants(t_ant **a)
 		{
 			move_one_ant(actual);
 			if (!actual->elem->next)
-				remove_ant(address, actual);
+				ant_remove_refill(address, actual);
 			address = &(actual->next);
 			actual = actual->next;
 		}
@@ -103,23 +103,23 @@ void	move_ants(t_ant **a)
 void	launch_ants(void)
 {
 	t_path	*path;
-	t_path	**pointer;
+	//t_path	**pointer;
 
-	pointer = &(lemin->paths);
+	//pointer = &(lemin->paths);
 	path = lemin->paths;
 	while (path)
 	{
 		if (path->n_ants > 0 && lemin->n_ants)
 		{
-			lemin->ants = add_ant(lemin->ants, lemin->n_ants, path->elems);
+			lemin->ants = ant_add_new(lemin->ants, lemin->n_ants, path->elems);
 			lemin->n_ants -= 1;
 			path->n_ants -= 1;
 		}
 		if (path->n_ants == 0)
-			path = remove_path(path);
+			path = path_refill_all(path);
 		else
 		{
-			pointer = &(path->next);
+			//pointer = &(path->next);
 			path = path->next;
 		}
 	}

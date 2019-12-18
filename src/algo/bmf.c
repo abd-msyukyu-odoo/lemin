@@ -29,16 +29,15 @@ void	bmf_recursive(t_room *current, int weight)
 	d = 0;
 	while (d < top)
 	{
-		t = tube_get_connection(*(t_tube**)ft_marray_get(current->a_tubes, d),
-			current);
-		bmf_recursive(t, weight + t->cost);
+		t = *(t_tube**)ft_array_get((t_array*)&current->a_tubes, d);
+		bmf_recursive(tube_get_connection(t, current), weight + t->cost);
 		d++;
 	}
-	path_elem_pop(&(lemin->working_path));
+	path_elem_refill_pop(&(lemin->working_path));
 	current->visited = FALSE;
 }
 
-void	bellmand_ford()
+void	bmf(void)
 {
 	if (lemin->working_path)
 		return (lemin_error(LEMIN_ERR_MEM));

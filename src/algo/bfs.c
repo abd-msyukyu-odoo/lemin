@@ -29,16 +29,16 @@ static void	 bfs_recursive(t_room *current, int weight)
 	d = 0;
 	while (d < top)
 	{
-		bfs_recursive(ft_tube_get_connection(
-			*(t_tube**)ft_marray_get(current->a_tubes, d), current),
+		bfs_recursive(tube_get_connection(
+			*(t_tube**)ft_array_get((t_array*)&current->a_tubes, d), current),
 			weight + 1);
 		d++;
 	}
-	path_elem_pop(&(lemin->working_path));
+	path_elem_refill_pop(&(lemin->working_path));
 	current->visited = FALSE;
 }
 
-void			bfs()
+void			bfs(void)
 {
 	lemin->end->weight = -1;
 	bfs_recursive(lemin->start, 0);

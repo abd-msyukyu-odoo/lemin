@@ -35,7 +35,6 @@ typedef struct	s_global
 	t_room			*end;
 	t_ant			*ants;
 	int				n_ants;
-	t_path			*paths;
 	// new
 	t_p_elem		*working_path;
 	t_p_elem		*best_path;

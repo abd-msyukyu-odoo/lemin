@@ -18,10 +18,10 @@ typedef struct	s_paths_with_cost
 */
 
 void		update_path(int weight);
-void		algo();
-void		bmf();
-void		bfs();
-void		check_roads();
+void		algo(void);
+void		bmf(void);
+void		bfs(void);
+void		check_roads(void);
 
 int			get_cost(t_path *paths, int nb_paths);
 

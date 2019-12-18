@@ -35,7 +35,8 @@ READ_F		= read
 STRUCTS_F	= global \
 			  room \
 			  tube \
-			  ant
+			  ant \
+			  path
 
 MAIN_F		= test_lemin
 

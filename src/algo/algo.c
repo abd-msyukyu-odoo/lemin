@@ -17,7 +17,7 @@ void	update_path(int weight)
 	if (lemin->end->weight < weight)
 		return ;
 	lemin->end->weight = weight;
-	path_elem_free(&(lemin->best_path));
+	path_refill_elems(lemin->best_path);
 	lemin->best_path = path_elem_dup(lemin->working_path);
 }
 
@@ -84,7 +84,7 @@ static void		set_n_elems()
 	}
 }
 
-void	algo()
+void	algo(void)
 {
 	unsigned int	limit;
 	unsigned int	n_paths;
