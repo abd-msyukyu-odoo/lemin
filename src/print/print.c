@@ -27,7 +27,7 @@ void	add_to_buff(char *s)
 	while (*s)
 	{
 		lemin->buff[(lemin->buff_pos)++] = *s;
-		if (lemin->buff_pos == BF_SIZE)
+		if (lemin->buff_pos == LEMIN_PRINT_BF_SIZE)
 		{
 			write(1, lemin->buff, lemin->buff_pos);
 			lemin->buff_pos = 0;
@@ -100,7 +100,7 @@ void	move_ants(t_ant **a)
 **	TODO remove check line 112
 */
 
-void	launch_ants()
+void	launch_ants(void)
 {
 	t_path	*path;
 	t_path	**pointer;
@@ -109,13 +109,13 @@ void	launch_ants()
 	path = lemin->paths;
 	while (path)
 	{
-		if (path->nb_ants > 0 && lemin->nb_ants)
+		if (path->n_ants > 0 && lemin->n_ants)
 		{
-			lemin->ants = add_ant(lemin->ants, lemin->nb_ants, path->elements);
-			lemin->nb_ants -= 1;
-			path->nb_ants -= 1;
+			lemin->ants = add_ant(lemin->ants, lemin->n_ants, path->elems);
+			lemin->n_ants -= 1;
+			path->n_ants -= 1;
 		}
-		if (path->nb_ants == 0)
+		if (path->n_ants == 0)
 			path = remove_path(path);
 		else
 		{
@@ -134,11 +134,11 @@ void	launch_ants()
 **	@out:	/
 */
 
-void	print()
+void	print(void)
 {
-	while (lemin->nb_ants > 0 || lemin->ants)
+	while (lemin->n_ants > 0 || lemin->ants)
 	{
-		if (lemin->nb_ants > 0)
+		if (lemin->n_ants > 0)
 			launch_ants();
 		move_ants(&(lemin->ants));
 		add_to_buff("\n");

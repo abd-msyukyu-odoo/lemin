@@ -14,6 +14,7 @@
 # define LEMIN_H
 # include "libft.h"
 # include "print/lemin_error.h"
+# include "print/print.h"
 # include "read/reading.h"
 # include "structs/charkey.h"
 # include "structs/global.h"

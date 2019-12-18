@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   algo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/29 10:25:41 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/11/29 10:25:43 by dabeloos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lemin.h"
 
@@ -44,7 +55,7 @@ static void		set_negatives()
 	paths = lemin->paths;
 	while (paths)
 	{
-		elem = paths->elements;
+		elem = paths->elems;
 		while(elem)
 		{
 			elem->tube->cost = -1;
@@ -54,7 +65,7 @@ static void		set_negatives()
 	}
 }
 
-static void		set_nb_elements()
+static void		set_n_elems()
 {
 	t_path		*path;
 	t_p_elem	*elem;
@@ -62,11 +73,11 @@ static void		set_nb_elements()
 	path = lemin->paths;
 	while (path)
 	{
-		path->nb_elements = 0;
-		elem = path->elements;
+		path->n_elems = 0;
+		elem = path->elems;
 		while (elem)
 		{
-			(path->nb_elements)++;
+			(path->n_elems)++;
 			elem = elem->next;
 		}
 		path = path->next;
@@ -76,25 +87,25 @@ static void		set_nb_elements()
 void	algo()
 {
 	unsigned int	limit;
-	unsigned int	nb_paths;
+	unsigned int	n_paths;
 
-	if (lemin->start->a_tubes->n_items < lemin->end->a_tubes->n_items)
-		limit = lemin->start->a_tubes->n_items;
+	if (lemin->start->a_tubes.array.n_items < lemin->end->a_tubes.array.n_items)
+		limit = lemin->start->a_tubes.array.n_items;
 	else
-		limit = lemin->end->a_tubes->n_items;
+		limit = lemin->end->a_tubes.array.n_items;
 	bfs();
 	algo_add_best_path_to_paths();
-	nb_paths = 1;
-	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)nb_paths));
-	while (nb_paths <= limit)
+	n_paths = 1;
+	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)n_paths));
+	while (n_paths <= limit)
 	{
 		set_negatives();
 		bmf();
 		check_roads();
 		algo_add_best_path_to_paths();
-		set_nb_elements();
-		algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)nb_paths));
-		nb_paths++;
+		set_n_elems();
+		algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)n_paths));
+		n_paths++;
 	}
 
 }

@@ -34,7 +34,7 @@ t_ant		*ant_add_new(t_ant *ant, int n, t_p_elem *elem)
 		lemin_error(LEMIN_ERR_MEM);
 	if (!(a = (t_ant *)ft_memanager_get(lemin->mmng, sizeof(t_ant))))
 		lemin_error(LEMIN_ERR_MEM);
-	a->actual_room = elem;
+	a->elem = elem;
 	a->next = ant;
 	a->key = s;
 	return (a);
@@ -50,12 +50,14 @@ t_ant		*ant_add_new(t_ant *ant, int n, t_p_elem *elem)
 **	@out:	/
 */
 
-void		ant_remove_refill(t_ant **address, t_ant *a)
+void		ant_remove_refill(t_ant **address, t_ant *a) //remove_ant
 {
 	*address = a->next;
-	ft_memanager_refill(lemin->mmng, a->key);
+	if (1 > ft_memanager_refill(lemin->mmng, a->key))
+		lemin_error(LEMIN_ERR_PRINT);
 	a->next = NULL;
-	ft_memanager_refill(lemin->mmng, a);
+	if (1 > ft_memanager_refill(lemin->mmng, a))
+		lemin_error(LEMIN_ERR_PRINT);
 }
 
 /*
@@ -75,37 +77,4 @@ t_ant		*ant_refill_all(t_ant *a)
 		ft_memanager_refill(lemin->mmng, a->key);
 	ft_memanager_refill(lemin->mmng, a);
 	return (NULL);
-}
-
-
-
-// new
-
-
-
-
-
-void        remove_ant(t_ant **address, t_ant *actual)
-{
-	*address = actual->next;
-	actual->next = NULL;
-	free(actual->key);
-	if (ft_memanager_refill(lemin->mmng, (void *)actual) != 1) // TODO ajuster chiffre
-		return (lemin_error(LEMIN_ERR_PRINT));
-}
-
-
-t_ant       *add_ant(t_ant *a_list, int nb, t_p_elem *elem)
-{
-	t_ant   *new;
-
-	if (!(new = (t_ant *)ft_memanager_get(lemin->mmng, sizeof(t_ant))) ||
-		!(new->key = ft_itoa(nb)))
-	{
-		lemin_error(LEMIN_ERR_PRINT);
-		return (NULL);
-	}
-	new->elem = elem;
-	new->next = a_list;
-	return (new);
 }

@@ -17,29 +17,12 @@
 typedef struct		s_ant
 {
 	struct s_ant	*next;
-	t_p_elem		*actual_room;
+	t_p_elem		*elem;
 	char			*key;
 }					t_ant;
 
 t_ant				*ant_add_new(t_ant *ant, int n, t_p_elem *elem);
 t_ant				*ant_refill_all(t_ant *a);
 void				ant_remove_refill(t_ant **address, t_ant *a);
-
-//new
-
-#ifndef LEMIN_ANT_H
-# define LEMIN_ANT_H
-
-# include "structs/path.h"
-
-typedef struct      s_ant
-{
-	t_p_elem        *elem;
-	char            *key;
-	struct s_ant    *next;
-}                   t_ant;
-
-void                remove_ant(t_ant **address, t_ant *actual);
-t_ant               *add_ant(t_ant *a_list, int nb, t_p_elem *elem);
 
 #endif

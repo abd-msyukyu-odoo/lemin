@@ -12,9 +12,9 @@
 
 #ifndef PRINT_H
 # define PRINT_H
+# define LEMIN_PRINT_BF_SIZE 32
+# include "libft.h"
 
-void		print(t_global *s);
-void		print_btree(t_btree *t, char *s);
-void		add_to_buff(t_global *g, char *s);
+void		print(void);
 
 #endif

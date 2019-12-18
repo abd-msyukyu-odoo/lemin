@@ -1,0 +1,105 @@
+discussion de recherche de chemins disjoints
+
+-> suurballe :
+dupliquer tous les noeuds sauf l'entree et la sortie
+pour chaque duplication : 
+-> un noeud (in) recupere toutes les demi-aretes entrantes
+-> l'autre noeud (out) recupere toutes les demi-aretes sortantes
+-> liaison in -> out de cost 0
+-> pour le noeud de depart : transformer toutes les aretes en sortantes
+-> pour le noeud de fin : transformer toutes les aretes en entrantes
+
+implication : le graphe est maintenant completement oriente (plus aucune arete double sens)
+raison : l'algorithme de suurballe trouve les chemins disjoints par les aretes, or on
+	veut les chemins disjoints par les noeuds.
+		Si on obtient les chemins disjoints par les aretes dans le graphe modifie,
+	puisque chaque noeud est soit un noeud d'entree avec une seul sortie (vers lui meme) 
+	ou un noeud de sortie avec une seule entree (de lui meme), il ne sera
+	pas possible que deux chemins se croisent par ces noeuds.
+
+faire une copie du graphe modifie
+
+dans la copie :
+-> appliquer Dijkstra pour trouver, a partir du noeud de depart, toutes les distances vers les autres noeuds du graphe
+
+-> creer un graphe residuel a partir du Dijkstra de la facon suivante :
+
+-> modifier le poids de toutes les aretes selon la formule suivante :
+soit O l'origine du Dijkstra
+nouveau_poids(X, Y) = poids(X, Y) - dijkstra(O, Y) + dijkstra(O, X)
+	-> Remarque : si X = O, le nouveau poids vaut 0
+
+-> creer un graphe residuel en supprimant toutes les aretes opposees au chemin le plus court entre
+l'origine et la fin, et en inversant le sens de toutes les aretes de ce chemin (tous les poids des aretes de ce chemin valent 0)
+
+-> appliquer a nouveau Dijkstra pour trouver un autre chemin
+
+-> comparer les aretes des 2 chemins 2 a 2 et supprimer celles qui s'opposent
+	(chaque chemin prend alors la fin de son binome)
+
+-> continuation de suurballe :
+nous avons a present les 2 chemins dont la somme est la plus courte.
+
+-> postulat : pour continuer, il faut : ? -> a priori, impossible
+
+--------------------------------------------------------------
+-------------- conclusion : rejet de suurballe. --------------
+--------------------------------------------------------------
+
+///Alternative\\\
+
+-> bhandari :
+duplication des noeuds comme pour suurballe
+
+initialisation : effectuer un BFS qui va : 
+	creer une liste des noeuds tries par ordre de distance vis-a-vis de l'origine
+	trouver le premier chemin le plus court
+
+parcourir le chemin le plus court, inverser le sens de toutes les aretes, leur donner un poids inverse
+
+[repeat] trouver le chemin le plus court dans ce graphe modifie avec Bellman-Ford
+
+parcourir ce nouveau chemin, inverser le sens de toutes les aretes positives, leur donner un poids inverse
+	> pour chaque arete deja negative, il existe la meme jonction dans un des chemins precedemment trouve
+	> retirer ces jonctions des 2 chemins, la retablir a sa valeur originale (et son sens), ajuster les 2 chemins (l'un prend la fin de l'autre)
+	> effacer le "demi-tour" eventuel
+
+goto -> [repeat]
+
+on arrete des qu'on ne trouve pas un chemin supplementaire
+
+Remarque : a chaque fois qu'un chemin de plus est ajoute, evaluer en combien de coups les fourmis peuvent sortir
+-> on continue d'iterer tant que le nombre de coups des fourmis n'augmente pas
+
+--------------------------------------------------------------
+------------- conclusion : solution satisfaisante ------------
+--------------------------------------------------------------
+
+Meilleure repartition des fourmis : 
+Soient :
+n		: nombre de fourmis
+i		: nombre de chemins
+c_i		: nombre de coups
+a_ix	: nombre d'aretes du chemin x
+
+i = 1
+	c_1 = {n}				# fourmis dans le chemin
+		+ {a_11 - 1}		# fin du parcours du chemin par la derniere fourmi
+i = 2
+	c_2 = {(n - (a_22 - a_21) [-1]) / 2} 	# fourmis dans les 2 chemins
+		+ {a_22 - a_21 [+1]} 				# fourmis supplementaires dans le chemin plus court
+		+ {a_21 - 1}						# fin du parcours du petit chemin par la derniere fourmi
+	#[] a adapter pour que la division soit entiere
+	#si a_22 - a_21 >= n - 1 : on conserve la solution pour i - 1
+i = 3
+	c_3 = {(n - 2 * (a_33 - a_32) - (a_32 - a_31) [-1-2]) / 3}	# fourmis dans les 3 chemins
+		+ {2 * (a_33 - a_32) [+2] / 2}							# fourmis dans les 2 plus courts chemins
+		+ {a_32 - a_31 [+1]}									# fourmis dans le plus court chemin
+		+ {a_31 - 1}											# fin du parcours du petit chemin par la derniere fourmi
+i = 4
+	c_4 = {(n - 3 * (a_44 - a_43) - 2 * (a_43 - a_42) - (a_42 - a_41) [-1-2-3]) / 4}
+		+ {3 * (a_44 - a_43) [+3] / 3}
+		+ {2 * (a_43 - a_42) [+2] / 2}
+		+ {a_42 - a_41 [+1]}
+		+ {a_41 - 1}
+etc...

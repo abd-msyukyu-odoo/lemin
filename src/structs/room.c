@@ -44,6 +44,8 @@ t_room					*room_initialize(char *key, unsigned int status)
 	if (!key || !ft_marray_initialize(&out->a_tubes, lemin->mmng,
 		LEMIN_ROOM_ARRAY_TUBE_SIZE, sizeof(t_tube*)))
 		lemin_error(LEMIN_ERR_MEM);
+	out->weight = 0;
+	out->visited = 0;
 	return (out);
 }
 

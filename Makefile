@@ -39,7 +39,11 @@ STRUCTS_F	= global \
 
 MAIN_F		= test_lemin
 
-ALGO_F		= algo bfs bmf check_roads cost
+ALGO_F		= algo \
+			  bfs \
+			  bmf \
+			  check_roads \
+			  cost
 
 O_FILES		= $(addsuffix .o, \
 			  	$(addprefix ./src/, \

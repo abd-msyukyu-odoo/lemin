@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_roads.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/11/29 10:25:41 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/11/29 10:25:43 by dabeloos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "lemin.h"
 
 static t_room	*cr_find_other(t_tube *tube)
 {
@@ -8,7 +21,7 @@ static t_room	*cr_find_other(t_tube *tube)
 	road = lemin->paths;
 	while (road)
 	{
-		curr = road->elements;
+		curr = road->elems;
 		while (curr)
 		{
 			if (curr->tube == tube)
@@ -22,7 +35,7 @@ static t_room	*cr_find_other(t_tube *tube)
 
 static void		cr_exchange(t_p_elem *cur, t_p_elem *other, t_p_elem **pointer)
 {
-	s_p_elem	*tmp;
+	t_p_elem	*tmp;
 	t_tube		*tmp_tube;
 
 	tmp = other->next->next;
@@ -52,7 +65,7 @@ void			check_roads(t_array *roads)
 			if ((other = cr_find_other(current->next->room, current->room)))
 				cr_exchange(current, other, &current);
 			else
-				return (lemin_error(LEM_ERR_ALGO));
+				lemin_error(LEMIN_ERR_ALGO);
 			t->cost = 1;
 		}
 		current = current->next;
