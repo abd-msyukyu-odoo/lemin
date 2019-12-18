@@ -21,6 +21,7 @@
 # include "structs/tube.h"
 # include "structs/ant.h"
 # include "structs/path.h"
+# include "algo/algo.h"
 
 # include <stdio.h>
 

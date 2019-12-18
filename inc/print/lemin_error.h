@@ -14,6 +14,9 @@
 # define LEMIN_ERROR_H
 # define LEMIN_ERR_MEM -1
 # define LEMIN_ERR_INSUFFICIENT_DATA -2
+# define LEMIN_ERR_DISJOINT -3
+# define LEMIN_ERR_ALGO -4
+# define LEMIN_ERR_PRINT -5
 # define LEMIN_SIZE_ERR_MSG 30
 
 void			lemin_error(int error);

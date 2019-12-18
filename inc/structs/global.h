@@ -18,8 +18,10 @@
 # include "structs/ant.h"
 # include "structs/path.h"
 # include "read/reading.h"
+# include "structs/path.h"
 # define LEMIN_DEFAULT_ROOMS_COUNT 5000
 # define LEMIN_DEFAULT_TUBES_COUNT 5000
+
 
 typedef struct	s_global
 {
@@ -36,6 +38,22 @@ typedef struct	s_global
 	int				n_ants;
 	t_path			*paths;
 }					t_global;
+
+// new
+	t_marray		a_rooms;
+	t_marray		a_tubes;
+	t_mhmap			hm_rooms;
+	t_room			*start;
+	t_room			*end;
+	t_p_elem		*working_path;
+	t_p_elem		*best_path;
+	t_path			*paths;
+	t_marray		*old_paths;
+	t_ant           *ants;
+	int             buff_pos;
+	char            *buff;
+	int             nb_ants;
+}				t_global;
 
 void				global_construct(void);
 void				global_construct_hashmap_rooms(size_t n_rooms);
