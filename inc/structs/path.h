@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -14,29 +13,39 @@
 #ifndef PATH_H
 # define PATH_H
 
-typedef struct			s_p_elem
+typedef struct			s_step
 {
-	struct s_p_elem		*next;
+	struct s_step		*next;
+	struct s_step		*prev;
 	t_room				*room;
 	t_tube				*tube;
-}						t_p_elem;
+}						t_step;
 
 typedef struct			s_path
 {
-	t_p_elem			*elems;
+	t_step				*first;
+	t_step				*last;
+	int					size;
 	int					n_ants;
-	int					n_elems;
 	struct s_path		*next;
+	struct s_path		*prev;
 }						t_path;
 
-t_path					*path_refill_all(t_path *p);
-t_p_elem				*path_refill_elems(t_p_elem *e);
+typedef struct			s_paths
+{
+	t_path				*first;
+	t_path				*last;
+	int					size;
+	int					n_ants;
+}						t_paths;
 
-void					path_elem_refill_pop(t_p_elem **elem);
-void					p_elem_remove_first(t_p_elem **e);
-void					path_elem_add_end(t_p_elem **elem, t_room *room);
-t_p_elem				*path_elem_dup(t_p_elem *elem);
-t_path					*paths_dup(t_path *path);
-void					path_add_end(t_path **path, t_p_elem *element);
+t_path					*path_refill(t_path *path); //path_refill_elems
+t_paths					*paths_refill(t_paths *paths); //path_refill_all -> inutile?
+void					path_remove_last(t_path *path); //path_elem_refill_pop
+void					path_remove_first(t_path *path); //p_elem_remove_first -> ne fait pas ce qui est attendu (devrait retirer un element dont on passe un pointeur)
+void					path_append(t_path *path, t_room *room); //path_elem_add_end
+t_path					*path_clone(t_path *path); //path_elem_dup
+t_paths					*paths_clone(t_paths *paths); //paths_dup
+void					paths_append(t_paths *paths, t_path *path); //path_add_end
 
 #endif

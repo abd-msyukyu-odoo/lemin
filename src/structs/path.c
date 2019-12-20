@@ -13,126 +13,154 @@
 
 #include "lemin.h"
 
-t_p_elem		*path_refill_elems(t_p_elem *elem) //path_elem_free && free_p_elem
+t_path			*path_refill(t_path *path) //path_elem_free && free_p_elem
 {
-	if (elem->next)
-		elem->next = path_refill_elems(elem->next);
-	ft_memanager_refill(lemin->mmng, elem);
-	return (NULL);
-}
+	t_step		*cur;
+	t_step		*next;
 
-t_path			*path_refill_all(t_path *p) //remove_path
-{
-	if (p->next)
-		p->next = path_refill_all(p->next);
-	p->elems = path_refill_elems(p->elems);
-	ft_memanager_refill(lemin->mmng, p);
-	return (NULL);
-}
-
-void			path_elem_refill_pop(t_p_elem **elem) // path_elem_pop
-{
-	t_p_elem	*cur;
-
-	cur = (*elem);
-	if (!(*elem)->next)
+	cur = path->first;
+	while (cur)
 	{
-		ft_memanager_refill(lemin->mmng, *elem);
-		*elem = NULL;
+		next = cur->next;
+		ft_memanager_refill(lemin->mmng, cur);
+		cur = next;
+	}
+	ft_memanager_refill(lemin->mmng, path);
+	return (NULL);
+}
+
+t_paths			*paths_refill(t_paths *paths) //remove_path
+{
+	t_path		*cur;
+	t_path		*next;
+
+	cur = paths->first;
+	while (cur)
+	{
+		next = cur->next;
+		path_refill(cur);
+		cur = next;
+	}
+	ft_memanager_refill(lemin->mmng, paths);
+	return (NULL);
+}
+
+void			path_remove_last(t_path *path) // path_elem_pop
+{
+	t_step		*cur;
+
+	if (!path->first)
+		return ;
+	else if (path->last == path->first)
+	{
+		ft_memanager_refill(lemin->mmng, path->first);
+		path->last = NULL;
+		path->first = NULL;
 		return ;
 	}
-	while ((*elem)->next && (*elem)->next->next)
-		(*elem) = (*elem)->next;
-	ft_memanager_refill(lemin->mmng, (*elem)->next);
-	(*elem)->next = NULL;
-	*elem = cur;
+	cur = path->last;
+	path->last = cur->prev;
+	ft_memanager_refill(lemin->mmng, cur);
 }
 
-void			p_elem_remove_first(t_p_elem **e) // remove_p_elem
+void			path_remove_first(t_path *path) // remove_p_elem
 {
-	t_p_elem	*elem;
+	t_step		*cur;
 
-	elem = *e;
-	if (*e)
-		*e = elem->next;
-	ft_memanager_refill(lemin->mmng, elem);
-}
-
-void			path_elem_add_end(t_p_elem **elem, t_room *room)
-{
-	t_p_elem	*end;
-	t_p_elem	*curr;
-
-	if (!(end = (t_p_elem *)ft_memanager_get(lemin->mmng, sizeof(t_p_elem))))
-		return (lemin_error(LEMIN_ERR_MEM));
-	end->room = room;
-	end->next = NULL;
-	end->tube = NULL;
-	curr = *elem;
-	if (!curr)
-		*elem = end;
-	else
+	if (!path->first)
+		return ;
+	else if (path->last == path->first)
 	{
-		while (curr->next)
-			curr = curr->next;
-		curr->next = end;
+		ft_memanager_refill(lemin->mmng, path->first);
+		path->last = NULL;
+		path->first = NULL;
+		return ;
 	}
+	cur = path->first;
+	path->first = cur->next;
+	ft_memanager_refill(lemin->mmng, cur);
 }
 
-t_p_elem		*path_elem_dup(t_p_elem *elem)
+void			path_append(t_path *path, t_room *room)
 {
-	t_p_elem	*new;
+	t_step		*step;
 
-	if (!(new = (t_p_elem *)ft_memanager_get(lemin->mmng, sizeof(t_p_elem))))
-	{
+	if (!(step = (t_step*)ft_memanager_get(lemin->mmng, sizeof(t_step))))
 		lemin_error(LEMIN_ERR_MEM);
-		return (NULL);
-	}
-	new->room = elem->room;
-	new->tube = elem->tube;
-	if (elem->next)
-		new->next = path_elem_dup(elem->next);
-	return (new);
+	step->room = room;
+	step->tube = NULL;
+	step->next = NULL;
+	step->prev = path->last;
+	if (path->last)
+		path->last->next = step;
+	if (!path->first)
+		path->first = step;
+	path->last = step;
+	path->size++;
 }
 
-t_path			*paths_dup(t_path *path)
+t_path			*path_clone(t_path *path)
 {
-	t_path		*new;
+	t_path		*other;
+	t_step		*step;
+	t_step		*cur;
 
-	if (!path)
-		return (NULL);
-	if (!(new = (t_path *)ft_memanager_get(lemin->mmng, sizeof(t_path))))
-	{
+	if (!(other = (t_path*)ft_memanager_get(lemin->mmng, sizeof(t_path))))
 		lemin_error(LEMIN_ERR_MEM);
-		return (NULL);
+	step = path->first;
+	while (step)
+	{
+		path_append(other, step->room);
+		if (!step->prev)
+			cur = other->first;
+		else
+			cur = other->last;
+		cur->tube = step->tube;
+		step = step->next;
 	}
-	new->n_ants = path->n_ants;
-	new->n_elems = path->n_elems;
-	new->next = NULL;
-	if (path->elems)
-		new->elems = path_elem_dup(path->elems);
-	if (path->next)
-		new->next = paths_dup(path->next);
-	return new;
+	other->size = path->size;
+	other->n_ants = path->n_ants;
+	return (other);
 }
 
-void			path_add_end(t_path **path, t_p_elem *element)
+t_paths			*paths_clone(t_paths *paths)
 {
-	t_path		*end;
-	t_path		*curr;
+	t_paths		*other;
+	t_path		*step;
+	t_path		*cur;
 
-	if (!(end = (t_path *)ft_memanager_get(lemin->mmng, sizeof(t_path))))
-		return (lemin_error(LEMIN_ERR_MEM));
-	end->elems = element;
-	end->next = NULL;
-	end->n_elems = 0;
-	curr = *path;
-	if (!curr)
-		*path = end;
-	else
+	if (!(other = (t_paths*)ft_memanager_get(lemin->mmng, sizeof(t_paths))))
+		lemin_error(LEMIN_ERR_MEM);
+	step = paths->first;
+	cur = NULL;
+	while (step)
 	{
-		while (curr->next)
-			curr = curr->next;
-		curr->next = end;
+		if (!cur)
+		{
+			other->first = path_clone(step);
+			cur = other->first;
+		}
+		else
+		{
+			cur->next = path_clone(step);
+			cur = cur->next;
+		}
+		step = step->next;
 	}
+	other->size = paths->size;
+	other->n_ants = paths->n_ants;
+	other->last = cur;
+	return (other);
+}
+
+void			paths_append(t_paths *paths, t_path *path)
+{
+	path->next = NULL;
+	path->prev = paths->last;
+	if (paths->last)
+		paths->last->next = path;
+	if (!path->first)
+		paths->first = path;
+	paths->last = path;
+	paths->size++;
 }

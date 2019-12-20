@@ -17,31 +17,32 @@ void	update_path(int weight)
 	if (lemin->end->weight < weight)
 		return ;
 	lemin->end->weight = weight;
-	path_refill_elems(lemin->best_path);
-	lemin->best_path = path_elem_dup(lemin->working_path);
+	path_refill(lemin->best_path);
+	lemin->best_path = path_clone(lemin->working_path);
 }
 
 static void		algo_add_best_path_to_paths()
 {
-	t_p_elem	*elem;
+	t_step		*elem;
 
-	elem = lemin->best_path;
+	elem = lemin->best_path->first;
 	while (elem->next)
 	{
 		if (!(elem->tube = room_get_connection(elem->room, elem->next->room)))
-			return (lemin_error(LEMIN_ERR_MEM));
+			lemin_error(LEMIN_ERR_MEM);
 		elem = elem->next;
 	}
-	path_add_end(&(lemin->paths), lemin->best_path);
+	paths_append(lemin->paths, lemin->best_path);
 	lemin->best_path = NULL;
 }
 
+//doit ajouter tous les chemins d'une solution dans un tableau ?
 static void		algo_add_paths_to_old_paths(int cost)
 {
 	t_paths_with_cost	*paths_with_cost;
 
-	if (!(paths_with_cost = (t_paths_with_cost *)ft_memanager_get(lemin->mmng, sizeof(t_paths_with_cost))) ||
-		!(paths_with_cost->path = paths_dup(lemin->paths)) ||
+	if (!(paths_with_cost = (t_paths_with_cost*)ft_memanager_get(lemin->mmng, sizeof(t_paths_with_cost))) ||
+		!(paths_with_cost->paths = paths_clone(lemin->paths)) ||
 		!(paths_with_cost->cost = cost) ||
 		!(ft_marray_add(lemin->old_paths, paths_with_cost)))
 		lemin_error(LEMIN_ERR_MEM);
@@ -50,12 +51,12 @@ static void		algo_add_paths_to_old_paths(int cost)
 static void		set_negatives()
 {
 	t_path		*paths;
-	t_p_elem	*elem;
+	t_step		*elem;
 
-	paths = lemin->paths;
+	paths = lemin->paths->first;
 	while (paths)
 	{
-		elem = paths->elems;
+		elem = paths->first;
 		while(elem)
 		{
 			elem->tube->cost = -1;
@@ -68,17 +69,17 @@ static void		set_negatives()
 static void		set_n_elems()
 {
 	t_path		*path;
-	t_p_elem	*elem;
+	t_step		*step;
 
-	path = lemin->paths;
+	path = lemin->paths->first;
 	while (path)
 	{
-		path->n_elems = 0;
-		elem = path->elems;
-		while (elem)
+		path->size = 0;
+		step = path->first;
+		while (step)
 		{
-			(path->n_elems)++;
-			elem = elem->next;
+			(path->size)++;
+			step = step->next;
 		}
 		path = path->next;
 	}

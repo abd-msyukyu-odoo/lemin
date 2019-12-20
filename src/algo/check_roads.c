@@ -12,49 +12,51 @@
 
 #include "lemin.h"
 
-static t_p_elem	*cr_find_other(t_tube *tube)
+//TODO a adapter (arbre binaire des rooms empruntees dans chaque path)
+static t_step		*cr_find_other(t_tube *tube)
 {
 	t_path			*road;
-	t_p_elem		*curr;
+	t_step			*cur;
 
-	road = lemin->paths;
+	road = lemin->paths->first;
 	while (road)
 	{
-		curr = road->elems;
-		while (curr)
+		cur = road->first;
+		while (cur)
 		{
-			if (curr->tube == tube)
-				return (curr);
-			curr = curr->next;
+			if (cur->tube == tube)
+				return (cur);
+			cur = cur->next;
 		}
 		road = road->next;
 	}
 	return (NULL);
 }
 
-static void		cr_exchange(t_p_elem *cur, t_p_elem *other, t_p_elem **pointer)
+//TODO a adapter (echanger plusieurs tubes a la fois si succession de -1 0 -1 0...)
+static void			cr_exchange(t_step *cur, t_step *other, t_step **pointer)
 {
-	t_p_elem	*tmp;
-	t_tube		*tmp_tube;
+	t_step			*tmp;
+	t_tube			*tmp_tube;
 
 	tmp = other->next->next;
 	tmp_tube = other->next->tube;
-	p_elem_remove_first(&(other->next));
+	//path_remove_first(other->next);// refaire la fonction et la renommer
 	other->next = cur->next->next;
 	other->tube = cur->next->tube;
-	p_elem_remove_first(&(cur->next));
+	//path_remove_first(cur->next);// refaire la fonction et la renommer
 	cur->next = tmp;
 	cur->tube = tmp_tube;
 	*pointer = other;
 }
 
-void			check_roads(void)
+void				check_roads(void)
 {
-	t_p_elem		*current;
+	t_step			*current;
 	t_tube			*t;
-	t_p_elem		*other;
+	t_step			*other;
 
-	current = lemin->best_path;
+	current = lemin->best_path->first;
 	while (current->next)
 	{
 		t = current->tube;

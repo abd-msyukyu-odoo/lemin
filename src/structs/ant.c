@@ -25,7 +25,7 @@
 **	@out:	a pointer on the new generated ant
 */
 
-t_ant		*ant_add_new(t_ant *ant, int n, t_p_elem *elem)
+t_ant		*ant_add_new(t_ant *ant, int n, t_step *step)
 {
 	char	*s;
 	t_ant	*a;
@@ -34,7 +34,7 @@ t_ant		*ant_add_new(t_ant *ant, int n, t_p_elem *elem)
 		lemin_error(LEMIN_ERR_MEM);
 	if (!(a = (t_ant *)ft_memanager_get(lemin->mmng, sizeof(t_ant))))
 		lemin_error(LEMIN_ERR_MEM);
-	a->elem = elem;
+	a->step = step;
 	a->next = ant;
 	a->key = s;
 	return (a);

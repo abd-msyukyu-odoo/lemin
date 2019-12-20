@@ -26,7 +26,7 @@ static void	 bfs_recursive(t_room *current, int weight)
 	current->weight = weight;
 	current->isset = 1;
 	current->visited = TRUE;
-	path_elem_add_end(&(lemin->working_path), current);
+	path_append(lemin->working_path, current);
 	top = current->a_tubes.array.n_items;
 	d = 0;
 	while (d < top)
@@ -36,7 +36,7 @@ static void	 bfs_recursive(t_room *current, int weight)
 			weight + 1);
 		d++;
 	}
-	path_elem_refill_pop(&(lemin->working_path));
+	path_remove_last(lemin->working_path);
 	current->visited = FALSE;
 }
 

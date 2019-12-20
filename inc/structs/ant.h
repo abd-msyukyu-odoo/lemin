@@ -17,11 +17,11 @@
 typedef struct		s_ant
 {
 	struct s_ant	*next;
-	t_p_elem		*elem;
+	t_step			*step;
 	char			*key;
 }					t_ant;
 
-t_ant				*ant_add_new(t_ant *ant, int n, t_p_elem *elem);
+t_ant				*ant_add_new(t_ant *ant, int n, t_step *step);
 t_ant				*ant_refill_all(t_ant *a);
 void				ant_remove_refill(t_ant **address, t_ant *a);
 

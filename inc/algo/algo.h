@@ -6,7 +6,7 @@
 typedef struct	s_paths_with_cost
 {
 	int		cost;
-	t_path	*path;
+	t_paths	*paths;
 }				t_paths_with_cost;
 
 /*
@@ -23,6 +23,6 @@ void		bmf(void);
 void		bfs(void);
 void		check_roads(void);
 
-int			get_cost(t_path *paths, int nb_paths);
+int			get_cost(t_paths *paths, int nb_paths);
 
 #endif

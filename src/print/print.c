@@ -51,10 +51,10 @@ void	move_one_ant(t_ant *a)
 	add_to_buff("L");
 	add_to_buff(a->key);
 	add_to_buff("-");
-	add_to_buff(a->elem->next->room->key.key);
-	if (a->elem->next)
+	add_to_buff(a->step->next->room->key.key);
+	if (a->step->next)
 		add_to_buff(" ");
-	a->elem = a->elem->next;
+	a->step = a->step->next;
 }
 
 /*
@@ -79,7 +79,7 @@ void	move_ants(t_ant **a)
 		while (actual)
 		{
 			move_one_ant(actual);
-			if (!actual->elem->next)
+			if (!actual->step->next)
 				ant_remove_refill(address, actual);
 			address = &(actual->next);
 			actual = actual->next;
@@ -106,17 +106,17 @@ void	launch_ants(void)
 	//t_path	**pointer;
 
 	//pointer = &(lemin->paths);
-	path = lemin->paths;
+	path = lemin->paths->first;
 	while (path)
 	{
 		if (path->n_ants > 0 && lemin->n_ants)
 		{
-			lemin->ants = ant_add_new(lemin->ants, lemin->n_ants, path->elems);
+			lemin->ants = ant_add_new(lemin->ants, lemin->n_ants, path->first);
 			lemin->n_ants -= 1;
 			path->n_ants -= 1;
 		}
 		if (path->n_ants == 0)
-			path = path_refill_all(path);
+			path = path_refill(path);
 		else
 		{
 			//pointer = &(path->next);
