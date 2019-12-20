@@ -37,6 +37,7 @@ static void		algo_add_best_path_to_paths()
 }
 
 //doit ajouter tous les chemins d'une solution dans un tableau ?
+//(ne fait pas ca, a corriger)
 static void		algo_add_paths_to_old_paths(int cost)
 {
 	t_paths_with_cost	*paths_with_cost;
@@ -48,24 +49,26 @@ static void		algo_add_paths_to_old_paths(int cost)
 		lemin_error(LEMIN_ERR_MEM);
 }
 
-static void		set_negatives()
-{
-	t_path		*paths;
-	t_step		*elem;
+//reset le cout des rooms a -1 (a supprimer ?)
+// static void		set_negatives()
+// {
+// 	t_path		*paths;
+// 	t_step		*elem;
 
-	paths = lemin->paths->first;
-	while (paths)
-	{
-		elem = paths->first;
-		while(elem)
-		{
-			elem->tube->cost = -1;
-			elem = elem->next;
-		}
-		paths = paths->next;
-	}
-}
+// 	paths = lemin->paths->first;
+// 	while (paths)
+// 	{
+// 		elem = paths->first;
+// 		while(elem)
+// 		{
+// 			elem->tube->cost = -1;
+// 			elem = elem->next;
+// 		}
+// 		paths = paths->next;
+// 	}
+// }
 
+//sert a compter le nombre d'elements dans un path ?
 static void		set_n_elems()
 {
 	t_path		*path;
@@ -99,7 +102,7 @@ void	algo(void)
 	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
 	while (lemin->n_paths <= limit)
 	{
-		set_negatives();
+		//set_negatives(); a supprimer
 		bmf();
 		check_roads();
 		algo_add_best_path_to_paths();

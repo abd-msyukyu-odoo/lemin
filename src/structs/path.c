@@ -81,6 +81,18 @@ void			path_remove_first(t_path *path) // remove_p_elem
 	ft_memanager_refill(lemin->mmng, cur);
 }
 
+void			step_extract(t_path *path, t_step **step)
+{
+	if ((*step)->prev)
+		(*step)->prev->next = (*step)->next;
+	if ((*step)->next)
+		(*step)->next->prev = (*step)->prev;
+	if (*step == path->first)
+		path->first = (*step)->next;
+	if (*step == path->last)
+		path->last = (*step)->prev;
+}
+
 void			path_append(t_path *path, t_room *room)
 {
 	t_step		*step;

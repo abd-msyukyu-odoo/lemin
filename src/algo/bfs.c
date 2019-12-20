@@ -12,6 +12,10 @@
 
 #include "lemin.h"
 
+// pour moi devrait etre en iteratif (gere plus de rooms, gere les poids dans un
+// ordre de type cercle avec rayon qui augmente a partir de la salle de debut)
+// contrairement a la recursive qui va creuser le plus loin possible (spirale)
+// avant de revenir en arriere (beaucoup de mise a jour de poids)
 static void	 bfs_recursive(t_room *current, int weight)
 {
 	unsigned int	top;
