@@ -33,9 +33,9 @@ typedef struct			s_room
 	t_charkey			key;
 	t_marray			a_tubes;
 	unsigned int		status;
-
 	int					weight;
 	int					visited;
+	unsigned int		isset;
 }						t_room;
 
 int						room_equals(void *o1, void *o2);

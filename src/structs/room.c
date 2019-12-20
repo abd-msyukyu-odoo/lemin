@@ -46,6 +46,7 @@ t_room					*room_initialize(char *key, unsigned int status)
 		lemin_error(LEMIN_ERR_MEM);
 	out->weight = 0;
 	out->visited = 0;
+	out->isset = 0;
 	return (out);
 }
 

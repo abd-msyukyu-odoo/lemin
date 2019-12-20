@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "lemin.h"
 
 static void	 bfs_recursive(t_room *current, int weight)
@@ -20,9 +19,12 @@ static void	 bfs_recursive(t_room *current, int weight)
 
 	if (current == lemin->end)
 		return update_path(weight);
-	if (current->visited == TRUE || current->weight <= weight || !(lemin->end->weight < 0 || weight <= lemin->end->weight))
+	if (current->visited == TRUE ||
+		(current->isset && current->weight <= weight) ||
+		(lemin->end->isset && weight > lemin->end->weight))
 		return ;
 	current->weight = weight;
+	current->isset = 1;
 	current->visited = TRUE;
 	path_elem_add_end(&(lemin->working_path), current);
 	top = current->a_tubes.array.n_items;
@@ -40,7 +42,6 @@ static void	 bfs_recursive(t_room *current, int weight)
 
 void			bfs(void)
 {
-	lemin->end->weight = -1;
 	bfs_recursive(lemin->start, 0);
 	if (!(lemin->best_path))
 		lemin_error(LEMIN_ERR_DISJOINT);

@@ -87,7 +87,6 @@ static void		set_n_elems()
 void	algo(void)
 {
 	unsigned int	limit;
-	unsigned int	n_paths;
 
 	if (lemin->start->a_tubes.array.n_items < lemin->end->a_tubes.array.n_items)
 		limit = lemin->start->a_tubes.array.n_items;
@@ -95,17 +94,17 @@ void	algo(void)
 		limit = lemin->end->a_tubes.array.n_items;
 	bfs();
 	algo_add_best_path_to_paths();
-	n_paths = 1;
-	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)n_paths));
-	while (n_paths <= limit)
+	lemin->n_paths = 1;
+	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
+	while (lemin->n_paths <= limit)
 	{
 		set_negatives();
 		bmf();
 		check_roads();
 		algo_add_best_path_to_paths();
 		set_n_elems();
-		algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)n_paths));
-		n_paths++;
+		algo_add_paths_to_old_paths(get_cost(lemin->paths,
+			(int)lemin->n_paths));
+		lemin->n_paths++;
 	}
-
 }

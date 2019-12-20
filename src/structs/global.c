@@ -33,6 +33,7 @@ void		global_construct(void)
 	lemin->start = NULL;
 	lemin->end = NULL;
 	lemin->n_ants = 0;
+	lemin->n_paths = 0;
 }
 
 void		global_construct_hashmap_rooms(size_t n_rooms)
