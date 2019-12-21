@@ -29,7 +29,7 @@ void            pop_best_paths()
 
 	best = (t_paths *)ft_marray_get(lemin->old_paths, 0);
 	i = 1;
-	while (i < lemin->old_paths->n_item)
+	while (i < lemin->old_paths->array.n_items)
 	{
 		tmp = (t_paths *)ft_marray_get(lemin->old_paths, i);
 		if (tmp->cost < best->cost)

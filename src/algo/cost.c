@@ -77,7 +77,7 @@ void        set_nb_ants()
 	int     max;
 	t_path  *p;
 	int     nb_ants;
-	t_path  curr;
+	t_path  *curr;
 	int     nb_path;
 
 	nb_path = 0;
@@ -86,7 +86,7 @@ void        set_nb_ants()
 	curr = p;
 	while (curr)
 	{
-		nb_paths++;
+		nb_path++;
 		curr->n_ants = max - curr->size;
 		nb_ants -= curr->n_ants;
 		curr = curr->next;
