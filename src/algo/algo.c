@@ -59,12 +59,11 @@ static void		algo_add_best_path_to_paths()
 /////////////////////////////////////////si, elle le fait:
 static void		algo_add_paths_to_old_paths(int cost)
 {
-	t_paths_with_cost	*paths_with_cost;
+	t_paths     *paths;
 
-	if (!(paths_with_cost = (t_paths_with_cost*)ft_memanager_get(lemin->mmng, sizeof(t_paths_with_cost))) ||// malloc de la mémoire pour un element de l'array
-		!(paths_with_cost->paths = paths_clone(lemin->paths)) ||// duplicata des paths d'une itération
-		!(paths_with_cost->cost = cost) ||// assugnation du cost d'un ensemble d'une itération
-		!(ft_marray_add(lemin->old_paths, paths_with_cost)))// ajout de l'élément à l'array
+	if (!(paths = paths_clone(lemin->paths)) ||// duplicata des paths d'une itération
+		!(paths->cost = cost) ||// assugnation du cost d'un ensemble d'une itération
+		!(ft_marray_add(lemin->old_paths, (void *)paths)))// ajout de l'élément à l'array
 		lemin_error(LEMIN_ERR_MEM);
 }
 
