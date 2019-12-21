@@ -12,8 +12,7 @@
 
 #include "lemin.h"
 
-//TODO a adapter (arbre binaire des rooms empruntees dans chaque path)
-static t_step		*cr_find_other(t_tube *tube)
+static t_path		*cr_find_other(t_path *path)
 {
 	t_path			*road;
 	t_step			*cur;
@@ -21,11 +20,16 @@ static t_step		*cr_find_other(t_tube *tube)
 	road = lemin->paths->first;
 	while (road)
 	{
+		if (road == path)
+			road = road->next;
 		cur = road->first;
 		while (cur)
 		{
-			if (cur->tube == tube)
-				return (cur);
+			if (cur->room == path->cur->room)
+			{
+				road->cur = cur;
+				return (road);
+			}
 			cur = cur->next;
 		}
 		road = road->next;
@@ -33,41 +37,53 @@ static t_step		*cr_find_other(t_tube *tube)
 	return (NULL);
 }
 
-//TODO a adapter (echanger plusieurs tubes a la fois si succession de -1 0 -1 0...)
-static void			cr_exchange(t_step *cur, t_step *other, t_step **pointer)
+static void			cr_exchange(t_path *cur, t_path *other)
 {
-	t_step			*tmp;
-	t_tube			*tmp_tube;
+	t_step			*s1;
+	t_step			*e1;
+	t_step			*s2;
+	t_step			*e2;
 
-	tmp = other->next->next;
-	tmp_tube = other->next->tube;
-	//path_remove_first(other->next);// TODO refaire la fonction et la renommer
-	other->next = cur->next->next;
-	other->tube = cur->next->tube;
-	//path_remove_first(cur->next);// refaire la fonction et la renommer
-	cur->next = tmp;
-	cur->tube = tmp_tube;
-	*pointer = other;
+	s1 = cur->cur->prev;
+	e1 = other->cur;
+	s2 = e1->prev;
+	tube_inverse(s1->next->tube);
+	e2 = s1->next->next;
+	path_extract_step(cur, e2->prev);
+	while (s2->prev == e2->next)
+	{
+		tube_inverse(e2->tube);
+		e2 = e2->next;
+		s2 = s2->prev;
+		path_extract_step(cur, e2->prev);
+		path_extract_step(other, s2->next);
+	}
+	s2 = s2->prev;
+	path_extract_step(other, s2->next);
+	s1->next = e1;
+	e1->prev = s1;
+	s2->next = e2;
+	e2->prev = s2;
 }
 
 void				check_roads(void)
 {
-	t_step			*current;
+	t_path			*cur;
 	t_tube			*t;
-	t_step			*other;
+	t_path			*other;
 
-	current = lemin->best_path->first;
-	while (current->next)
+	cur = lemin->best_path;
+	cur->cur = cur->first;
+	while (cur->cur->next)
 	{
-		t = current->tube;
-		if (t->cost == -1)
+		t = cur->cur->tube;
+		if (t->cost == LEMIN_DIR_REVERSE)
 		{
-			if ((other = cr_find_other(t)))
-				cr_exchange(current, other, &current);
+			if ((other = cr_find_other(cur)))
+				cr_exchange(cur, other);
 			else
 				lemin_error(LEMIN_ERR_ALGO);
-			t->cost = 1;
 		}
-		current = current->next;
+		cur->cur = cur->cur->next;
 	}
 }

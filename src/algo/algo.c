@@ -50,25 +50,24 @@ static void		algo_add_paths_to_old_paths(int cost)
 		lemin_error(LEMIN_ERR_MEM);
 }
 
-//reset le cout des rooms a -1 (a supprimer ?)
-//////////////////////////////////////////////////non, c'est pas le cout des room, c'est le cout des chemins
-// static void		set_negatives()
-// {
-// 	t_path		*paths;
-// 	t_step		*elem;
+////////////////////////////////////////////////non, c'est pas le cout des room, c'est le cout des chemins
+static void		set_negatives()
+{
+	t_path		*paths;
+	t_step		*elem;
 
-// 	paths = lemin->paths->first;
-// 	while (paths)
-// 	{
-// 		elem = paths->first;
-// 		while(elem)
-// 		{
-// 			elem->tube->cost = -1;
-// 			elem = elem->next;
-// 		}
-// 		paths = paths->next;
-// 	}
-// }
+	paths = lemin->paths->first;
+	while (paths)
+	{
+		elem = paths->first;
+		while(elem)
+		{
+			tube_inverse(elem->tube);
+			elem = elem->next;
+		}
+		paths = paths->next;
+	}
+}
 
 //sert a compter le nombre d'elements dans un path ?
 //////////////////////////////////////////////////// oui :)
@@ -105,7 +104,7 @@ void	algo(void)
 	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
 	while (lemin->n_paths <= limit)
 	{
-		//set_negatives(); a supprimer
+		set_negatives();
 		bmf();
 		check_roads();
 		algo_add_best_path_to_paths();

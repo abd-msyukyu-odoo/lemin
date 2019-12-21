@@ -58,3 +58,12 @@ t_room				*tube_get_connection(t_tube *tube, t_room *room)
 	else
 		return (NULL);
 }
+
+void				tube_inverse(t_tube *tube)
+{
+	if (tube->direction == LEMIN_DIR_NATURAL)
+		tube->direction = LEMIN_DIR_REVERSE;
+	else if (tube->direction == LEMIN_DIR_REVERSE)
+		tube->direction = LEMIN_DIR_NATURAL;
+	tube->cost *= -1;
+}

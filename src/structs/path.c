@@ -81,16 +81,17 @@ void			path_remove_first(t_path *path) // remove_p_elem
 	ft_memanager_refill(lemin->mmng, cur);
 }
 
-void			step_extract(t_path *path, t_step **step)
+void			path_extract_step(t_path *path, t_step *step)
 {
-	if ((*step)->prev)
-		(*step)->prev->next = (*step)->next;
-	if ((*step)->next)
-		(*step)->next->prev = (*step)->prev;
-	if (*step == path->first)
-		path->first = (*step)->next;
-	if (*step == path->last)
-		path->last = (*step)->prev;
+	if (step->prev)
+		step->prev->next = step->next;
+	if (step->next)
+		step->next->prev = step->prev;
+	if (step == path->first)
+		path->first = step->next;
+	if (step == path->last)
+		path->last = step->prev;	
+	ft_memanager_refill(lemin->mmng, step);
 }
 
 void			path_append(t_path *path, t_room *room)
@@ -108,7 +109,6 @@ void			path_append(t_path *path, t_room *room)
 	if (!path->first)
 		path->first = step;
 	path->last = step;
-	path->size++;
 }
 
 t_path			*path_clone(t_path *path)
@@ -159,8 +159,6 @@ t_paths			*paths_clone(t_paths *paths)
 		}
 		step = step->next;
 	}
-	other->size = paths->size;
-	other->n_ants = paths->n_ants;
 	other->last = cur;
 	return (other);
 }
@@ -174,5 +172,4 @@ void			paths_append(t_paths *paths, t_path *path)
 	if (!path->first)
 		paths->first = path;
 	paths->last = path;
-	paths->size++;
 }

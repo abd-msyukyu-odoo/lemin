@@ -71,4 +71,6 @@ t_room					*tube_get_connection(t_tube *tube, t_room *room);
 
 t_tube					*room_get_connection(t_room *r1, t_room *r2);
 
+void					tube_inverse(t_tube *tube);
+
 #endif
