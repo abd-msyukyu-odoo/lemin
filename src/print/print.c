@@ -103,7 +103,7 @@ void	launch_ants(void)
 	t_path	*path;
 	t_path	**pointer;
 
-	pointer = &(lemin->paths);
+	pointer = &(lemin->paths->first);
 	path = lemin->paths->first;
 	while (path)
 	{
