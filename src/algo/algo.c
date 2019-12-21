@@ -21,6 +21,24 @@ void	update_path(int weight)
 	lemin->best_path = path_clone(lemin->working_path);
 }
 
+void            pop_best_paths()
+{
+	unsigned int        i;
+	t_paths_with_cost   *best;
+	t_paths_with_cost   *tmp;
+
+	best = (t_paths_with_cost *)ft_marray_get(lemin->old_paths, 0);
+	i = 1;
+	while (i < lemin->old_paths->n_item)
+	{
+		tmp = (t_paths_with_cost *)ft_marray_get(lemin->old_paths, i);
+		if (tmp->cost < best->cost)
+			best = tmp;
+		i++;
+	}
+	lemin->paths = best->paths;
+}
+
 static void		algo_add_best_path_to_paths()
 {
 	t_step		*elem;
@@ -114,4 +132,5 @@ void	algo(void)
 			(int)lemin->n_paths));
 		lemin->n_paths++;
 	}
+	pop_best_paths();
 }
