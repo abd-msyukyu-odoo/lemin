@@ -38,18 +38,20 @@ static void		algo_add_best_path_to_paths()
 
 //doit ajouter tous les chemins d'une solution dans un tableau ?
 //(ne fait pas ca, a corriger)
+/////////////////////////////////////////si, elle le fait:
 static void		algo_add_paths_to_old_paths(int cost)
 {
 	t_paths_with_cost	*paths_with_cost;
 
-	if (!(paths_with_cost = (t_paths_with_cost*)ft_memanager_get(lemin->mmng, sizeof(t_paths_with_cost))) ||
-		!(paths_with_cost->paths = paths_clone(lemin->paths)) ||
-		!(paths_with_cost->cost = cost) ||
-		!(ft_marray_add(lemin->old_paths, paths_with_cost)))
+	if (!(paths_with_cost = (t_paths_with_cost*)ft_memanager_get(lemin->mmng, sizeof(t_paths_with_cost))) ||// malloc de la mémoire pour un element de l'array
+		!(paths_with_cost->paths = paths_clone(lemin->paths)) ||// duplicata des paths d'une itération
+		!(paths_with_cost->cost = cost) ||// assugnation du cost d'un ensemble d'une itération
+		!(ft_marray_add(lemin->old_paths, paths_with_cost)))// ajout de l'élément à l'array
 		lemin_error(LEMIN_ERR_MEM);
 }
 
 //reset le cout des rooms a -1 (a supprimer ?)
+//////////////////////////////////////////////////non, c'est pas le cout des room, c'est le cout des chemins
 // static void		set_negatives()
 // {
 // 	t_path		*paths;
@@ -69,6 +71,7 @@ static void		algo_add_paths_to_old_paths(int cost)
 // }
 
 //sert a compter le nombre d'elements dans un path ?
+//////////////////////////////////////////////////// oui :)
 static void		set_n_elems()
 {
 	t_path		*path;

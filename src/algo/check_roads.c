@@ -41,7 +41,7 @@ static void			cr_exchange(t_step *cur, t_step *other, t_step **pointer)
 
 	tmp = other->next->next;
 	tmp_tube = other->next->tube;
-	//path_remove_first(other->next);// refaire la fonction et la renommer
+	//path_remove_first(other->next);// TODO refaire la fonction et la renommer
 	other->next = cur->next->next;
 	other->tube = cur->next->tube;
 	//path_remove_first(cur->next);// refaire la fonction et la renommer
