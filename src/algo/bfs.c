@@ -20,28 +20,30 @@ static void	 bfs_recursive(t_room *current, int weight)
 {
 	unsigned int	top;
 	unsigned int	d;
+	t_tube			*t;
 
+	if (!current)
+		return ;
 	if (current == lemin->end)
 		return update_path(weight);
-	if (current->visited == TRUE ||
+	if (current->visited == 1 ||
 		(current->isset && current->weight <= weight) ||
 		(lemin->end->isset && weight > lemin->end->weight))
 		return ;
 	current->weight = weight;
 	current->isset = 1;
-	current->visited = TRUE;
+	current->visited = 1;
 	path_append(lemin->working_path, current);
 	top = current->a_tubes.array.n_items;
 	d = 0;
 	while (d < top)
 	{
-		bfs_recursive(tube_get_connection(
-			*(t_tube**)ft_array_get((t_array*)&current->a_tubes, d), current),
-			weight + 1);
+		t = *(t_tube**)ft_array_get((t_array*)&current->a_tubes, d);
+		bfs_recursive(tube_navigate(t, current), weight + t->cost);
 		d++;
 	}
 	path_remove_last(lemin->working_path);
-	current->visited = FALSE;
+	current->visited = 0;
 }
 
 void			bfs(void)

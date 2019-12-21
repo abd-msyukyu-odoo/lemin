@@ -27,11 +27,11 @@ void            pop_best_paths()
 	t_paths             *best;
 	t_paths             *tmp;
 
-	best = (t_paths *)ft_marray_get(lemin->old_paths, 0);
+	best = *(t_paths**)ft_array_get((t_array*)lemin->old_paths, 0);
 	i = 1;
 	while (i < lemin->old_paths->array.n_items)
 	{
-		tmp = (t_paths *)ft_marray_get(lemin->old_paths, i);
+		tmp = *(t_paths**)ft_array_get((t_array*)lemin->old_paths, i);
 		if (tmp->cost < best->cost)
 			best = tmp;
 		i++;
@@ -63,7 +63,7 @@ static void		algo_add_paths_to_old_paths(int cost)
 
 	if (!(paths = paths_clone(lemin->paths)) ||// duplicata des paths d'une itération
 		!(paths->cost = cost) ||// assugnation du cost d'un ensemble d'une itération
-		!(ft_marray_add(lemin->old_paths, (void *)paths)))// ajout de l'élément à l'array
+		!(ft_marray_add(lemin->old_paths, &paths)))// ajout de l'élément à l'array
 		lemin_error(LEMIN_ERR_MEM);
 }
 
@@ -107,6 +107,18 @@ static void		set_n_elems()
 	}
 }
 
+static void		initialize_paths(void)
+{
+	if (!(lemin->working_path = ft_memanager_get(lemin->mmng, sizeof(t_path))))
+		lemin_error(LEMIN_ERR_MEM);
+	lemin->best_path = NULL;
+	if (!(lemin->paths = ft_memanager_get(lemin->mmng, sizeof(t_paths))))
+		lemin_error(LEMIN_ERR_MEM);
+	if (!(lemin->old_paths = ft_marray_construct(lemin->mmng, 16,
+		sizeof(t_paths*))))
+		lemin_error(LEMIN_ERR_MEM);
+}
+
 void	algo(void)
 {
 	unsigned int	limit;
@@ -115,13 +127,14 @@ void	algo(void)
 		limit = lemin->start->a_tubes.array.n_items;
 	else
 		limit = lemin->end->a_tubes.array.n_items;
+	initialize_paths();
 	bfs();
 	algo_add_best_path_to_paths();
+	set_negatives();
 	lemin->n_paths = 1;
 	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
 	while (lemin->n_paths <= limit)
 	{
-		set_negatives();
 		bmf();
 		check_roads();
 		algo_add_best_path_to_paths();

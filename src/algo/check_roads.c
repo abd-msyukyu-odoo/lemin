@@ -37,25 +37,25 @@ static t_path		*cr_find_other(t_path *path)
 	return (NULL);
 }
 
-static void			cr_exchange(t_path *cur, t_path *other)
+static void			cr_exchange(t_path **cur, t_path *other)
 {
 	t_step			*s1;
 	t_step			*e1;
 	t_step			*s2;
 	t_step			*e2;
 
-	s1 = cur->cur->prev;
+	s1 = (*cur)->cur->prev;
 	e1 = other->cur;
 	s2 = e1->prev;
 	tube_inverse(s1->next->tube);
 	e2 = s1->next->next;
-	path_extract_step(cur, e2->prev);
+	path_extract_step(*cur, e2->prev);
 	while (s2->prev == e2->next)
 	{
 		tube_inverse(e2->tube);
 		e2 = e2->next;
 		s2 = s2->prev;
-		path_extract_step(cur, e2->prev);
+		path_extract_step(*cur, e2->prev);
 		path_extract_step(other, s2->next);
 	}
 	s2 = s2->prev;
@@ -64,6 +64,11 @@ static void			cr_exchange(t_path *cur, t_path *other)
 	e1->prev = s1;
 	s2->next = e2;
 	e2->prev = s2;
+	s1 = (*cur)->last;
+	(*cur)->last = other->last;
+	other->last = s1;
+	other->cur = e2;
+	*cur = other;
 }
 
 void				check_roads(void)
@@ -80,10 +85,11 @@ void				check_roads(void)
 		if (t->cost == LEMIN_DIR_REVERSE)
 		{
 			if ((other = cr_find_other(cur)))
-				cr_exchange(cur, other);
+				cr_exchange(&cur, other);
 			else
 				lemin_error(LEMIN_ERR_ALGO);
 		}
+		tube_inverse(cur->cur->tube);
 		cur->cur = cur->cur->next;
 	}
 }

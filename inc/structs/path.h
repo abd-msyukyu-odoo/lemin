@@ -15,7 +15,6 @@
 
 typedef struct			s_step
 {
-	t_charkey			key;
 	struct s_step		*next;
 	struct s_step		*prev;
 	t_room				*room;
@@ -43,7 +42,6 @@ typedef struct			s_paths
 t_path					*path_refill(t_path *path); //path_refill_elems
 t_paths					*paths_refill(t_paths *paths); //path_refill_all -> inutile?
 void					path_remove_last(t_path *path); //path_elem_refill_pop
-void					path_remove_first(t_path *path); //p_elem_remove_first -> ne fait pas ce qui est attendu (devrait retirer un element dont on passe un pointeur)
 void					path_extract_step(t_path *path, t_step *step);
 void					path_append(t_path *path, t_room *room); //path_elem_add_end
 t_path					*path_clone(t_path *path); //path_elem_dup

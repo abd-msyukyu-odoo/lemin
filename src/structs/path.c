@@ -18,6 +18,8 @@ t_path			*path_refill(t_path *path) //path_elem_free && free_p_elem
 	t_step		*cur;
 	t_step		*next;
 
+	if (!path)
+		return (NULL);
 	cur = path->first;
 	while (cur)
 	{
@@ -56,28 +58,11 @@ void			path_remove_last(t_path *path) // path_elem_pop
 		ft_memanager_refill(lemin->mmng, path->first);
 		path->last = NULL;
 		path->first = NULL;
+		ft_memanager_refill(lemin->mmng, path);
 		return ;
 	}
 	cur = path->last;
 	path->last = cur->prev;
-	ft_memanager_refill(lemin->mmng, cur);
-}
-
-void			path_remove_first(t_path *path) // remove_p_elem
-{
-	t_step		*cur;
-
-	if (!path->first)
-		return ;
-	else if (path->last == path->first)
-	{
-		ft_memanager_refill(lemin->mmng, path->first);
-		path->last = NULL;
-		path->first = NULL;
-		return ;
-	}
-	cur = path->first;
-	path->first = cur->next;
 	ft_memanager_refill(lemin->mmng, cur);
 }
 

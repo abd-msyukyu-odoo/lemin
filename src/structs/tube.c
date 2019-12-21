@@ -59,6 +59,17 @@ t_room				*tube_get_connection(t_tube *tube, t_room *room)
 		return (NULL);
 }
 
+t_room				*tube_navigate(t_tube *tube, t_room *room)
+{
+	if (tube->room1 == room && (tube->direction == LEMIN_DIR_NATURAL ||
+		tube->direction == LEMIN_DIR_BOTH))
+		return (tube->room2);
+	if (tube->room2 == room && (tube->direction == LEMIN_DIR_REVERSE ||
+		tube->direction == LEMIN_DIR_BOTH))
+		return (tube->room1);
+	return (NULL);
+}
+
 void				tube_inverse(t_tube *tube)
 {
 	if (tube->direction == LEMIN_DIR_NATURAL)
