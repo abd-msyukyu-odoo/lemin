@@ -21,6 +21,24 @@ void	update_path(int weight)
 	lemin->best_path = path_clone(lemin->working_path);
 }
 
+void            pop_best_paths()
+{
+	unsigned int        i;
+	t_paths             *best;
+	t_paths             *tmp;
+
+	best = (t_paths *)ft_marray_get(lemin->old_paths, 0);
+	i = 1;
+	while (i < lemin->old_paths->n_item)
+	{
+		tmp = (t_paths *)ft_marray_get(lemin->old_paths, i);
+		if (tmp->cost < best->cost)
+			best = tmp;
+		i++;
+	}
+	lemin->paths = best;
+}
+
 static void		algo_add_best_path_to_paths()
 {
 	t_step		*elem;
@@ -41,12 +59,11 @@ static void		algo_add_best_path_to_paths()
 /////////////////////////////////////////si, elle le fait:
 static void		algo_add_paths_to_old_paths(int cost)
 {
-	t_paths_with_cost	*paths_with_cost;
+	t_paths     *paths;
 
-	if (!(paths_with_cost = (t_paths_with_cost*)ft_memanager_get(lemin->mmng, sizeof(t_paths_with_cost))) ||// malloc de la mémoire pour un element de l'array
-		!(paths_with_cost->paths = paths_clone(lemin->paths)) ||// duplicata des paths d'une itération
-		!(paths_with_cost->cost = cost) ||// assugnation du cost d'un ensemble d'une itération
-		!(ft_marray_add(lemin->old_paths, paths_with_cost)))// ajout de l'élément à l'array
+	if (!(paths = paths_clone(lemin->paths)) ||// duplicata des paths d'une itération
+		!(paths->cost = cost) ||// assugnation du cost d'un ensemble d'une itération
+		!(ft_marray_add(lemin->old_paths, (void *)paths)))// ajout de l'élément à l'array
 		lemin_error(LEMIN_ERR_MEM);
 }
 
@@ -113,4 +130,6 @@ void	algo(void)
 			(int)lemin->n_paths));
 		lemin->n_paths++;
 	}
+	pop_best_paths();
+	set_nb_ants();
 }

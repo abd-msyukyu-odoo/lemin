@@ -37,6 +37,7 @@ typedef struct			s_paths
 {
 	t_path				*first;
 	t_path				*last;
+	int					cost;
 }						t_paths;
 
 t_path					*path_refill(t_path *path); //path_refill_elems
