@@ -98,12 +98,15 @@ void	move_ants(t_ant **a)
 
 
 //TODO laisser la variable pointer, elle permet d'optimiser le tour suivant.
+//*************
+//check si ce que j'ai fait est coherent avec pointer :
+//*************
 void	launch_ants(void)
 {
 	t_path	*path;
-	t_path	**pointer;
+	//t_path	**pointer;
 
-	pointer = &(lemin->paths->first);
+	//pointer = &(lemin->paths->first);
 	path = lemin->paths->first;
 	while (path)
 	{
@@ -114,7 +117,7 @@ void	launch_ants(void)
 			path->n_ants -= 1;
 		}
 		else
-			pointer = &(path->next);
+			lemin->paths->first = path->next;//pointer = &(path->next);
 		path = path->next;
 	}
 }

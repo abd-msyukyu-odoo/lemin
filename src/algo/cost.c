@@ -84,6 +84,7 @@ void        set_nb_ants()
 	p = lemin->paths->first;
 	max = get_max_bridge(p);
 	curr = p;
+	nb_ants = lemin->n_ants; // pas sur du tout, j'ai pas encore reflechi a ce que fait la methode
 	while (curr)
 	{
 		nb_path++;
