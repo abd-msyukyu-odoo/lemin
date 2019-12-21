@@ -35,11 +35,11 @@ static int	compute_x(int a, t_paths *p, int n_paths)
 
 	last = p->last->prev;
 	rtn = a;
-	rtn += (n_paths - 1) * (last->size - 1);
+	rtn += (n_paths - 1) * last->size;
 	last = p->first;
 	while (last)
 	{
-		rtn += last->size - 1;
+		rtn += last->size;
 		last = last->next;
 	}
 	return (rtn);
@@ -56,7 +56,7 @@ int			get_cost(t_paths *paths, int n_paths)
 	x = compute_x(lemin->n_ants, paths, n_paths);
 	minus_one = n_paths > 1 ? x % (n_paths - 1) : 0;
 	x -= minus_one;
-	cost = (x / n_paths) + (last->size - 1);
+	cost = (x / n_paths) + last->size;
 	cost -= (minus_one == 0 ? 1 : 0);
 	return (cost);
 }

@@ -103,6 +103,7 @@ static void		set_n_elems()
 			(path->size)++;
 			step = step->next;
 		}
+		path->size /= 2;
 		path = path->next;
 	}
 }

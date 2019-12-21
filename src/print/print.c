@@ -96,16 +96,14 @@ void	move_ants(t_ant **a)
 **	@out:	/
 */
 
-/*
-**	TODO remove check line 112
-*/
 
+//TODO laisser la variable pointer, elle permet d'optimiser le tour suivant.
 void	launch_ants(void)
 {
 	t_path	*path;
-	//t_path	**pointer;
+	t_path	**pointer;
 
-	//pointer = &(lemin->paths);
+	pointer = &(lemin->paths);
 	path = lemin->paths->first;
 	while (path)
 	{
@@ -115,13 +113,9 @@ void	launch_ants(void)
 			lemin->n_ants -= 1;
 			path->n_ants -= 1;
 		}
-		if (path->n_ants == 0)
-			path = path_refill(path);
 		else
-		{
-			//pointer = &(path->next);
-			path = path->next;
-		}
+			pointer = &(path->next);
+		path = path->next;
 	}
 }
 
