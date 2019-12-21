@@ -24,19 +24,19 @@ void	update_path(int weight)
 void            pop_best_paths()
 {
 	unsigned int        i;
-	t_paths_with_cost   *best;
-	t_paths_with_cost   *tmp;
+	t_paths             *best;
+	t_paths             *tmp;
 
-	best = (t_paths_with_cost *)ft_marray_get(lemin->old_paths, 0);
+	best = (t_paths *)ft_marray_get(lemin->old_paths, 0);
 	i = 1;
 	while (i < lemin->old_paths->n_item)
 	{
-		tmp = (t_paths_with_cost *)ft_marray_get(lemin->old_paths, i);
+		tmp = (t_paths *)ft_marray_get(lemin->old_paths, i);
 		if (tmp->cost < best->cost)
 			best = tmp;
 		i++;
 	}
-	lemin->paths = best->paths;
+	lemin->paths = best;
 }
 
 static void		algo_add_best_path_to_paths()
@@ -132,4 +132,5 @@ void	algo(void)
 		lemin->n_paths++;
 	}
 	pop_best_paths();
+	set_nb_ants();
 }

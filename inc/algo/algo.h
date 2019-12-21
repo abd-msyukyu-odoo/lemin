@@ -3,12 +3,6 @@
 # define FALSE 0
 # define TRUE 1
 
-typedef struct	s_paths_with_cost
-{
-	int		cost;
-	t_paths	*paths;
-}				t_paths_with_cost;
-
 /*
 **  function update_path
 **
@@ -24,5 +18,6 @@ void		bfs(void);
 void		check_roads(void);
 
 int			get_cost(t_paths *paths, int nb_paths);
+void        set_nb_ants();
 
 #endif

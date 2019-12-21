@@ -60,3 +60,42 @@ int			get_cost(t_paths *paths, int n_paths)
 	cost -= (minus_one == 0 ? 1 : 0);
 	return (cost);
 }
+
+static int  get_max_bridge(t_path *p)
+{
+	int length;
+
+	length = p->size;
+	while ((p = p->next))
+		if (p->size > length)
+			length = p->size;
+	return (length);
+}
+
+void        set_nb_ants()
+{
+	int     max;
+	t_path  *p;
+	int     nb_ants;
+	t_path  curr;
+	int     nb_path;
+
+	nb_path = 0;
+	p = lemin->paths->first;
+	max = get_max_bridge(p);
+	curr = p;
+	while (curr)
+	{
+		nb_paths++;
+		curr->n_ants = max - curr->size;
+		nb_ants -= curr->n_ants;
+		curr = curr->next;
+	}
+	curr = p;
+	while (curr && nb_ants)
+	{
+		curr->n_ants += (nb_ants / nb_path) + ((nb_ants % nb_path) ? 1 : 0 );
+		nb_ants -= (nb_ants / nb_path) + ((nb_ants % nb_path) ? 1 : 0 );
+		curr = curr->next;
+	}
+}
