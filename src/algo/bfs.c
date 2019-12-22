@@ -25,10 +25,7 @@ static void	 bfs_recursive(t_room *current, int weight)
 	if (!current)
 		return;
 	if (current == lemin->end)
-	{
-		printf("end!!\n");
 		return (update_path(weight));
-	}
 	if (current->visited == 1 ||
 		(current->isset && current->weight <= weight) ||
 		(lemin->end->isset && weight > lemin->end->weight))

@@ -73,19 +73,19 @@ static void		algo_add_paths_to_old_paths(int cost)
 ////////////////////////////////////////////////non, c'est pas le cout des room, c'est le cout des chemins
 static void		set_negatives()
 {
-	t_path		*paths;
-	t_step		*elem;
+	t_path		*path;
+	t_step		*step;
 
-	paths = lemin->paths->first;
-	while (paths)
+	path = lemin->paths->first;
+	while (path)
 	{
-		elem = paths->first;
-		while(elem)
+		step = path->first;
+		while(step->next)
 		{
-			tube_inverse(elem->tube);
-			elem = elem->next;
+			tube_inverse(step->tube);
+			step = step->next;
 		}
-		paths = paths->next;
+		path = path->next;
 	}
 }
 
@@ -134,13 +134,13 @@ void	algo(void)
 	else
 		limit = lemin->end->a_tubes.array.n_items;
 	initialize_paths();
-	ft_printf("-initialize paths done\n");
+	ft_printf("- initialize paths done\n");
 	bfs();
-	ft_printf("-bfs done\n");
+	ft_printf("- bfs done\n");
 	algo_add_best_path_to_paths();
-	ft_printf("-best path added to paths\n");
+	ft_printf("- best path added to paths\n");
 	set_negatives();
-	ft_printf("-negatives setted\n");
+	ft_printf("- negatives setted\n");
 	lemin->n_paths = 1;
 	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
 	while (lemin->n_paths < limit)
