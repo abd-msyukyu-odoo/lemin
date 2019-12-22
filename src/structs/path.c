@@ -153,7 +153,7 @@ void			paths_append(t_paths *paths, t_path *path)
 	path->prev = paths->last;
 	if (paths->last)
 		paths->last->next = path;
-	if (!path->first)
+	if (!paths->first)
 		paths->first = path;
 	paths->last = path;
 }

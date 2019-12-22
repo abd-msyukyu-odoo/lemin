@@ -54,9 +54,7 @@ static void		algo_add_best_path_to_paths()
 		elem = elem->next;
 	}
 	paths_append(lemin->paths, lemin->best_path);
-	printf_paths();
 	lemin->best_path = NULL;
-	printf_paths();
 }
 
 //doit ajouter tous les chemins d'une solution dans un tableau ?
@@ -140,10 +138,12 @@ void	algo(void)
 	bfs();
 	ft_printf("-bfs done\n");
 	algo_add_best_path_to_paths();
+	ft_printf("-best path added to paths\n");
 	set_negatives();
+	ft_printf("-negatives setted\n");
 	lemin->n_paths = 1;
 	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
-	while (lemin->n_paths <= limit)
+	while (lemin->n_paths < limit)
 	{
 		bmf();
 		check_roads();
