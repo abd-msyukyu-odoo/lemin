@@ -145,3 +145,69 @@ void	print(void)
 	ft_memanager_free(lemin->mmng);
 	exit(0);
 }
+
+// TODO remove those debug functions
+
+void    printf_working_path()
+{
+	t_step  *step;
+
+	if (!lemin->working_path || !lemin->working_path->first)
+	{
+		printf("Empty working_path\n");
+		return ;
+	}
+	step = lemin->working_path->first;
+	printf("Working path: %.1s ", step->room->key.key);
+	step = step->next;
+	while (step)
+	{
+		printf("%.1s ", step->room->key.key);
+		step = step->next->next;
+	}
+}
+
+void    printf_best_path()
+{
+	t_step  *step;
+
+	if (!lemin->best_path)
+	{
+		printf("no best_path");
+		return ;
+	}
+	step = lemin->best_path->first;
+	printf("Best path: %.1s ", step->room->key.key);
+	step = step->next;
+	while (step)
+	{
+		printf("%.1s ", step->room->key.key);
+		step = step->next->next;
+	}
+}
+
+void    printf_paths()
+{
+	t_path      *path;
+	t_step      *step;
+
+	path = lemin->paths->first;
+	ft_printf("\nPaths :\n");
+	while (path)
+	{
+		step = path->first;
+		if (step)
+		{
+			ft_printf("path: %.1s ", step->room->key.key);
+			step = step->next;
+		}
+		while (step)
+		{
+			ft_printf("%.1s ", step->room->key.key);
+			step = step->next;
+		}
+		ft_printf("\n");
+		path = path->next;
+	}
+}
+

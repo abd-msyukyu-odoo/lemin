@@ -66,7 +66,8 @@ int				display_hmap_bnode_iteration(void *receiver, t_hmap *source,
 		btree = (t_btree*)ft_array_get(source->array, i);
 		if (btree->root && btree->root->rank)
 		{
-			printf("%I64u \n", i);
+//			printf("%I64u \n", i);
+			printf("%zu \n", i);
 			out = ft_btree_bnode_iteration(receiver, btree->root, f);
 		}
 		++i;
@@ -77,7 +78,8 @@ int				display_hmap_bnode_iteration(void *receiver, t_hmap *source,
 void			display_hmap_repartition(t_mhmap *m)
 {
 	display_hmap_bnode_iteration(m, (t_hmap*)m, display_room_bnode);
-	printf("n_items : %I64u\nsize : %I64u\n", m->hmap.array->n_items,
+//	printf("n_items : %I64u\nsize : %I64u\n", m->hmap.array->n_items,
+	printf("n_items : %zu\nsize : %zu\n", m->hmap.array->n_items,
 		m->hmap.array->size);
 }
 

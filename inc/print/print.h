@@ -13,8 +13,15 @@
 #ifndef PRINT_H
 # define PRINT_H
 # define LEMIN_PRINT_BF_SIZE 32
-# include "libft.h"
+
+# include "lemin.h"
 
 void		print(void);
+
+void        printf_working_path();
+void        printf_best_path();
+void        printf_paths();
+
+
 
 #endif

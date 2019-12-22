@@ -38,7 +38,7 @@ STRUCTS_F	= global \
 			  ant \
 			  path
 
-MAIN_F		= test_lemin
+MAIN_F		= lemin
 
 ALGO_F		= algo \
 			  bfs \
@@ -52,7 +52,8 @@ O_FILES		= $(addsuffix .o, \
 					$(addprefix print/, $(PRINT_F)) \
 					$(addprefix structs/, $(STRUCTS_F)) \
 					$(addprefix algo/, $(ALGO_F))) \
-				$(addprefix tests/, $(MAIN_F)))
+				$(addprefix src/, $(MAIN_F)))
+#				$(addprefix tests/, $(MAIN_F)))
 
 END_E		= \033[00m
 RED_E		= \033[01;31m
@@ -68,7 +69,7 @@ UNDERLINE_E	= \033[4m
 #run executable compiled with g pg
 #gprof executable.exe gmon.out > analysis.txt
 $(NAME):	$(O_FILES)
-			@$(OSMAKE) -C libft/
+#			@$(OSMAKE) -C libft/
 			@gcc -O3 -o $(NAME) $(O_FILES) -L./libft/ -lft
 			@echo "$(GREEN_E)end compilation : $(NAME)$(END_E)"
 
@@ -82,11 +83,11 @@ lemclean:
 			@echo "$(PURPLE_E)end clean : $(NAME)$(END_E)"
 
 clean:		lemclean
-			@$(OSMAKE) -C libft/ clean
+#			@$(OSMAKE) -C libft/ clean
 
 fclean:		lemclean
 			@rm -f $(NAME)
-			@$(OSMAKE) -C libft/ fclean
+#			@$(OSMAKE) -C libft/ fclean
 			@echo "$(RED_E)end fclean : $(NAME)$(END_E)"
 
 re:			fclean all

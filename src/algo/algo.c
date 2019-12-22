@@ -14,11 +14,13 @@
 
 void	update_path(int weight)
 {
-	if (lemin->end->weight < weight)
-		return ;
+	if (lemin->end->isset && lemin->end->weight < weight)
+		return;
+	lemin->end->isset = TRUE;
 	lemin->end->weight = weight;
-	path_refill(lemin->best_path);
-	lemin->best_path = path_clone(lemin->working_path);
+	if ((lemin->best_path = path_refill(lemin->best_path)) ||
+		!(lemin->best_path = path_clone(lemin->working_path)))
+		return lemin_error(LEMIN_ERR_ALGO);
 }
 
 void            pop_best_paths()
@@ -43,6 +45,7 @@ static void		algo_add_best_path_to_paths()
 {
 	t_step		*elem;
 
+	path_append(lemin->best_path, lemin->end);
 	elem = lemin->best_path->first;
 	while (elem->next)
 	{
@@ -51,7 +54,9 @@ static void		algo_add_best_path_to_paths()
 		elem = elem->next;
 	}
 	paths_append(lemin->paths, lemin->best_path);
+	printf_paths();
 	lemin->best_path = NULL;
+	printf_paths();
 }
 
 //doit ajouter tous les chemins d'une solution dans un tableau ?
@@ -110,10 +115,12 @@ static void		set_n_elems()
 
 static void		initialize_paths(void)
 {
-	if (!(lemin->working_path = ft_memanager_get(lemin->mmng, sizeof(t_path))))
+	if (!(lemin->working_path = (t_path *)ft_memanager_get(lemin->mmng, sizeof(t_path))))
 		lemin_error(LEMIN_ERR_MEM);
+	lemin->working_path->first = NULL;
+	lemin->working_path->last = NULL;
 	lemin->best_path = NULL;
-	if (!(lemin->paths = ft_memanager_get(lemin->mmng, sizeof(t_paths))))
+	if (!(lemin->paths = (t_paths *)ft_memanager_get(lemin->mmng, sizeof(t_paths))))
 		lemin_error(LEMIN_ERR_MEM);
 	if (!(lemin->old_paths = ft_marray_construct(lemin->mmng, 16,
 		sizeof(t_paths*))))
@@ -129,7 +136,9 @@ void	algo(void)
 	else
 		limit = lemin->end->a_tubes.array.n_items;
 	initialize_paths();
+	ft_printf("-initialize paths done\n");
 	bfs();
+	ft_printf("-bfs done\n");
 	algo_add_best_path_to_paths();
 	set_negatives();
 	lemin->n_paths = 1;

@@ -23,9 +23,12 @@ static void	 bfs_recursive(t_room *current, int weight)
 	t_tube			*t;
 
 	if (!current)
-		return ;
+		return;
 	if (current == lemin->end)
-		return update_path(weight);
+	{
+		printf("end!!\n");
+		return (update_path(weight));
+	}
 	if (current->visited == 1 ||
 		(current->isset && current->weight <= weight) ||
 		(lemin->end->isset && weight > lemin->end->weight))
@@ -49,6 +52,7 @@ static void	 bfs_recursive(t_room *current, int weight)
 void			bfs(void)
 {
 	bfs_recursive(lemin->start, 0);
+	printf_best_path();
 	if (!(lemin->best_path))
 		lemin_error(LEMIN_ERR_DISJOINT);
 }
