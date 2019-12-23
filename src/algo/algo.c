@@ -14,9 +14,9 @@
 
 void	update_path(int weight)
 {
-	if (lemin->end->isset && lemin->end->weight < weight)
+	if (lemin->end->isset == lemin->n_paths + 1 && lemin->end->weight < weight)
 		return;
-	lemin->end->isset = TRUE;
+	lemin->end->isset = lemin->n_paths + 1;
 	lemin->end->weight = weight;
 	if ((lemin->best_path = path_refill(lemin->best_path)) ||
 		!(lemin->best_path = path_clone(lemin->working_path)))
@@ -146,14 +146,21 @@ void	algo(void)
 	ft_printf("- paths added to olds paths\n");
 	while (lemin->n_paths < limit)
 	{
+		ft_printf("- while iteration nb %d\n", lemin->n_paths);
 		bmf();
+		ft_printf("- - bmf done\n");
 		check_roads();
+		ft_printf("- - bmf done\n");
 		algo_add_best_path_to_paths();
+		ft_printf("- - bmf done\n");
 		set_n_elems();
 		algo_add_paths_to_old_paths(get_cost(lemin->paths,
 			(int)lemin->n_paths));
 		lemin->n_paths++;
 	}
+	ft_printf("- while done\n");
 	pop_best_paths();
+	ft_printf("- pop best paths\n");
 	set_nb_ants();
+	ft_printf("- bn_ants per path done\n");
 }

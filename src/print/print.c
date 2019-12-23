@@ -100,24 +100,26 @@ void	move_ants(t_ant **a)
 //TODO laisser la variable pointer, elle permet d'optimiser le tour suivant.
 //*************
 //check si ce que j'ai fait est coherent avec pointer :
+//non, c'est pas cohérent
 //*************
 void	launch_ants(void)
 {
 	t_path	*path;
-	//t_path	**pointer;
+	t_path	**pointer;
 
-	//pointer = &(lemin->paths->first);
+	pointer = &(lemin->paths->first);
 	path = lemin->paths->first;
-	while (path)
+	while (path && path->n_ants > 0)
 	{
-		if (path->n_ants > 0 && lemin->n_ants)
+		if (lemin->n_ants)
 		{
 			lemin->ants = ant_add_new(lemin->ants, lemin->n_ants, path->first);
 			lemin->n_ants -= 1;
 			path->n_ants -= 1;
+			pointer = &(path->next);
 		}
 		else
-			lemin->paths->first = path->next;//pointer = &(path->next);
+			*pointer = path->next;
 		path = path->next;
 	}
 }
@@ -160,11 +162,12 @@ void    printf_working_path()
 	step = lemin->working_path->first;
 	ft_printf("Working path: %.1s ", step->room->key.key);
 	step = step->next;
-	while (step)
+	while (step && step->next)
 	{
 		ft_printf("%.1s ", step->room->key.key);
 		step = step->next->next;
 	}
+	ft_printf("\n");
 }
 
 void    printf_best_path()
@@ -173,7 +176,7 @@ void    printf_best_path()
 
 	if (!lemin->best_path)
 	{
-		ft_printf("no best_path");
+		ft_printf("no best_path\n");
 		return ;
 	}
 	step = lemin->best_path->first;
@@ -193,22 +196,54 @@ void    printf_paths()
 	t_step      *step;
 
 	path = lemin->paths->first;
-	ft_printf("\nPaths :\n");
+	ft_printf("Paths :\n");
 	while (path)
 	{
 		step = path->first;
-		if (step)
-		{
-			ft_printf("path: %.1s ", step->room->key.key);
-			step = step->next;
-		}
+		ft_printf("- path: ");
 		while (step)
 		{
 			ft_printf("%.1s ", step->room->key.key);
-			step = step->next;
+			if (step->next && step->next->next)
+				step = step->next->next;
+			else
+				step = step->next;
 		}
 		ft_printf("\n");
 		path = path->next;
 	}
+	ft_printf("\n");
 }
 
+
+//// ATTENTION, ELLE n'est pas bonne (seg fault)
+void    printf_old_paths()
+{
+	unsigned int    i;
+	t_path      *path;
+	t_step      *step;
+
+	i = 0;
+	ft_printf("old paths :\n");
+	while (i < lemin->old_paths->array.n_items)
+	{
+		path = ((t_paths *)ft_array_get(&(lemin->old_paths->array), i))->first;
+		ft_printf("- Paths group :\n");
+		while (path)
+		{
+			step = path->first;
+			ft_printf("- - path: ");
+			while (step)
+			{
+				ft_printf("%.1s ", step->room->key.key);
+				if (step->next && step->next->next)
+					step = step->next->next;
+				else
+					step = step->next;
+			}
+			ft_printf("\n");
+			path = path->next;
+		}
+		i++;
+	}
+}

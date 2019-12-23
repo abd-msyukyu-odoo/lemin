@@ -32,7 +32,7 @@ static void	 bfs_recursive(t_room *current, int weight)
 		return ;
 	current->weight = weight;
 	current->isset = 1;
-	current->visited = 1;
+	current->visited = TRUE;
 	path_append(lemin->working_path, current);
 	top = current->a_tubes.array.n_items;
 	d = 0;
@@ -43,7 +43,7 @@ static void	 bfs_recursive(t_room *current, int weight)
 		d++;
 	}
 	path_remove_last(lemin->working_path);
-	current->visited = 0;
+	current->visited = FALSE;
 }
 
 void			bfs(void)

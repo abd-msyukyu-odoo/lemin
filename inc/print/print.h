@@ -21,6 +21,7 @@ void		print(void);
 void        printf_working_path();
 void        printf_best_path();
 void        printf_paths();
+void        printf_old_paths();
 
 
 
