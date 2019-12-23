@@ -143,6 +143,7 @@ void	algo(void)
 	ft_printf("- negatives setted\n");
 	lemin->n_paths = 1;
 	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
+	ft_printf("- paths added to olds paths\n");
 	while (lemin->n_paths < limit)
 	{
 		bmf();

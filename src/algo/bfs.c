@@ -49,7 +49,6 @@ static void	 bfs_recursive(t_room *current, int weight)
 void			bfs(void)
 {
 	bfs_recursive(lemin->start, 0);
-	printf_best_path();
 	if (!(lemin->best_path))
 		lemin_error(LEMIN_ERR_DISJOINT);
 }

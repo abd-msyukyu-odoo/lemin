@@ -52,6 +52,8 @@ int			get_cost(t_paths *paths, int n_paths)
 	int		cost;
 	t_path	*last;
 
+	if (paths->first == paths->last)
+		return (paths->first->size + lemin->n_ants);
 	last = paths->last;
 	x = compute_x(lemin->n_ants, paths, n_paths);
 	minus_one = n_paths > 1 ? x % (n_paths - 1) : 0;

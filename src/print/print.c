@@ -154,15 +154,15 @@ void    printf_working_path()
 
 	if (!lemin->working_path || !lemin->working_path->first)
 	{
-		printf("Empty working_path\n");
+		ft_printf("Empty working_path\n");
 		return ;
 	}
 	step = lemin->working_path->first;
-	printf("Working path: %.1s ", step->room->key.key);
+	ft_printf("Working path: %.1s ", step->room->key.key);
 	step = step->next;
 	while (step)
 	{
-		printf("%.1s ", step->room->key.key);
+		ft_printf("%.1s ", step->room->key.key);
 		step = step->next->next;
 	}
 }
@@ -173,17 +173,18 @@ void    printf_best_path()
 
 	if (!lemin->best_path)
 	{
-		printf("no best_path");
+		ft_printf("no best_path");
 		return ;
 	}
 	step = lemin->best_path->first;
-	printf("Best path: %.1s ", step->room->key.key);
+	ft_printf("Best path: %.1s ", step->room->key.key);
 	step = step->next;
 	while (step)
 	{
-		printf("%.1s ", step->room->key.key);
+		ft_printf("%.1s ", step->room->key.key);
 		step = step->next->next;
 	}
+	ft_printf("\n");
 }
 
 void    printf_paths()
