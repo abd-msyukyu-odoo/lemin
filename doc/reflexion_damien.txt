@@ -133,3 +133,16 @@ a tester : mbtree ajouter retirer ajouter + afficher le memanager
 visu lemin : adaptation de la camera
 
 capturer la position de la camera
+
+
+
+
+
+
+
+
+
+
+
+cycle dans un des path trouve (bfs)
+=> le previous de first pointe sur le last 

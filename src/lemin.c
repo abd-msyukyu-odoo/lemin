@@ -6,10 +6,10 @@ int     main(void)
 {
 	global_construct();
 	global_construct_hashmap_rooms(LEMIN_DEFAULT_ROOMS_COUNT);
-	ft_printf("construct global done\n");
+	printf("construct global done\n");
 	read_lemin();
-	ft_printf("reading done\n");
+	printf("reading done\n");
 	algo();
-	ft_printf("algo done\n");
+	printf("algo done\n");
 	return (0);
 }

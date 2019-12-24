@@ -134,33 +134,33 @@ void	algo(void)
 	else
 		limit = lemin->end->a_tubes.array.n_items;
 	initialize_paths();
-	ft_printf("- initialize paths done\n");
+	printf("- initialize paths done\n");
 	bfs();
-	ft_printf("- bfs done\n");
+	printf("- bfs done\n");
 	algo_add_best_path_to_paths();
-	ft_printf("- best path added to paths\n");
+	printf("- best path added to paths\n");
 	set_negatives();
-	ft_printf("- negatives setted\n");
+	printf("- negatives setted\n");
 	lemin->n_paths = 1;
 	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
-	ft_printf("- paths added to olds paths\n");
+	printf("- paths added to olds paths\n");
 	while (lemin->n_paths < limit)
 	{
-		ft_printf("- while iteration nb %d\n", lemin->n_paths);
+		printf("- while iteration nb %d\n", lemin->n_paths);
 		bmf();
-		ft_printf("- - bmf done\n");
+		printf("- - bmf done\n");
 		check_roads();
-		ft_printf("- - bmf done\n");
+		printf("- - bmf done\n");
 		algo_add_best_path_to_paths();
-		ft_printf("- - bmf done\n");
+		printf("- - bmf done\n");
 		set_n_elems();
 		algo_add_paths_to_old_paths(get_cost(lemin->paths,
 			(int)lemin->n_paths));
 		lemin->n_paths++;
 	}
-	ft_printf("- while done\n");
+	printf("- while done\n");
 	pop_best_paths();
-	ft_printf("- pop best paths\n");
+	printf("- pop best paths\n");
 	set_nb_ants();
-	ft_printf("- bn_ants per path done\n");
+	printf("- bn_ants per path done\n");
 }

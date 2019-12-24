@@ -156,18 +156,18 @@ void    printf_working_path()
 
 	if (!lemin->working_path || !lemin->working_path->first)
 	{
-		ft_printf("Empty working_path\n");
+		printf("Empty working_path\n");
 		return ;
 	}
 	step = lemin->working_path->first;
-	ft_printf("Working path: %.1s ", step->room->key.key);
+	printf("Working path: %.1s ", step->room->key.key);
 	step = step->next;
 	while (step && step->next)
 	{
-		ft_printf("%.1s ", step->room->key.key);
+		printf("%.1s ", step->room->key.key);
 		step = step->next->next;
 	}
-	ft_printf("\n");
+	printf("\n");
 }
 
 void    printf_best_path()
@@ -176,18 +176,18 @@ void    printf_best_path()
 
 	if (!lemin->best_path)
 	{
-		ft_printf("no best_path\n");
+		printf("no best_path\n");
 		return ;
 	}
 	step = lemin->best_path->first;
-	ft_printf("Best path: %.1s ", step->room->key.key);
+	printf("Best path: %.1s ", step->room->key.key);
 	step = step->next;
 	while (step)
 	{
-		ft_printf("%.1s ", step->room->key.key);
+		printf("%.1s ", step->room->key.key);
 		step = step->next->next;
 	}
-	ft_printf("\n");
+	printf("\n");
 }
 
 void    printf_paths()
@@ -196,23 +196,23 @@ void    printf_paths()
 	t_step      *step;
 
 	path = lemin->paths->first;
-	ft_printf("Paths :\n");
+	printf("Paths :\n");
 	while (path)
 	{
 		step = path->first;
-		ft_printf("- path: ");
+		printf("- path: ");
 		while (step)
 		{
-			ft_printf("%.1s ", step->room->key.key);
+			printf("%.1s ", step->room->key.key);
 			if (step->next && step->next->next)
 				step = step->next->next;
 			else
 				step = step->next;
 		}
-		ft_printf("\n");
+		printf("\n");
 		path = path->next;
 	}
-	ft_printf("\n");
+	printf("\n");
 }
 
 
@@ -224,24 +224,24 @@ void    printf_old_paths()
 	t_step      *step;
 
 	i = 0;
-	ft_printf("old paths :\n");
+	printf("old paths :\n");
 	while (i < lemin->old_paths->array.n_items)
 	{
 		path = ((t_paths *)ft_array_get(&(lemin->old_paths->array), i))->first;
-		ft_printf("- Paths group :\n");
+		printf("- Paths group :\n");
 		while (path)
 		{
 			step = path->first;
-			ft_printf("- - path: ");
+			printf("- - path: ");
 			while (step)
 			{
-				ft_printf("%.1s ", step->room->key.key);
+				printf("%.1s ", step->room->key.key);
 				if (step->next && step->next->next)
 					step = step->next->next;
 				else
 					step = step->next;
 			}
-			ft_printf("\n");
+			printf("\n");
 			path = path->next;
 		}
 		i++;
