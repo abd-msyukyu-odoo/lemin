@@ -144,7 +144,7 @@ void	print(void)
 	}
 	lemin->buff_pos += 1;
 	write(1, lemin->buff, lemin->buff_pos);
-	ft_memanager_free(lemin->mmng);
+	global_free();
 	exit(0);
 }
 

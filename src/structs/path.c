@@ -112,6 +112,8 @@ t_path			*path_clone(t_path *path)
 		lemin_error(LEMIN_ERR_MEM);
 	other->first = NULL;
 	other->last = NULL;
+	other->next = NULL;
+	other->prev = NULL;
 	step = path->first;
 	while (step)
 	{

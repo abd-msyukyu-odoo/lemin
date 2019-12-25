@@ -34,6 +34,9 @@ void		global_construct(void)
 	lemin->end = NULL;
 	lemin->n_ants = 0;
 	lemin->n_paths = 0;
+	lemin->buff_pos = 0;
+	lemin->buff = ft_memanager_get(lemin->mmng, LEMIN_PRINT_BF_SIZE);
+	lemin->ants = NULL;
 }
 
 void		global_construct_hashmap_rooms(size_t n_rooms)

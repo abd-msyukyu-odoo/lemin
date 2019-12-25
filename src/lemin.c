@@ -11,5 +11,6 @@ int     main(void)
 	printf("reading done\n");
 	algo();
 	printf("algo done\n");
+	print();
 	return (0);
 }
