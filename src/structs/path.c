@@ -106,6 +106,7 @@ t_path			*path_clone(t_path *path)
 	other->first = NULL;
 	other->last = NULL;
 	step = path->first;
+	ft_printf("cloning\n");
 	while (step)
 	{
 		path_append(other, step->room);

@@ -25,7 +25,7 @@ void	bmf_recursive(t_room *current, int weight)
 	if (!current)
 		return ;
 	if (current == lemin->end)
-		return update_path(weight);
+		return (update_path(weight));
 	if (current->visited == 1 ||
 		(lemin->n_paths < current->isset && current->weight <= weight))
 		return ;

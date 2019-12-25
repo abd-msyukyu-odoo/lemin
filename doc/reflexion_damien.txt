@@ -146,3 +146,7 @@ capturer la position de la camera
 
 cycle dans un des path trouve (bfs)
 => le previous de first pointe sur le last 
+
+cycle dans un des paths trouve : path_clone
+-> avant chaque appel de clone, tester si le path est cyclique ?
+-> pour le debug
