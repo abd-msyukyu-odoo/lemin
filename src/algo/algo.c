@@ -23,7 +23,7 @@ void	update_path(int weight)
 		return lemin_error(LEMIN_ERR_ALGO);
 }
 
-void            pop_best_paths()
+void            pop_best_paths(void)
 {
 	unsigned int        i;
 	t_paths             *best;
@@ -41,7 +41,7 @@ void            pop_best_paths()
 	lemin->paths = best;
 }
 
-static void		algo_add_best_path_to_paths()
+static void		algo_add_tubes_to_best_path(void)
 {
 	t_step		*elem;
 
@@ -53,6 +53,10 @@ static void		algo_add_best_path_to_paths()
 			lemin_error(LEMIN_ERR_MEM);
 		elem = elem->next;
 	}
+}
+
+static void		algo_add_best_path_to_paths(void)
+{
 	paths_append(lemin->paths, lemin->best_path);
 	lemin->best_path = NULL;
 }
@@ -141,6 +145,7 @@ void	algo(void)
 	printf("- initialize paths done\n");
 	bfs();
 	printf("- bfs done\n");
+	algo_add_tubes_to_best_path();
 	algo_add_best_path_to_paths();
 	printf("- best path added to paths\n");
 	set_negatives();
@@ -153,6 +158,7 @@ void	algo(void)
 		printf("- while iteration nb %d\n", lemin->n_paths);
 		bmf();
 		printf("- - bmf done\n");
+		algo_add_tubes_to_best_path();
 		check_roads();
 		printf("- - bmf done\n");
 		algo_add_best_path_to_paths();
