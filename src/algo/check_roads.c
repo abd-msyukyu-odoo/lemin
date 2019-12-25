@@ -12,33 +12,6 @@
 
 #include "lemin.h"
 
-static t_path		*cr_find_other(t_path *path)
-{
-	t_path			*road;
-	t_step			*cur;
-
-	road = lemin->paths->first;
-	while (road)
-	{
-		if (road == path)
-			road = road->next;
-		if (!road)
-			break ;
-		cur = road->first;
-		while (cur)
-		{
-			if (cur->room == path->cur->room)
-			{
-				road->cur = cur;
-				return (road);
-			}
-			cur = cur->next;
-		}
-		road = road->next;
-	}
-	return (NULL);
-}
-
 static void			cr_exchange(t_path **cur, t_path *other)
 {
 	t_step			*s1;
@@ -52,7 +25,7 @@ static void			cr_exchange(t_path **cur, t_path *other)
 	tube_inverse(s1->next->tube);
 	e2 = s1->next->next;
 	path_extract_step(*cur, e2->prev);
-	while (s2->prev == e2->next)
+	while (s2->prev->room == e2->next->room)
 	{
 		tube_inverse(e2->tube);
 		e2 = e2->next;
@@ -73,11 +46,67 @@ static void			cr_exchange(t_path **cur, t_path *other)
 	*cur = other;
 }
 
+static void			cr_cut_loop(t_path **path, t_step *other)
+{
+	t_step			*cur;
+
+	tube_inverse(other->tube);
+	cur = other->next;
+	while (cur != (*path)->cur)
+	{
+		tube_inverse(cur->tube);
+		path_extract_step(*path, cur);
+		cur = cur->next;
+	}
+	while (other->prev->room == cur->next->room)
+	{
+		tube_inverse(cur->tube);
+		other = other->prev;
+		cur = cur->next;
+		path_extract_step(*path, other->next);
+		path_extract_step(*path, cur->prev);
+	}
+	path_extract_step(*path, other);
+	(*path)->cur = cur;
+}
+
+static int			cr_find_other(t_path **path)
+{
+	t_path			*road;
+	t_step			*cur;
+
+	road = lemin->paths->first;
+	while (road)
+	{
+		cur = road->first;
+		while (cur)
+		{
+			if (cur->room == (*path)->cur->room)
+			{
+				if (road != *path)
+				{
+					road->cur = cur;
+					cr_exchange(path, road);
+					return (1);
+				} 
+				else if (road->cur->next != cur->next ||
+					road->cur->prev != cur->prev)
+				{
+					cr_cut_loop(path, cur);
+					return (1);
+				}
+			}
+			cur = cur->next;
+		}
+		road = road->next;
+	}
+	return (0);
+}
+
 void				check_roads(void)
 {
 	t_path			*cur;
 	t_tube			*t;
-	t_path			*other;
 
 	cur = lemin->best_path;
 	cur->cur = cur->first;
@@ -86,9 +115,7 @@ void				check_roads(void)
 		t = cur->cur->tube;
 		if (t->cost == LEMIN_DIR_REVERSE)
 		{
-			if ((other = cr_find_other(cur)))
-				cr_exchange(&cur, other);
-			else
+			if (!cr_find_other(&cur))
 				lemin_error(LEMIN_ERR_ALGO);
 		}
 		tube_inverse(cur->cur->tube);

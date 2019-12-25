@@ -156,6 +156,8 @@ void	algo(void)
 		printf("- while iteration nb %d\n", lemin->n_paths);
 		bmf();
 		printf("- - bmf done\n");
+		if (!lemin->best_path)
+			break ;
 		algo_add_tubes_to_best_path();
 		check_roads();
 		printf("- - bmf done\n");
