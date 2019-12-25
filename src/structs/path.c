@@ -62,6 +62,7 @@ void			path_remove_last(t_path *path) // path_elem_pop
 	}
 	cur = path->last;
 	path->last = cur->prev;
+	path->last->next = NULL;
 	ft_memanager_refill(lemin->mmng, cur);
 }
 
