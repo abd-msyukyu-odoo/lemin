@@ -22,6 +22,8 @@ static t_path		*cr_find_other(t_path *path)
 	{
 		if (road == path)
 			road = road->next;
+		if (!road)
+			break ;
 		cur = road->first;
 		while (cur)
 		{
