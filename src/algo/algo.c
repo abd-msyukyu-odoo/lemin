@@ -118,9 +118,7 @@ static void		set_n_elems()
 static void		initialize_paths(void)
 {
 	if (!(lemin->working_path = (t_path *)ft_memanager_get(lemin->mmng, sizeof(t_path))))
-		lemin_error(LEMIN_ERR_MEM);
-	lemin->working_path->first = NULL;
-	lemin->working_path->last = NULL;
+		lemin_error(LEMIN_ERR_MEM); 
 	lemin->best_path = NULL;
 	if (!(lemin->paths = (t_paths *)ft_memanager_get(lemin->mmng, sizeof(t_paths))))
 		lemin_error(LEMIN_ERR_MEM);
