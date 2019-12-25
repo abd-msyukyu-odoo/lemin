@@ -73,9 +73,15 @@ void			path_extract_step(t_path *path, t_step *step)
 	if (step->next)
 		step->next->prev = step->prev;
 	if (step == path->first)
+	{
 		path->first = step->next;
+		path->first->prev = NULL;
+	}
 	if (step == path->last)
-		path->last = step->prev;	
+	{
+		path->last = step->prev;
+		path->last->next = NULL;
+	}	
 	ft_memanager_refill(lemin->mmng, step);
 }
 
