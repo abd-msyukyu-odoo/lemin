@@ -129,6 +129,8 @@ t_paths			*paths_clone(t_paths *paths)
 
 	if (!(other = (t_paths*)ft_memanager_get(lemin->mmng, sizeof(t_paths))))
 		lemin_error(LEMIN_ERR_MEM);
+	other->last = NULL;
+	other->first = NULL;
 	step = paths->first;
 	cur = NULL;
 	while (step)

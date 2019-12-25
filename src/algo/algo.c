@@ -123,6 +123,10 @@ static void		initialize_paths(void)
 	if (!(lemin->old_paths = ft_marray_construct(lemin->mmng, 16,
 		sizeof(t_paths*))))
 		lemin_error(LEMIN_ERR_MEM);
+	lemin->working_path->first = NULL;
+	lemin->working_path->last = NULL;
+	lemin->paths->first = NULL;
+	lemin->paths->last = NULL;
 }
 
 void	algo(void)
