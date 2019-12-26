@@ -216,32 +216,34 @@ void    printf_paths()
 }
 
 
-//// ATTENTION, ELLE n'est pas bonne (seg fault)
 void    printf_old_paths()
 {
 	unsigned int    i;
-	t_path      *path;
-	t_step      *step;
+	t_paths         *paths;
+	t_path          *path;
+	t_step          *step;
 
 	i = 0;
 	printf("old paths :\n");
 	while (i < lemin->old_paths->array.n_items)
 	{
-		path = ((t_paths *)ft_array_get(&(lemin->old_paths->array), i))->first;
-		printf("- Paths group :\n");
+		paths = *(t_paths **)ft_array_get(&(lemin->old_paths->array), i);
+		ft_printf("- Paths group :\n");
+		ft_printf("- - Cost: %d\n", paths->cost);
+		path = paths->first;
 		while (path)
 		{
 			step = path->first;
-			printf("- - path: ");
+			ft_printf("- - path: ");
 			while (step)
 			{
-				printf("%.1s ", step->room->key.key);
+				ft_printf("%.1s ", step->room->key.key);
 				if (step->next && step->next->next)
 					step = step->next->next;
 				else
 					step = step->next;
 			}
-			printf("\n");
+			ft_printf("\n");
 			path = path->next;
 		}
 		i++;

@@ -26,7 +26,7 @@ void		algo(void);
 void		bmf(void);
 void		bfs(void);
 void		check_roads(void);
-int			get_cost(t_paths *paths, int nb_paths);
+int			get_cost();
 void		set_nb_ants(void);
 
 #endif

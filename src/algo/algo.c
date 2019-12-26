@@ -30,12 +30,16 @@ void            pop_best_paths(void)
 	t_paths             *tmp;
 
 	best = *(t_paths**)ft_array_get((t_array*)lemin->old_paths, 0);
+	printf("::: %d\n", best->cost);
 	i = 1;
 	while (i < lemin->old_paths->array.n_items)
 	{
 		tmp = *(t_paths**)ft_array_get((t_array*)lemin->old_paths, i);
+		printf("::: %d\n", tmp->cost);
 		if (tmp->cost < best->cost)
+		{
 			best = tmp;
+		}
 		i++;
 	}
 	lemin->paths = best;
@@ -145,11 +149,12 @@ void	algo(void)
 	printf("- bfs done\n");
 	algo_add_tubes_to_best_path();
 	algo_add_best_path_to_paths();
+	set_n_elems();
 	printf("- best path added to paths\n");
 	set_negatives();
 	printf("- negatives setted\n");
 	lemin->n_paths = 1;
-	algo_add_paths_to_old_paths(get_cost(lemin->paths, (int)lemin->n_paths));
+	algo_add_paths_to_old_paths(get_cost());
 	printf("- paths added to olds paths\n");
 	while (lemin->n_paths < limit)
 	{
@@ -164,13 +169,14 @@ void	algo(void)
 		algo_add_best_path_to_paths();
 		printf("- - bmf done\n");
 		set_n_elems();
-		algo_add_paths_to_old_paths(get_cost(lemin->paths,
-			(int)lemin->n_paths));
+		algo_add_paths_to_old_paths(get_cost());
 		lemin->n_paths++;
 	}
 	printf("- while done\n");
+	printf_old_paths();
 	pop_best_paths();
 	printf("- pop best paths\n");
-	set_nb_ants();
+	//set_nb_ants();
 	printf("- bn_ants per path done\n");
+	printf_paths();
 }
