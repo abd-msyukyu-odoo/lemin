@@ -23,6 +23,35 @@ void	update_path(int weight)
 		return lemin_error(LEMIN_ERR_ALGO);
 }
 
+void            remove_in_out(void)
+{
+	t_path      *path;
+	t_step      *step;
+	char        *s;
+
+	s = lemin->start->key.key;
+	s = ft_strrchr(s, '-');
+	*s = '\0';
+	s = lemin->end->key.key;
+	s = ft_strrchr(s, '-');
+	*s = '\0';
+	path = lemin->paths->first;
+	while (path)
+	{
+		step = path->first->next;
+		while (step->next)
+		{
+			s = step->room->key.key;
+			s = ft_strrchr(s, '-');
+			*s = '\0';
+			if (step->next && step->next->next)
+				step->next = step->next->next;
+			step = step->next;
+		}
+		path = path->next;
+	}
+}
+
 void            pop_best_paths(void)
 {
 	unsigned int        i;
@@ -30,12 +59,10 @@ void            pop_best_paths(void)
 	t_paths             *tmp;
 
 	best = *(t_paths**)ft_array_get((t_array*)lemin->old_paths, 0);
-	printf("::: %d\n", best->cost);
 	i = 1;
 	while (i < lemin->old_paths->array.n_items)
 	{
 		tmp = *(t_paths**)ft_array_get((t_array*)lemin->old_paths, i);
-		printf("::: %d\n", tmp->cost);
 		if (tmp->cost < best->cost)
 		{
 			best = tmp;
@@ -43,6 +70,7 @@ void            pop_best_paths(void)
 		i++;
 	}
 	lemin->paths = best;
+	remove_in_out();
 }
 
 static void		algo_add_tubes_to_best_path(void)
