@@ -52,7 +52,7 @@ void	move_one_ant(t_ant *a)
 	add_to_buff(a->key);
 	add_to_buff("-");
 	add_to_buff(a->step->next->room->key.key);
-	if (a->step->next)
+	if (a->next)
 		add_to_buff(" ");
 	a->step = a->step->next;
 }
@@ -74,13 +74,16 @@ void	move_ants(t_ant **a)
 
 	address = a;
 	actual = *a;
-	if (actual)
+	while (actual)
 	{
-		while (actual)
+		move_one_ant(actual);
+		if (!actual->step->next)
 		{
-			move_one_ant(actual);
-			if (!actual->step->next)
-				ant_remove_refill(address, actual);
+			ant_remove_refill(address, actual);
+			actual = *address;
+		}
+		else
+		{
 			address = &(actual->next);
 			actual = actual->next;
 		}
@@ -96,12 +99,6 @@ void	move_ants(t_ant **a)
 **	@out:	/
 */
 
-
-//TODO laisser la variable pointer, elle permet d'optimiser le tour suivant.
-//*************
-//check si ce que j'ai fait est coherent avec pointer :
-//non, c'est pas cohérent
-//*************
 void	launch_ants(void)
 {
 	t_path	*path;
@@ -142,7 +139,6 @@ void	print(void)
 		move_ants(&(lemin->ants));
 		add_to_buff("\n");
 	}
-	lemin->buff_pos += 1;
 	write(1, lemin->buff, lemin->buff_pos);
 	global_free();
 	exit(0);
@@ -215,7 +211,6 @@ void    printf_paths()
 	printf("\n");
 }
 
-
 void    printf_old_paths()
 {
 	unsigned int    i;
@@ -249,3 +244,10 @@ void    printf_old_paths()
 		i++;
 	}
 }
+
+//void    printf_ants()
+//{
+//	t_ant   *ant;
+//
+//	ant = lemin->ants
+//}

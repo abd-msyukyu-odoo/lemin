@@ -172,39 +172,24 @@ void	algo(void)
 	else
 		limit = lemin->end->a_tubes.array.n_items;
 	initialize_paths();
-	printf("- initialize paths done\n");
 	bfs();
-	printf("- bfs done\n");
 	algo_add_tubes_to_best_path();
 	algo_add_best_path_to_paths();
 	set_n_elems();
-	printf("- best path added to paths\n");
 	set_negatives();
-	printf("- negatives setted\n");
 	lemin->n_paths = 1;
 	algo_add_paths_to_old_paths(get_cost());
-	printf("- paths added to olds paths\n");
 	while (lemin->n_paths < limit)
 	{
-		printf("- while iteration nb %d\n", lemin->n_paths);
 		bmf();
-		printf("- - bmf done\n");
 		if (!lemin->best_path)
 			break ;
 		algo_add_tubes_to_best_path();
 		check_roads();
-		printf("- - bmf done\n");
 		algo_add_best_path_to_paths();
-		printf("- - bmf done\n");
 		set_n_elems();
 		algo_add_paths_to_old_paths(get_cost());
 		lemin->n_paths++;
 	}
-	printf("- while done\n");
-	printf_old_paths();
 	pop_best_paths();
-	printf("- pop best paths\n");
-	//set_nb_ants();
-	printf("- bn_ants per path done\n");
-	printf_paths();
 }

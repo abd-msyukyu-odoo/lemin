@@ -50,7 +50,7 @@ t_ant		*ant_add_new(t_ant *ant, int n, t_step *step)
 **	@out:	/
 */
 
-void		ant_remove_refill(t_ant **address, t_ant *a) //remove_ant
+void		ant_remove_refill(t_ant **address, t_ant *a)
 {
 	*address = a->next;
 	if (1 > ft_memanager_refill(lemin->mmng, a->key))
