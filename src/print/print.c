@@ -138,7 +138,11 @@ void	print(void)
 			launch_ants();
 		move_ants(&(lemin->ants));
 		add_to_buff("\n");
+		//problem to debug : 
+		if (!lemin->ants && lemin->n_ants > 0)
+			lemin_error(LEMIN_ERR_PRINT);
 	}
+	//si jamais on tombe pile sur la taille du buffer on imprime 2x la fin ?
 	write(1, lemin->buff, lemin->buff_pos);
 	global_free();
 	exit(0);
@@ -223,22 +227,22 @@ void    printf_old_paths()
 	while (i < lemin->old_paths->array.n_items)
 	{
 		paths = *(t_paths **)ft_array_get(&(lemin->old_paths->array), i);
-		ft_printf("- Paths group :\n");
-		ft_printf("- - Cost: %d\n", paths->cost);
+		printf("- Paths group :\n");
+		printf("- - Cost: %d\n", paths->cost);
 		path = paths->first;
 		while (path)
 		{
 			step = path->first;
-			ft_printf("- - path: ");
+			printf("- - path: ");
 			while (step)
 			{
-				ft_printf("%.1s ", step->room->key.key);
+				printf("%.1s ", step->room->key.key);
 				if (step->next && step->next->next)
 					step = step->next->next;
 				else
 					step = step->next;
 			}
-			ft_printf("\n");
+			printf("\n");
 			path = path->next;
 		}
 		i++;

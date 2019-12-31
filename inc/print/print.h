@@ -12,7 +12,7 @@
 
 #ifndef PRINT_H
 # define PRINT_H
-# define LEMIN_PRINT_BF_SIZE 32
+# define LEMIN_PRINT_BF_SIZE 5000
 
 # include "lemin.h"
 
