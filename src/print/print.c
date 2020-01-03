@@ -132,16 +132,17 @@ void	launch_ants(void)
 
 void	print(void)
 {
-	while (lemin->n_ants > 0 || lemin->ants)
-	{
-		if (lemin->n_ants > 0)
-			launch_ants();
-		move_ants(&(lemin->ants));
-		add_to_buff("\n");
-		//problem to debug : 
-		if (!lemin->ants && lemin->n_ants > 0)
-			lemin_error(LEMIN_ERR_PRINT);
-	}
+	// while (lemin->n_ants > 0 || lemin->ants)
+	// {
+	// 	if (lemin->n_ants > 0)
+	// 		launch_ants();
+	// 	move_ants(&(lemin->ants));
+	// 	add_to_buff("\n");
+	// 	//problem to debug : 
+	// 	if (!lemin->ants && lemin->n_ants > 0)
+	// 		lemin_error(LEMIN_ERR_PRINT);
+	// }
+	printf_old_paths();
 	//si jamais on tombe pile sur la taille du buffer on imprime 2x la fin ?
 	write(1, lemin->buff, lemin->buff_pos);
 	global_free();

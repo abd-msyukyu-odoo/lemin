@@ -14,7 +14,7 @@
 
 void	update_path(int weight)
 {
-	if (lemin->end->isset == lemin->n_paths + 1 && lemin->end->weight < weight)
+	if (lemin->end->isset == lemin->n_paths + 1 && lemin->end->weight <= weight)
 		return;
 	lemin->end->isset = lemin->n_paths + 1;
 	lemin->end->weight = weight;

@@ -150,3 +150,16 @@ cycle dans un des path trouve (bfs)
 cycle dans un des paths trouve : path_clone
 -> avant chaque appel de clone, tester si le path est cyclique ?
 -> pour le debug
+
+
+
+
+
+
+
+
+
+---------------------------
+
+bfs ne trouve pas le chemin le plus rapide ?
+(print old paths de big_superposition1, le chemin le plus court est trouve pour 4 chemins et pas pour 1)
