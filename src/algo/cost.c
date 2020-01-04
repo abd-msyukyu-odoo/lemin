@@ -130,8 +130,13 @@ void        set_nb_ants()
 	curr = p;
 	while (curr && nb_ants)
 	{
-		curr->n_ants += (nb_ants / nb_path) + ((nb_ants % nb_path) ? 1 : 0 );
-		nb_ants -= (nb_ants / nb_path) + ((nb_ants % nb_path) ? 1 : 0 );
+		if (nb_ants % nb_path > 0)
+			max = (nb_ants / nb_path) + 1;
+		else
+			max = nb_ants / nb_path;
+		curr->n_ants += max;
+		nb_ants -= max;
+		nb_path--;
 		curr = curr->next;
 	}
 }

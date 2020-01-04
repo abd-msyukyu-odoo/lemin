@@ -138,11 +138,12 @@ void	print(void)
 	// 		launch_ants();
 	// 	move_ants(&(lemin->ants));
 	// 	add_to_buff("\n");
-	// 	//problem to debug : 
+	// 	//problem to debug :
 	// 	if (!lemin->ants && lemin->n_ants > 0)
 	// 		lemin_error(LEMIN_ERR_PRINT);
 	// }
-	printf_old_paths();
+	printf("- NB ants: %d\n", lemin->n_ants);
+	printf_cleared_path();
 	//si jamais on tombe pile sur la taille du buffer on imprime 2x la fin ?
 	write(1, lemin->buff, lemin->buff_pos);
 	global_free();
@@ -150,6 +151,29 @@ void	print(void)
 }
 
 // TODO remove those debug functions
+
+void    printf_cleared_path()
+{
+	t_path      *path;
+	t_step      *step;
+
+	path = lemin->paths->first;
+	printf("Paths :\n");
+	printf("- Cost: %d\n", lemin->paths->cost);
+	while (path)
+	{
+		step = path->first;
+		printf("- path: \n- - nAnts: %d\n- - order: ", path->n_ants);
+		while (step)
+		{
+			printf("%.1s ", step->room->key.key);
+			step = step->next;
+		}
+		printf("\n");
+		path = path->next;
+	}
+	printf("\n");
+}
 
 void    printf_working_path()
 {
