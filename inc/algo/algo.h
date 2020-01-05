@@ -13,6 +13,7 @@
 #ifndef LEMIN_ALGO_H
 # define LEMIN_ALGO_H
 # include "structs/path.h"
+
 /*
 **  function update_path
 **
@@ -20,13 +21,12 @@
 **
 **  used by bmf && bfs
 */
-
 void		update_path(int weight);
 void		algo(void);
 void		bmf(void);
 void		bfs(void);
 void		check_roads(void);
-int			get_cost();
+int			get_cost(void);
 void		set_nb_ants(void);
 
 #endif

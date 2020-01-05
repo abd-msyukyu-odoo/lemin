@@ -12,6 +12,16 @@
 
 #include "lemin.h"
 
+static void			cr_exchange_while(t_path **cur, t_path *other,
+	t_step **s2, t_step **e2)
+{
+	tube_inverse((*e2)->tube);
+	*e2 = (*e2)->next;
+	*s2 = (*s2)->prev;
+	path_extract_step(*cur, (*e2)->prev);
+	path_extract_step(other, (*s2)->next);
+}
+
 static void			cr_exchange(t_path **cur, t_path *other)
 {
 	t_step			*s1;
@@ -26,13 +36,7 @@ static void			cr_exchange(t_path **cur, t_path *other)
 	e2 = s1->next->next;
 	path_extract_step(*cur, e2->prev);
 	while (s2->prev->room == e2->next->room)
-	{
-		tube_inverse(e2->tube);
-		e2 = e2->next;
-		s2 = s2->prev;
-		path_extract_step(*cur, e2->prev);
-		path_extract_step(other, s2->next);
-	}
+		cr_exchange_while(cur, other, &s2, &e2);
 	s2 = s2->prev;
 	path_extract_step(other, s2->next);
 	s1->next = e1;
@@ -70,6 +74,23 @@ static void			cr_cut_loop(t_path **path, t_step *other)
 	(*path)->cur = cur;
 }
 
+static int			cr_on_other_found(t_path **path, t_path *road, t_step *cur)
+{
+	if (road != *path)
+	{
+		road->cur = cur;
+		cr_exchange(path, road);
+		return (1);
+	} 
+	else if (road->cur->next != cur->next ||
+		road->cur->prev != cur->prev)
+	{
+		cr_cut_loop(path, cur);
+		return (1);
+	}
+	return (0);
+}
+
 static int			cr_find_other(t_path **path)
 {
 	t_path			*road;
@@ -81,21 +102,9 @@ static int			cr_find_other(t_path **path)
 		cur = road->first;
 		while (cur)
 		{
-			if (cur->room == (*path)->cur->room)
-			{
-				if (road != *path)
-				{
-					road->cur = cur;
-					cr_exchange(path, road);
-					return (1);
-				} 
-				else if (road->cur->next != cur->next ||
-					road->cur->prev != cur->prev)
-				{
-					cr_cut_loop(path, cur);
-					return (1);
-				}
-			}
+			if (cur->room == (*path)->cur->room &&
+				cr_on_other_found(path, road, cur))
+				return (1);
 			cur = cur->next;
 		}
 		road = road->next;

@@ -12,9 +12,8 @@
 
 #ifndef PRINT_H
 # define PRINT_H
-# define LEMIN_PRINT_BF_SIZE 5000
-
 # include "lemin.h"
+# define LEMIN_PRINT_BF_SIZE 5000
 
 void		print(void);
 
@@ -23,7 +22,5 @@ void        printf_best_path();
 void        printf_paths();
 void        printf_old_paths();
 void        printf_cleared_path();
-
-
 
 #endif

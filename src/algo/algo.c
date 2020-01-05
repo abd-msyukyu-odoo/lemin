@@ -23,27 +23,26 @@ void	update_path(int weight)
 		return (lemin_error(LEMIN_ERR_ALGO));
 }
 
+static void		last_dash_to_nul(char *s)
+{
+	s = ft_strrchr(s, '-');
+	*s = '\0';
+}
+
 void            remove_in_out(void)
 {
 	t_path      *path;
 	t_step      *step;
-	char        *s;
 
-	s = lemin->start->key.key;
-	s = ft_strrchr(s, '-');
-	*s = '\0';
-	s = lemin->end->key.key;
-	s = ft_strrchr(s, '-');
-	*s = '\0';
+	last_dash_to_nul(lemin->start->key.key);
+	last_dash_to_nul(lemin->end->key.key);
 	path = lemin->paths->first;
 	while (path)
 	{
 		step = path->first->next;
 		while (step->next)
 		{
-			s = step->room->key.key;
-			s = ft_strrchr(s, '-');
-			*s = '\0';
+			last_dash_to_nul(step->room->key.key);
 			if (step->next && step->next->next)
 				step->next = step->next->next;
 			step = step->next;
@@ -93,20 +92,16 @@ static void		algo_add_best_path_to_paths(void)
 	lemin->best_path = NULL;
 }
 
-//doit ajouter tous les chemins d'une solution dans un tableau ?
-//(ne fait pas ca, a corriger)
-/////////////////////////////////////////si, elle le fait:
 static void		algo_add_paths_to_old_paths(int cost)
 {
 	t_paths     *paths;
 
-	if (!(paths = paths_clone(lemin->paths)) ||// duplicata des paths d'une itération
-		!(paths->cost = cost) ||// assugnation du cost d'un ensemble d'une itération
-		!(ft_marray_add(lemin->old_paths, &paths)))// ajout de l'élément à l'array
+	if (!(paths = paths_clone(lemin->paths)) ||
+		!(paths->cost = cost) ||
+		!(ft_marray_add(lemin->old_paths, &paths)))
 		lemin_error(LEMIN_ERR_MEM);
 }
 
-////////////////////////////////////////////////non, c'est pas le cout des room, c'est le cout des chemins
 static void		set_negatives()
 {
 	t_path		*path;
@@ -125,8 +120,6 @@ static void		set_negatives()
 	}
 }
 
-//sert a compter le nombre d'elements dans un path ?
-//////////////////////////////////////////////////// oui :)
 static void		set_n_elems()
 {
 	t_path		*path;
@@ -149,10 +142,12 @@ static void		set_n_elems()
 
 static void		initialize_paths(void)
 {
-	if (!(lemin->working_path = (t_path *)ft_memanager_get(lemin->mmng, sizeof(t_path))))
+	if (!(lemin->working_path = (t_path *)ft_memanager_get(lemin->mmng,
+		sizeof(t_path))))
 		lemin_error(LEMIN_ERR_MEM); 
 	lemin->best_path = NULL;
-	if (!(lemin->paths = (t_paths *)ft_memanager_get(lemin->mmng, sizeof(t_paths))))
+	if (!(lemin->paths = (t_paths *)ft_memanager_get(lemin->mmng,
+		sizeof(t_paths))))
 		lemin_error(LEMIN_ERR_MEM);
 	if (!(lemin->old_paths = ft_marray_construct(lemin->mmng, 16,
 		sizeof(t_paths*))))
@@ -163,14 +158,19 @@ static void		initialize_paths(void)
 	lemin->paths->last = NULL;
 }
 
+static unsigned int	set_limit(void)
+{
+	return ((lemin->start->a_tubes.array.n_items <
+		lemin->end->a_tubes.array.n_items) ?
+		lemin->start->a_tubes.array.n_items :
+		lemin->end->a_tubes.array.n_items);
+}
+
 void	algo(void)
 {
 	unsigned int	limit;
 
-	if (lemin->start->a_tubes.array.n_items < lemin->end->a_tubes.array.n_items)
-		limit = lemin->start->a_tubes.array.n_items;
-	else
-		limit = lemin->end->a_tubes.array.n_items;
+	limit = set_limit();
 	initialize_paths();
 	bfs();
 	algo_add_tubes_to_best_path();

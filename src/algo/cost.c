@@ -87,7 +87,7 @@ static t_path   *get_path_min_bridge(t_path *p)
 	return (min);
 }
 
-int             get_cost()
+int             get_cost(void)
 {
 	t_path  *min;
 
@@ -107,7 +107,20 @@ static int  get_max_bridge(t_path *p)
 	return (length);
 }
 
-void        set_nb_ants()
+static void	set_nb_ants_while2(int *max, int *nb_ants, t_path **curr,
+	int *nb_path)
+{
+	if (*nb_ants % *nb_path > 0)
+		*max = (*nb_ants / *nb_path) + 1;
+	else
+		*max = *nb_ants / *nb_path;
+	(*curr)->n_ants += *max;
+	*nb_ants -= *max;
+	(*nb_path)--;
+	*curr = (*curr)->next;
+}
+
+void        set_nb_ants(void)
 {
 	int     max;
 	t_path  *p;
@@ -129,14 +142,5 @@ void        set_nb_ants()
 	}
 	curr = p;
 	while (curr && nb_ants)
-	{
-		if (nb_ants % nb_path > 0)
-			max = (nb_ants / nb_path) + 1;
-		else
-			max = nb_ants / nb_path;
-		curr->n_ants += max;
-		nb_ants -= max;
-		nb_path--;
-		curr = curr->next;
-	}
+		set_nb_ants_while2(&max, &nb_ants, &curr, &nb_path);
 }

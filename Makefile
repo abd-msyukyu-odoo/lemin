@@ -70,7 +70,7 @@ UNDERLINE_E	= \033[4m
 #gprof executable.exe gmon.out > analysis.txt
 $(NAME):	$(O_FILES)
 #			@$(OSMAKE) -C libft/
-			@gcc -O3 -o $(NAME) $(O_FILES) -L./libft/ -lft
+			@$(CC) $(CFLAGS) -o $(NAME) $(O_FILES) -L./libft/ -lft
 			@echo "$(GREEN_E)end compilation : $(NAME)$(END_E)"
 
 all:		$(NAME)
