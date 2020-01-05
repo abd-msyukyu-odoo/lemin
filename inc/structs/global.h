@@ -40,8 +40,7 @@ typedef struct	s_global
 	t_path			*best_path; //sauvegarde du meilleur chemin
 	t_paths			*paths; //ensemble des chemins pour une iteration
 	t_marray		*old_paths; //array de paths
-	int             buff_pos;
-	char            *buff;
+	t_marray		*buff;
 	unsigned int	n_paths;
 }					t_global;
 

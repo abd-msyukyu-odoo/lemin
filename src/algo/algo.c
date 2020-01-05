@@ -20,7 +20,7 @@ void	update_path(int weight)
 	lemin->end->weight = weight;
 	if ((lemin->best_path = path_refill(lemin->best_path)) ||
 		!(lemin->best_path = path_clone(lemin->working_path)))
-		return lemin_error(LEMIN_ERR_ALGO);
+		return (lemin_error(LEMIN_ERR_ALGO));
 }
 
 void            remove_in_out(void)

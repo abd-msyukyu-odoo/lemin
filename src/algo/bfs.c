@@ -50,5 +50,5 @@ void			bfs(void)
 {
 	bfs_recursive(lemin->start, 0);
 	if (!(lemin->best_path))
-		lemin_error(LEMIN_ERR_DISJOINT);
+		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
 }

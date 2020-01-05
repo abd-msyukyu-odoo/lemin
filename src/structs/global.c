@@ -34,8 +34,8 @@ void		global_construct(void)
 	lemin->end = NULL;
 	lemin->n_ants = 0;
 	lemin->n_paths = 0;
-	lemin->buff_pos = 0;
-	lemin->buff = ft_memanager_get(lemin->mmng, LEMIN_PRINT_BF_SIZE);
+	lemin->buff = ft_marray_construct(lemin->mmng, LEMIN_PRINT_BF_SIZE,
+		sizeof(char));
 	lemin->ants = NULL;
 }
 

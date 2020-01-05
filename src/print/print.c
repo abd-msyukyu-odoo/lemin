@@ -26,13 +26,8 @@ void	add_to_buff(char *s)
 {
 	while (*s)
 	{
-		lemin->buff[(lemin->buff_pos)++] = *s;
-		if (lemin->buff_pos == LEMIN_PRINT_BF_SIZE)
-		{
-			write(1, lemin->buff, lemin->buff_pos);
-			lemin->buff_pos = 0;
-		}
-		s++;
+		if (1 > ft_marray_add(lemin->buff, s++))
+			lemin_error(LEMIN_ERR_PRINT);
 	}
 }
 
@@ -132,19 +127,21 @@ void	launch_ants(void)
 
 void	print(void)
 {
-	 while (lemin->n_ants > 0 || lemin->ants)
-	 {
-	 	if (lemin->n_ants > 0)
-	 		launch_ants();
-	 	move_ants(&(lemin->ants));
-	 	add_to_buff("\n");
+	write(1, lemin->lrmng->file, lemin->lrmng->cur_line);
+	write(1, "\n", 1);
+	while (lemin->n_ants > 0 || lemin->ants)
+	{
+	if (lemin->n_ants > 0)
+		launch_ants();
+	move_ants(&(lemin->ants));
+	add_to_buff("\n");
 //		problem to debug :
 //	 	if (!lemin->ants && lemin->n_ants > 0)
 //		    lemin_error(LEMIN_ERR_PRINT);
-	 }
+	}
 //	printf_cleared_path();
 	//si jamais on tombe pile sur la taille du buffer on imprime 2x la fin ? non, tkt
-	write(1, lemin->buff, lemin->buff_pos);
+	write(1, lemin->buff->array.items, lemin->buff->array.n_items);
 	global_free();
 	exit(0);
 }

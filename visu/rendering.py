@@ -8,6 +8,7 @@ import random
 
 class Config:
 	time_multiplier = 1
+	navigation_delta = 1
 
 	def __init__(self, width = 1800, height = 900):
 		scene.width = width
@@ -19,15 +20,31 @@ class Config:
 		self.checkbox = checkbox(pos=scene.caption_anchor, bind=self.update_ant_follower,
 			text="Follow a random Ant")
 		self.navigate_keys = {
-			'q': self.prevFloor,
-			'e': self.nextFloor
+			'a': self.prevFloor,
+			'd': self.nextFloor,
+			'w': self.increaseNavigationDelta,
+			's': self.decreaseNavigationDelta
 		}
 
+	def increaseNavigationDelta(self):
+		Config.navigation_delta += 1
+		if Config.navigation_delta == 0:
+			Config.navigation_delta = 1
+		if Config.navigation_delta > 10:
+			Config.navigation_delta = 10
+
+	def decreaseNavigationDelta(self):
+		Config.navigation_delta -= 1
+		if Config.navigation_delta == 0:
+			Config.navigation_delta = -1
+		if Config.navigation_delta < -10:
+			Config.navigation_delta = -10
+
 	def prevFloor(self):
-		scene.center = vector(round(scene.center.x - 1), 0, 0)
+		scene.center = vector(round(scene.center.x - Config.navigation_delta), 0, 0)
 
 	def nextFloor(self):
-		scene.center = vector(round(scene.center.x + 1), 0, 0)
+		scene.center = vector(round(scene.center.x + Config.navigation_delta), 0, 0)
 
 	def navigate(self, ev):
 		if scene.autoscale:
@@ -36,7 +53,6 @@ class Config:
 			self.navigate_keys[ev.key]()
 		elif ev.key == 'esc':
 			os.kill(os.getpid(), signal.SIGINT)
-		print(scene.center)
 
 	def move_camera(self, ev):
 		if scene.autoscale:
