@@ -28,54 +28,6 @@
 //		+ {a_42 - a_41 [+1]}
 //		+ {a_41 - 1}
 
-//static int	compute_x(int a, t_paths *p, int n_paths)
-//{
-//	t_path	*last;
-//	int		rtn;
-//
-//	last = p->last->prev;
-//	rtn = a;
-//	rtn += (n_paths - 1) * last->size;
-//	last = p->first;
-//	while (last)
-//	{
-//		rtn += last->size;
-//		last = last->next;
-//	}
-//	return (rtn);
-//}
-//
-//int			get_cost(t_paths *paths, int n_paths)
-//{
-//	int		minus_one;
-//	int		x;
-//	int		cost;
-//	t_path	*last;
-//
-//	ft_printf("size: %d\n", paths->first->size);
-//	if (paths->first == paths->last)
-//		return (paths->first->size + lemin->n_ants);
-//	last = paths->last;
-//	x = compute_x(lemin->n_ants, paths, n_paths);
-//	minus_one = n_paths > 1 ? x % (n_paths - 1) : 0;
-//	x -= minus_one;
-//	cost = (x / n_paths) + last->size;
-//	cost -= (minus_one == 0 ? 1 : 0);
-//	ft_printf("cost: %d\n", cost);
-//	return (cost);
-//}
-
-//static int      get_min_bridge(t_path *p)
-//{
-//	int length;
-//
-//	length = p->size;
-//	while ((p = p->next))
-//		if (p->size < length)
-//			length = p->size;
-//	return (length);
-//}
-
 static t_path   *get_path_min_bridge(t_path *p)
 {
 	t_path  *min;

@@ -131,16 +131,13 @@ void	print(void)
 	write(1, "\n", 1);
 	while (lemin->n_ants > 0 || lemin->ants)
 	{
-	if (lemin->n_ants > 0)
-		launch_ants();
-	move_ants(&(lemin->ants));
-	add_to_buff("\n");
-//		problem to debug :
-//	 	if (!lemin->ants && lemin->n_ants > 0)
-//		    lemin_error(LEMIN_ERR_PRINT);
+		if (lemin->n_ants > 0)
+			launch_ants();
+		move_ants(&(lemin->ants));
+		add_to_buff("\n");
+		if (!lemin->ants && lemin->n_ants > 0)
+			lemin_error(LEMIN_ERR_PRINT);
 	}
-//	printf_cleared_path();
-	//si jamais on tombe pile sur la taille du buffer on imprime 2x la fin ? non, tkt
 	write(1, lemin->buff->array.items, lemin->buff->array.n_items);
 	global_free();
 	exit(0);
@@ -269,10 +266,3 @@ void    printf_old_paths()
 		i++;
 	}
 }
-
-//void    printf_ants()
-//{
-//	t_ant   *ant;
-//
-//	ant = lemin->ants
-//}
