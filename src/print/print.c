@@ -106,9 +106,9 @@ void	launch_ants(void)
 
 	pointer = &(lemin->paths->first);
 	path = lemin->paths->first;
-	while (path && path->n_ants > 0)
+	while (path)
 	{
-		if (lemin->n_ants)
+		if (lemin->n_ants && path->n_ants > 0)
 		{
 			lemin->ants = ant_add_new(lemin->ants, lemin->n_ants, path->first);
 			lemin->n_ants -= 1;
@@ -132,19 +132,18 @@ void	launch_ants(void)
 
 void	print(void)
 {
-	// while (lemin->n_ants > 0 || lemin->ants)
-	// {
-	// 	if (lemin->n_ants > 0)
-	// 		launch_ants();
-	// 	move_ants(&(lemin->ants));
-	// 	add_to_buff("\n");
-	// 	//problem to debug :
-	// 	if (!lemin->ants && lemin->n_ants > 0)
-	// 		lemin_error(LEMIN_ERR_PRINT);
-	// }
-	printf("- NB ants: %d\n", lemin->n_ants);
-	printf_cleared_path();
-	//si jamais on tombe pile sur la taille du buffer on imprime 2x la fin ?
+	 while (lemin->n_ants > 0 || lemin->ants)
+	 {
+	 	if (lemin->n_ants > 0)
+	 		launch_ants();
+	 	move_ants(&(lemin->ants));
+	 	add_to_buff("\n");
+//		problem to debug :
+//	 	if (!lemin->ants && lemin->n_ants > 0)
+//		    lemin_error(LEMIN_ERR_PRINT);
+	 }
+//	printf_cleared_path();
+	//si jamais on tombe pile sur la taille du buffer on imprime 2x la fin ? non, tkt
 	write(1, lemin->buff, lemin->buff_pos);
 	global_free();
 	exit(0);
