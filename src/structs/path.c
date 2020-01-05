@@ -130,6 +130,12 @@ t_path			*path_clone(t_path *path)
 	return (other);
 }
 
+static void		paths_clone_initialize(t_paths *other)
+{
+	other->last = NULL;
+	other->first = NULL;
+}
+
 t_paths			*paths_clone(t_paths *paths)
 {
 	t_paths		*other;
@@ -138,8 +144,7 @@ t_paths			*paths_clone(t_paths *paths)
 
 	if (!(other = (t_paths*)ft_memanager_get(lemin->mmng, sizeof(t_paths))))
 		lemin_error(LEMIN_ERR_MEM);
-	other->last = NULL;
-	other->first = NULL;
+	paths_clone_initialize(other);
 	step = paths->first;
 	cur = NULL;
 	while (step)
