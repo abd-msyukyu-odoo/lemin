@@ -108,27 +108,28 @@ t_tube					*room_get_connection(t_room *r1, t_room *r2)
 	return (wrapper.tube);
 }
 
-int						room_create_tube_pair(char *key1, char *key2)
+static int				room_create_tube(char *key1, char *key2)
 {
 	t_room				*in;
 	t_room				*out;
-	int					output;
 
 	in = room_get_status(key1, LEMIN_IN);
 	out = room_get_status(key2, LEMIN_OUT);
-	output = 0;
-	if (in && out && !room_get_connection(out, in))
+	if (in && out)
 	{
-		tube_add_to_rooms(tube_initialize(out, in, LEMIN_DIR_NATURAL, 1));
-		output |= 1;
+		if (!room_get_connection(out, in))
+			tube_add_to_rooms(tube_initialize(out, in, LEMIN_DIR_NATURAL, 1));
+		return (1);
 	}
-	in = room_get_status(key2, LEMIN_IN);
-	out = room_get_status(key1, LEMIN_OUT);
-	if (in && out && !room_get_connection(out, in))
-	{
-		tube_add_to_rooms(tube_initialize(out, in, LEMIN_DIR_NATURAL, 1));
-		output |= 1;
-	}
+	return (0);
+}
+
+int						room_create_tube_pair(char *key1, char *key2)
+{
+	int					output;
+
+	output = room_create_tube(key1, key2);
+	output |= room_create_tube(key2, key1);
 	return (output);
 }
 
