@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-static void		initialize_paths(void)
+static void				initialize_paths(void)
 {
 	if (!(lemin->working_path = (t_path *)ft_memanager_get(lemin->mmng,
 		sizeof(t_path))))
@@ -30,7 +30,7 @@ static void		initialize_paths(void)
 	lemin->paths->last = NULL;
 }
 
-static unsigned int	first_iteration(void)
+static unsigned int		first_iteration(void)
 {
 	initialize_paths();
 	bfs();
@@ -45,11 +45,11 @@ static unsigned int	first_iteration(void)
 		lemin->end->a_tubes.array.n_items);
 }
 
-void	algo(void)
+void					algo(void)
 {
-	int             old_cost;
-	int             cost;
-	unsigned int	limit;
+	int					old_cost;
+	int					cost;
+	unsigned int		limit;
 
 	limit = first_iteration();
 	old_cost = get_cost();

@@ -19,6 +19,8 @@
 # define LEMIN_DIR_REVERSE -1
 
 /*
+** tube_1.c
+**
 ** room1 : first room of the tube
 ** room2 : second room of the tube
 ** direction :
@@ -61,7 +63,11 @@ t_tube					*tube_initialize(t_room *room1, t_room *room2,
 */
 void					tube_add_to_rooms(t_tube *tube);
 
+void					tube_inverse(t_tube *tube);
+
 /*
+** tube_2.c
+**
 ** get the room connected to room with tube
 ** return :
 ** 	t_room* : connected room
@@ -69,10 +75,11 @@ void					tube_add_to_rooms(t_tube *tube);
 */
 t_room					*tube_get_connection(t_tube *tube, t_room *room);
 
-t_tube					*room_get_connection(t_room *r1, t_room *r2);
-
 t_room					*tube_navigate(t_tube *tube, t_room *room);
 
-void					tube_inverse(t_tube *tube);
+/*
+** room_4.c
+*/
+t_tube					*room_get_connection(t_room *r1, t_room *r2);
 
 #endif

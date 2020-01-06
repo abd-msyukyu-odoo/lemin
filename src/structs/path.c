@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -13,7 +12,7 @@
 
 #include "lemin.h"
 
-t_path			*path_refill(t_path *path) //path_elem_free && free_p_elem
+t_path			*path_refill(t_path *path)
 {
 	t_step		*cur;
 	t_step		*next;
@@ -31,23 +30,7 @@ t_path			*path_refill(t_path *path) //path_elem_free && free_p_elem
 	return (NULL);
 }
 
-t_paths			*paths_refill(t_paths *paths) //remove_path
-{
-	t_path		*cur;
-	t_path		*next;
-
-	cur = paths->first;
-	while (cur)
-	{
-		next = cur->next;
-		path_refill(cur);
-		cur = next;
-	}
-	ft_memanager_refill(lemin->mmng, paths);
-	return (NULL);
-}
-
-void			path_remove_last(t_path *path) // path_elem_pop
+void			path_remove_last(t_path *path)
 {
 	t_step		*cur;
 
@@ -128,50 +111,4 @@ t_path			*path_clone(t_path *path)
 	other->size = path->size;
 	other->n_ants = path->n_ants;
 	return (other);
-}
-
-static void		paths_clone_initialize(t_paths *other)
-{
-	other->last = NULL;
-	other->first = NULL;
-}
-
-t_paths			*paths_clone(t_paths *paths)
-{
-	t_paths		*other;
-	t_path		*step;
-	t_path		*cur;
-
-	if (!(other = (t_paths*)ft_memanager_get(lemin->mmng, sizeof(t_paths))))
-		lemin_error(LEMIN_ERR_MEM);
-	paths_clone_initialize(other);
-	step = paths->first;
-	cur = NULL;
-	while (step)
-	{
-		if (!cur)
-		{
-			other->first = path_clone(step);
-			cur = other->first;
-		}
-		else
-		{
-			cur->next = path_clone(step);
-			cur = cur->next;
-		}
-		step = step->next;
-	}
-	other->last = cur;
-	return (other);
-}
-
-void			paths_append(t_paths *paths, t_path *path)
-{
-	path->next = NULL;
-	path->prev = paths->last;
-	if (paths->last)
-		paths->last->next = path;
-	if (!paths->first)
-		paths->first = path;
-	paths->last = path;
 }

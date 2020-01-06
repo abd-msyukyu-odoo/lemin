@@ -21,7 +21,7 @@ endif
 
 CC			= gcc
 
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -O3
 
 LIBHEAD		= ./libft/includes
 
@@ -30,13 +30,26 @@ THISHEAD	= ./inc
 PRINT_F		= lemin_error \
 			  print
 
-READ_F		= read
+READ_F		= legal_char_1 \
+			  legal_char_2 \
+			  read_1 \
+			  read_2 \
+			  read_ants \
+			  read_command_1 \
+			  read_command_2 \
+			  read_room \
+			  read_tube
 
 STRUCTS_F	= global \
-			  room \
-			  tube \
+			  room_1 \
+			  room_2 \
+			  room_3 \
+			  room_4 \
+			  tube_1 \
+			  tube_2 \
 			  ant \
-			  path
+			  path \
+			  paths
 
 MAIN_F		= lemin
 
@@ -51,11 +64,11 @@ ALGO_F		= algo_1 \
 
 O_FILES		= $(addsuffix .o, \
 			  	$(addprefix ./src/, \
+				  	$(MAIN_F) \
 				  	$(addprefix read/, $(READ_F)) \
 					$(addprefix print/, $(PRINT_F)) \
 					$(addprefix structs/, $(STRUCTS_F)) \
-					$(addprefix algo/, $(ALGO_F))) \
-				$(addprefix src/, $(MAIN_F)))
+					$(addprefix algo/, $(ALGO_F))))
 
 END_E		= \033[00m
 RED_E		= \033[01;31m

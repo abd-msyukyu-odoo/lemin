@@ -38,7 +38,16 @@ typedef struct			s_room
 	unsigned int		isset;
 }						t_room;
 
-int						room_equals(void *o1, void *o2);
+/*
+** room_1.c
+**
+** create a t_room instance if it does not already exist
+** return :
+** 	t_room* : created instance
+** 	NULL : error
+*/
+t_room					*room_firewall_initialize(char *key,
+	unsigned int status);
 
 /*
 ** free the t_room instance
@@ -46,25 +55,8 @@ int						room_equals(void *o1, void *o2);
 void					room_refill(t_room *room);
 
 /*
-** create a t_room instance
-** return :
-** 	t_room* : created instance
-** 	NULL : error
-*/
-t_room					*room_initialize(char *key, unsigned int status);
-
-/*
-** create and add a pair of tube, one from key1 relative "OUT" room to 
-** key2 relative "IN" room, and another from key2 relative "OUT" room to 
-** key1 relative "OUT" room
-** return :
-** 	1 : success
-** 	0 : error
-** -1 : no tube added
-*/
-int						room_create_tube_pair(char *key1, char *key2);
-
-/*
+** room_2.c
+**
 ** create an OUT starting room and add it to a binary tree
 ** return :
 ** 	t_room* : created instance
@@ -88,5 +80,27 @@ int						room_create_end(char *key);
 ** 	0 : error
 */
 int						room_create_pair(char *key);
+
+/*
+** room_3.c
+*/
+char					*lemin_append_status(char *key, int status);
+t_room					*room_get_status(char *key, int status);
+
+/*
+** room_4.c
+*/
+int						room_equals(void *o1, void *o2);
+
+/*
+** create and add a pair of tube, one from key1 relative "OUT" room to 
+** key2 relative "IN" room, and another from key2 relative "OUT" room to 
+** key1 relative "OUT" room
+** return :
+** 	1 : success
+** 	0 : error
+** -1 : no tube added
+*/
+int						room_create_tube_pair(char *key1, char *key2);
 
 #endif

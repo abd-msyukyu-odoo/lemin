@@ -39,13 +39,19 @@ typedef struct			s_paths
 	int					cost;
 }						t_paths;
 
-t_path					*path_refill(t_path *path); //path_refill_elems
-t_paths					*paths_refill(t_paths *paths); //path_refill_all -> inutile?
-void					path_remove_last(t_path *path); //path_elem_refill_pop
+/*
+** path.c
+*/
+t_path					*path_refill(t_path *path);
+void					path_remove_last(t_path *path);
 void					path_extract_step(t_path *path, t_step *step);
-void					path_append(t_path *path, t_room *room); //path_elem_add_end
-t_path					*path_clone(t_path *path); //path_elem_dup
-t_paths					*paths_clone(t_paths *paths); //paths_dup
-void					paths_append(t_paths *paths, t_path *path); //path_add_end
+void					path_append(t_path *path, t_room *room);
+t_path					*path_clone(t_path *path);
+
+/*
+** paths.c
+*/
+t_paths					*paths_clone(t_paths *paths);
+void					paths_append(t_paths *paths, t_path *path);
 
 #endif

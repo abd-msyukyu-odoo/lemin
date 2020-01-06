@@ -35,11 +35,10 @@ typedef struct	s_global
 	t_room			*end;
 	t_ant			*ants;
 	int				n_ants;
-	// new
-	t_path			*working_path; //chemin parcouru pendant les algo
-	t_path			*best_path; //sauvegarde du meilleur chemin
-	t_paths			*paths; //ensemble des chemins pour une iteration
-	t_marray		*old_paths; //array de paths
+	t_path			*working_path;
+	t_path			*best_path;
+	t_paths			*paths;
+	t_marray		*old_paths;
 	t_marray		*buff;
 	unsigned int	n_paths;
 }					t_global;

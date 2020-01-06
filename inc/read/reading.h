@@ -58,8 +58,61 @@ typedef struct				s_char_memory
 
 typedef						int (*t_command_f)(t_lrmanager*, int);
 
-void						lrmanager_free(t_lrmanager *lrmng);
+/*
+** legal_char_1.c
+*/
+int							read_room_legal_separator(char c);
+int							read_tube_legal_separator(char c);
+int							read_room_legal_content(char c);
+int							read_room_legal_start(char c);
 
+/*
+** legal_char_2.c
+*/
+int							read_coordinate_legal_start(char c);
+int							read_command_legal_start(char c);
+int							read_command_legal_content(char c);
+
+/*
+** read_1.c
+*/
+void						lrmanager_free(t_lrmanager *lrmng);
 void						read_lemin(void);
+
+/*
+** read_2.c
+*/
+int							read_end_line(t_lrmanager *mng);
+void						char_memory_recover(t_char_memory *memory);
+void						char_memory_replace(t_char_memory *memory, char *src,
+	char c);
+
+/*
+** read_room.c
+*/
+int							read_room_format(t_lrmanager *mng,
+	int (*room_create)(char*));
+int							read_room(t_lrmanager *mng);
+
+/*
+** read_command_1.c
+*/
+int							read_command(t_lrmanager *mng, int context);
+
+/*
+** read_command_2.c
+*/
+t_command_f					command_function(int command);
+char						*command_name(int command);
+
+/*
+** read_tube.c
+*/
+int							read_tube(t_lrmanager *mng);
+
+/*
+** read_ants.c
+*/
+int							read_ants(t_lrmanager *mng);
 
 #endif

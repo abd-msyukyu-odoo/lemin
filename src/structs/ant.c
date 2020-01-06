@@ -24,8 +24,7 @@
 **	@input:	a pointer on the first element of the path
 **	@out:	a pointer on the new generated ant
 */
-
-t_ant		*ant_add_new(t_ant *ant, int n, t_step *step)
+t_ant			*ant_add_new(t_ant *ant, int n, t_step *step)
 {
 	char	*s;
 	t_ant	*a;
@@ -49,8 +48,7 @@ t_ant		*ant_add_new(t_ant *ant, int n, t_step *step)
 **	@input:	a pointer on the ant to remove
 **	@out:	/
 */
-
-void		ant_remove_refill(t_ant **address, t_ant *a)
+void			ant_remove_refill(t_ant **address, t_ant *a)
 {
 	*address = a->next;
 	if (1 > ft_memanager_refill(lemin->mmng, a->key))
@@ -68,8 +66,7 @@ void		ant_remove_refill(t_ant **address, t_ant *a)
 **	@input:	a pointer on the ant to free
 **	@out:	NULL
 */
-
-t_ant		*ant_refill_all(t_ant *a)
+t_ant			*ant_refill_all(t_ant *a)
 {
 	if (a->next)
 		a->next = ant_refill_all(a->next);
