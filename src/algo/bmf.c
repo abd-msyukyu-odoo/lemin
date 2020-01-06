@@ -12,15 +12,11 @@
 
 #include "lemin.h"
 
-// pour moi devrait etre en iteratif (gere plus de rooms, gere les poids dans un
-// ordre de type cercle avec rayon qui augmente a partir de la salle de debut)
-// contrairement a la recursive qui va creuser le plus loin possible (spirale)
-// avant de revenir en arriere (beaucoup de mise a jour de poids)
-void	bmf_recursive(t_room *current, int weight)
+static void			bmf_recursive(t_room *current, int weight)
 {
 	unsigned int	top;
 	unsigned int	d;
-	t_tube		    *t;
+	t_tube			*t;
 
 	if (!current)
 		return ;
@@ -45,7 +41,7 @@ void	bmf_recursive(t_room *current, int weight)
 	current->visited = FALSE;
 }
 
-void	bmf(void)
+void				bmf(void)
 {
 	if (!lemin->working_path)
 		return (lemin_error(LEMIN_ERR_MEM));

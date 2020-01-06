@@ -21,8 +21,7 @@
 **	@input:	the string to add to the buffer
 **	@out:	/
 */
-
-void	add_to_buff(char *s)
+static void			add_to_buff(char *s)
 {
 	while (*s)
 	{
@@ -40,8 +39,7 @@ void	add_to_buff(char *s)
 **	@input:	a pointer on the ant to print and move
 **	@out:	/
 */
-
-void	move_one_ant(t_ant *a)
+static void			move_one_ant(t_ant *a)
 {
 	add_to_buff("L");
 	add_to_buff(a->key);
@@ -61,11 +59,10 @@ void	move_one_ant(t_ant *a)
 **	@input:	a pointer on the address of the poiter on the first ant
 **	@out:	/
 */
-
-void	move_ants(t_ant **a)
+static void			move_ants(t_ant **a)
 {
-	t_ant	*actual;
-	t_ant	**address;
+	t_ant			*actual;
+	t_ant			**address;
 
 	address = a;
 	actual = *a;
@@ -93,11 +90,10 @@ void	move_ants(t_ant **a)
 **	@input:	a pointer on the t_global structure
 **	@out:	/
 */
-
-void	launch_ants(void)
+static void			launch_ants(void)
 {
-	t_path	*path;
-	t_path	**pointer;
+	t_path			*path;
+	t_path			**pointer;
 
 	pointer = &(lemin->paths->first);
 	path = lemin->paths->first;
@@ -124,8 +120,7 @@ void	launch_ants(void)
 **	@input:	/
 **	@out:	/
 */
-
-void	print(void)
+void				print(void)
 {
 	write(1, lemin->lrmng->file, lemin->lrmng->cur_line);
 	write(1, "\n", 1);
@@ -141,128 +136,4 @@ void	print(void)
 	write(1, lemin->buff->array.items, lemin->buff->array.n_items);
 	global_free();
 	exit(0);
-}
-
-// TODO remove those debug functions
-
-void    printf_cleared_path()
-{
-	t_path      *path;
-	t_step      *step;
-
-	path = lemin->paths->first;
-	printf("Paths :\n");
-	printf("- Cost: %d\n", lemin->paths->cost);
-	while (path)
-	{
-		step = path->first;
-		printf("- path: \n- - nAnts: %d\n- - order: ", path->n_ants);
-		while (step)
-		{
-			printf("%.1s ", step->room->key.key);
-			step = step->next;
-		}
-		printf("\n");
-		path = path->next;
-	}
-	printf("\n");
-}
-
-void    printf_working_path()
-{
-	t_step  *step;
-
-	if (!lemin->working_path || !lemin->working_path->first)
-	{
-		printf("Empty working_path\n");
-		return ;
-	}
-	step = lemin->working_path->first;
-	printf("Working path: %.1s ", step->room->key.key);
-	step = step->next;
-	while (step && step->next)
-	{
-		printf("%.1s ", step->room->key.key);
-		step = step->next->next;
-	}
-	printf("\n");
-}
-
-void    printf_best_path()
-{
-	t_step  *step;
-
-	if (!lemin->best_path)
-	{
-		printf("no best_path\n");
-		return ;
-	}
-	step = lemin->best_path->first;
-	printf("Best path: %.1s ", step->room->key.key);
-	step = step->next;
-	while (step)
-	{
-		printf("%.1s ", step->room->key.key);
-		step = step->next->next;
-	}
-	printf("\n");
-}
-
-void    printf_paths()
-{
-	t_path      *path;
-	t_step      *step;
-
-	path = lemin->paths->first;
-	printf("Paths :\n");
-	while (path)
-	{
-		step = path->first;
-		printf("- path: ");
-		while (step)
-		{
-			printf("%.1s ", step->room->key.key);
-			if (step->next && step->next->next)
-				step = step->next->next;
-			else
-				step = step->next;
-		}
-		printf("\n");
-		path = path->next;
-	}
-	printf("\n");
-}
-
-void    printf_old_paths()
-{
-	unsigned int    i;
-	t_paths         *paths;
-	t_path          *path;
-	t_step          *step;
-
-	i = 0;
-	printf("old paths :\n");
-	while (i < lemin->old_paths->array.n_items)
-	{
-		paths = *(t_paths **)ft_array_get(&(lemin->old_paths->array), i);
-		printf("- Paths group :\n");
-		printf("- - Cost: %d\n", paths->cost);
-		path = paths->first;
-		while (path)
-		{
-			step = path->first;
-			printf("- - path: ");
-			while (step)
-			{
-				printf("%.1s ", step->room->key.key);
-				if (step->next && step->next->next)
-					step = step->next->next;
-				else
-					step = step->next;
-			}
-			printf("\n");
-			path = path->next;
-		}
-		i++;
-	}
 }

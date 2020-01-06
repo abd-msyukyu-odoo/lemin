@@ -40,10 +40,13 @@ STRUCTS_F	= global \
 
 MAIN_F		= lemin
 
-ALGO_F		= algo \
+ALGO_F		= algo_1 \
+			  algo_2 \
+			  algo_3 \
 			  bfs \
 			  bmf \
-			  check_roads \
+			  check_roads_1 \
+			  check_roads_2 \
 			  cost
 
 O_FILES		= $(addsuffix .o, \
@@ -53,7 +56,6 @@ O_FILES		= $(addsuffix .o, \
 					$(addprefix structs/, $(STRUCTS_F)) \
 					$(addprefix algo/, $(ALGO_F))) \
 				$(addprefix src/, $(MAIN_F)))
-#				$(addprefix tests/, $(MAIN_F)))
 
 END_E		= \033[00m
 RED_E		= \033[01;31m
@@ -65,31 +67,38 @@ WHITE_E		= \033[01;37m
 BOLD_E		= \033[1m
 UNDERLINE_E	= \033[4m
 
-#profiling -pg
-#run executable compiled with g pg
-#gprof executable.exe gmon.out > analysis.txt
 $(NAME):	$(O_FILES)
-#			@$(OSMAKE) -C libft/
+			@$(OSMAKE) -C libft/
 			@$(CC) $(CFLAGS) -o $(NAME) $(O_FILES) -L./libft/ -lft
 			@echo "$(GREEN_E)end compilation : $(NAME)$(END_E)"
 
 all:		$(NAME)
 
+small:		$(O_FILES)
+			@$(CC) $(CFLAGS) -o $(NAME) $(O_FILES) -L./libft/ -lft
+			@echo "$(GREEN_E)end compilation : $(NAME)$(END_E)"
+
 %.o:		%.c
 			@$(CC) $(CFLAGS) -c -o $@ $< -I$(LIBHEAD) -I$(THISHEAD)
 
-lemclean:
+sclean:
 			@rm -f $(O_FILES)
 			@echo "$(PURPLE_E)end clean : $(NAME)$(END_E)"
 
-clean:		lemclean
-#			@$(OSMAKE) -C libft/ clean
+clean:		sclean
+			@$(OSMAKE) -C libft/ clean
 
-fclean:		lemclean
+fclean:		sclean
 			@rm -f $(NAME)
-#			@$(OSMAKE) -C libft/ fclean
+			@$(OSMAKE) -C libft/ fclean
+			@echo "$(RED_E)end fclean : $(NAME)$(END_E)"
+
+sfclean:	sclean
+			@rm -f $(NAME)
 			@echo "$(RED_E)end fclean : $(NAME)$(END_E)"
 
 re:			fclean all
 
-.PHONY: clean fclean all re
+sre:		sfclean small
+
+.PHONY: clean fclean all re small sclean sfclean sre

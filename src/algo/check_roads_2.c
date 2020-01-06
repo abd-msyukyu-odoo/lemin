@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_roads.c                                      :+:      :+:    :+:   */
+/*   check_roads_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -91,7 +91,7 @@ static int			cr_on_other_found(t_path **path, t_path *road, t_step *cur)
 	return (0);
 }
 
-static int			cr_find_other(t_path **path)
+int					cr_find_other(t_path **path)
 {
 	t_path			*road;
 	t_step			*cur;
@@ -110,24 +110,4 @@ static int			cr_find_other(t_path **path)
 		road = road->next;
 	}
 	return (0);
-}
-
-void				check_roads(void)
-{
-	t_path			*cur;
-	t_tube			*t;
-
-	cur = lemin->best_path;
-	cur->cur = cur->first;
-	while (cur->cur->next)
-	{
-		t = cur->cur->tube;
-		if (t->cost == LEMIN_DIR_REVERSE)
-		{
-			if (!cr_find_other(&cur))
-				lemin_error(LEMIN_ERR_ALGO);
-		}
-		tube_inverse(cur->cur->tube);
-		cur->cur = cur->cur->next;
-	}
 }

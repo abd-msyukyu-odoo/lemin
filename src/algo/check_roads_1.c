@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin.h                                            :+:      :+:    :+:   */
+/*   check_roads_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dabeloos <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 21:33:36 by dabeloos          #+#    #+#             */
-/*   Updated: 2019/11/28 21:33:37 by dabeloos         ###   ########.fr       */
+/*   Created: 2019/11/29 10:25:41 by dabeloos          #+#    #+#             */
+/*   Updated: 2019/11/29 10:25:43 by dabeloos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_H
-# define LEMIN_H
-# include "libft.h"
-# include "print/lemin_error.h"
-# include "print/print.h"
-# include "read/reading.h"
-# include "structs/charkey.h"
-# include "structs/global.h"
-# include "structs/room.h"
-# include "structs/tube.h"
-# include "structs/ant.h"
-# include "structs/path.h"
-# include "algo/algo.h"
+#include "lemin.h"
 
-# define FALSE 0
-# define TRUE 1
+void				check_roads(void)
+{
+	t_path			*cur;
+	t_tube			*t;
 
-extern t_global		*lemin;
-
-#endif
+	cur = lemin->best_path;
+	cur->cur = cur->first;
+	while (cur->cur->next)
+	{
+		t = cur->cur->tube;
+		if (t->cost == LEMIN_DIR_REVERSE)
+		{
+			if (!cr_find_other(&cur))
+				lemin_error(LEMIN_ERR_ALGO);
+		}
+		tube_inverse(cur->cur->tube);
+		cur->cur = cur->cur->next;
+	}
+}

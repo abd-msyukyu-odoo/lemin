@@ -163,3 +163,20 @@ cycle dans un des paths trouve : path_clone
 
 bfs ne trouve pas le chemin le plus rapide ?
 (print old paths de big_superposition1, le chemin le plus court est trouve pour 4 chemins et pas pour 1)
+
+
+
+
+----------------------------
+
+// pour moi devrait etre en iteratif (gere plus de rooms, gere les poids dans un
+// ordre de type cercle avec rayon qui augmente a partir de la salle de debut)
+// contrairement a la recursive qui va creuser le plus loin possible (spirale)
+// avant de revenir en arriere (beaucoup de mise a jour de poids)
+
+
+------------------------------
+
+#profiling -pg
+#run executable compiled with g pg
+#gprof executable.exe gmon.out > analysis.txt
