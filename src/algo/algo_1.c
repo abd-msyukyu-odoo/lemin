@@ -47,18 +47,12 @@ static unsigned int		first_iteration(void)
 
 void					algo(void)
 {
-	int					old_cost;
-	int					cost;
 	unsigned int		limit;
 
 	limit = first_iteration();
-	old_cost = get_cost();
-	algo_add_paths_to_old_paths(old_cost);
-	cost = -1;
-	while (lemin->n_paths < limit && cost < old_cost)
+	algo_add_paths_to_old_paths(get_cost());
+	while (lemin->n_paths < limit)
 	{
-		if (cost != -1)
-			old_cost = cost;
 		bmf();
 		if (!lemin->best_path)
 			break ;
@@ -66,8 +60,7 @@ void					algo(void)
 		check_roads();
 		algo_add_best_path_to_paths();
 		set_n_elems();
-		cost = get_cost();
-		algo_add_paths_to_old_paths(cost);
+		algo_add_paths_to_old_paths(get_cost());
 		lemin->n_paths++;
 	}
 	pop_best_paths();

@@ -29,14 +29,14 @@ for i in range(n):
 	if system() == 'Darwin':
 		k = open(f, 'w')
 		d = os.path.join(parent, "resources", "generator")
-		input_file = os.popen(d + " --flow-one").read()
+		input_file = os.popen(d + " --big-superposition").read()
 		k.write(input_file)
 		k.close()
 	else:
 		k = open(f, 'r')
 		input_file = k.read()
 		k.close()
-
+	sleep(0.25)
 	rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input_file)
 
 	if python_test:
@@ -60,6 +60,7 @@ for i in range(n):
 		else:
 			prog = "..\\lem-in.exe"
 		os.system(" ".join([prog, "<", f, ">", o]))
+		sleep(0.25)
 		k = open(o, 'r')
 		output = k.read()
 		k.close()
