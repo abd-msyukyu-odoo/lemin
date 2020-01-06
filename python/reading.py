@@ -2,15 +2,15 @@ from globals import Tools
 from globals import *
 
 
-def read_input(input):
+def read_input(input_file):
 	rtree = BTree(None)
-	input = input.splitlines()
+	input_file = input_file.splitlines()
 	rooms = False
-	nbAnts = int(input.pop(0))
+	nbAnts = int(input_file.pop(0))
 	start = 0
 	end = 0
 	required = 0
-	for i in input:
+	for i in input_file:
 		if i == "##start":
 			start += 1
 		elif i == "##end":

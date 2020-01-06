@@ -13,7 +13,7 @@ parent = dirname(dirname(os.path.abspath(__file__)))
 f = os.path.join(parent, "resources", "test.txt")
 o = os.path.join(parent, "resources", "result.txt")
 
-n = 1
+n = 100
 Tools.verbose = False
 visual = False
 c_test = True
@@ -22,12 +22,15 @@ for i in range(n):
 	if system() == 'Darwin':
 		k = open(f, 'w')
 		d = os.path.join(parent, "resources", "generator")
-		k.write(os.popen(d + " --big-superposition").read())
+		input_file = os.popen(d + " --flow-one").read()
+		k.write(input_file)
+		k.close()
+	else:
+		k = open(f, 'r')
+		input_file = k.read()
+		k.close()
 
-	input = open(f, 'r').read()
-
-	#print(input)
-	rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input)
+	rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input_file)
 
 	start = time.time()
 	bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
@@ -50,7 +53,9 @@ for i in range(n):
 		else:
 			prog = "..\\lem-in.exe"
 		os.system(" ".join([prog, "<", f, ">", o]))
-		output = open(o, 'r').read()
+		k = open(o, 'r')
+		output = k.read()
+		k.close()
 		output = output.splitlines()
 		j = 0
 		for line in output:
