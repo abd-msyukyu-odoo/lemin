@@ -17,7 +17,14 @@ n = 100
 Tools.verbose = False
 visual = False
 c_test = True
+python_test = False
 
+if system() == 'Darwin':
+	make = "make"
+else:
+	make = "mingw32-make.exe"
+
+os.system(" ".join([make, "-C", parent, "re"]))
 for i in range(n):
 	if system() == 'Darwin':
 		k = open(f, 'w')
@@ -32,10 +39,10 @@ for i in range(n):
 
 	rtree, nbAnts, Tools.start_name, Tools.end_name, required = read_input(input_file)
 
-	start = time.time()
-	bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
+	if python_test:
+		bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
 	print(str(i))
-	if n == 1 and visual:
+	if n == 1 and visual and python_test:
 		config = Config()
 
 		visu = Floor([bhandari.s_room])
@@ -45,7 +52,7 @@ for i in range(n):
 		for path in bhandari.pathCostDistribution.paths:
 			path.draw(cg.color(path.cost))
 
-	if not c_test:
+	if not c_test and python_test:
 		print("python result : " + str(bhandari.pathCostDistribution.cost) + "/" + str(required) + (" FAIL" if bhandari.pathCostDistribution.cost > required else ""))
 	else:
 		if system() == 'Darwin':
@@ -63,7 +70,10 @@ for i in range(n):
 			if line == "":
 				j = len(output) - j
 				break
-		print("result c/python/required : " + str(j) + "/" + str(bhandari.pathCostDistribution.cost) + "/" + str(required) + (" FAIL" if j > bhandari.pathCostDistribution.cost or bhandari.pathCostDistribution.cost > required else ""))
+		if python_test:
+			print("result c/python/required : " + str(j) + "/" + str(bhandari.pathCostDistribution.cost) + "/" + str(required) + (" FAIL" if j > bhandari.pathCostDistribution.cost or bhandari.pathCostDistribution.cost > required else ""))
+		else:
+			print("result c/required : " + str(j) + "/" + str(required) + (" FAIL" if j > required else ""))
 
-	if n == 1 and visual:
+	if n == 1 and visual and python_test:
 		ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)
