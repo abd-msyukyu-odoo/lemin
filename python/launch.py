@@ -7,13 +7,15 @@ from bhandari import *
 from os.path import dirname, abspath
 import os
 from platform import system
+import numpy as np
+import sys
 import time
 
 parent = dirname(dirname(os.path.abspath(__file__)))
 f = os.path.join(parent, "resources", "test.txt")
 o = os.path.join(parent, "resources", "result.txt")
 
-n = 100
+n = 500
 Tools.verbose = False
 visual = False
 c_test = True
@@ -25,11 +27,14 @@ else:
 	make = "mingw32-make.exe"
 
 os.system(" ".join([make, "-C", parent, "re"]))
+fails = 0
+results = []
+requireds = []
 for i in range(n):
 	if system() == 'Darwin':
 		k = open(f, 'w')
 		d = os.path.join(parent, "resources", "generator")
-		input_file = os.popen(d + " --big-superposition").read()
+		input_file = os.popen(d + " " + sys.argv[1]).read()
 		k.write(input_file)
 		k.close()
 	else:
@@ -41,7 +46,7 @@ for i in range(n):
 
 	if python_test:
 		bhandari = Bhandari(rtree.get_data(Tools.start_name), rtree.get_data(Tools.end_name), rtree, nbAnts)
-	print(str(i))
+	#print(str(i))
 	if n == 1 and visual and python_test:
 		config = Config()
 
@@ -72,9 +77,24 @@ for i in range(n):
 				j = len(output) - j
 				break
 		if python_test:
+			if j > bhandari.pathCostDistribution.cost or bhandari.pathCostDistribution.cost > required:
+				fails += 1
+				requireds.append(required)
+				results.append(j)
 			print("result c/python/required : " + str(j) + "/" + str(bhandari.pathCostDistribution.cost) + "/" + str(required) + (" FAIL" if j > bhandari.pathCostDistribution.cost or bhandari.pathCostDistribution.cost > required else ""))
 		else:
-			print("result c/required : " + str(j) + "/" + str(required) + (" FAIL" if j > required else ""))
+			if j > required:
+				fails += 1
+				requireds.append(required)
+				results.append(j)
 
 	if n == 1 and visual and python_test:
 		ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)
+
+print(str(fails) + " fails sur " + str(n) + " essais")
+print("results: " + str(results))
+print("requireds: " + str(requireds))
+results = np.array(results)
+requireds = np.array(requireds)
+b = results - requireds
+print(sys.argv[1] + " DONE")
