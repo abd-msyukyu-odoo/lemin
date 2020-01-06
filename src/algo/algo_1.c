@@ -30,8 +30,15 @@ static void		initialize_paths(void)
 	lemin->paths->last = NULL;
 }
 
-static unsigned int	set_limit(void)
+static unsigned int	first_iteration(void)
 {
+	initialize_paths();
+	bfs();
+	algo_add_tubes_to_best_path();
+	algo_add_best_path_to_paths();
+	set_n_elems();
+	set_negatives();
+	lemin->n_paths = 1;
 	return ((lemin->start->a_tubes.array.n_items <
 		lemin->end->a_tubes.array.n_items) ?
 		lemin->start->a_tubes.array.n_items :
@@ -40,19 +47,18 @@ static unsigned int	set_limit(void)
 
 void	algo(void)
 {
+	int             old_cost;
+	int             cost;
 	unsigned int	limit;
 
-	limit = set_limit();
-	initialize_paths();
-	bfs();
-	algo_add_tubes_to_best_path();
-	algo_add_best_path_to_paths();
-	set_n_elems();
-	set_negatives();
-	lemin->n_paths = 1;
-	algo_add_paths_to_old_paths(get_cost());
-	while (lemin->n_paths < limit)
+	limit = first_iteration();
+	old_cost = get_cost();
+	algo_add_paths_to_old_paths(old_cost);
+	cost = -1;
+	while (lemin->n_paths < limit && cost < old_cost)
 	{
+		if (cost != -1)
+			old_cost = cost;
 		bmf();
 		if (!lemin->best_path)
 			break ;
@@ -60,7 +66,8 @@ void	algo(void)
 		check_roads();
 		algo_add_best_path_to_paths();
 		set_n_elems();
-		algo_add_paths_to_old_paths(get_cost());
+		cost = get_cost();
+		algo_add_paths_to_old_paths(cost);
 		lemin->n_paths++;
 	}
 	pop_best_paths();
