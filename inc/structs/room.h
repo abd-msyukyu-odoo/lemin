@@ -23,7 +23,7 @@
 ** key : contains the char *key which is the id of the t_room item
 ** bt_tubes : binary tree of tubes for search (has the same elements as a_tubes)
 ** a_tubes : array of tubes for iteration (has the same elements as bt_tubes)
-** status : 
+** status :
 ** 	0 : "IN" room, as one that can only be entered from different "OUT"
 ** 	1 : "OUT" room, as one that can only be entered from the corresponding "IN"
 ** pos : x-y axis coordinates
@@ -73,7 +73,7 @@ int						room_create_start(char *key);
 int						room_create_end(char *key);
 
 /*
-** create the IN and OUT rooms corresponding to key and add them to a binary 
+** create the IN and OUT rooms corresponding to key and add them to a binary
 ** tree
 ** return :
 ** 	1 : success
@@ -93,8 +93,8 @@ t_room					*room_get_status(char *key, int status);
 int						room_equals(void *o1, void *o2);
 
 /*
-** create and add a pair of tube, one from key1 relative "OUT" room to 
-** key2 relative "IN" room, and another from key2 relative "OUT" room to 
+** create and add a pair of tube, one from key1 relative "OUT" room to
+** key2 relative "IN" room, and another from key2 relative "OUT" room to
 ** key1 relative "OUT" room
 ** return :
 ** 	1 : success

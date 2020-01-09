@@ -56,7 +56,7 @@ typedef struct				s_char_memory
 	char					original_value;
 }							t_char_memory;
 
-typedef						int (*t_command_f)(t_lrmanager*, int);
+typedef int					(*t_command_f)(t_lrmanager*, int);
 
 /*
 ** legal_char_1.c
@@ -84,8 +84,8 @@ void						read_lemin(void);
 */
 int							read_end_line(t_lrmanager *mng);
 void						char_memory_recover(t_char_memory *memory);
-void						char_memory_replace(t_char_memory *memory, char *src,
-	char c);
+void						char_memory_replace(t_char_memory *memory,
+	char *src, char c);
 
 /*
 ** read_room.c

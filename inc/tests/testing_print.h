@@ -15,10 +15,10 @@
 # include "structs/path.h"
 # include <stdio.h>
 
-void        printf_working_path(void);
-void        printf_best_path(void);
-void        printf_paths(void);
-void        printf_old_paths(void);
-void        printf_cleared_path(void);
+void		printf_working_path(void);
+void		printf_best_path(void);
+void		printf_paths(void);
+void		printf_old_paths(void);
+void		printf_cleared_path(void);
 
 #endif

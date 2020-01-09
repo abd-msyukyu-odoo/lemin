@@ -22,7 +22,7 @@
 # define LEMIN_DEFAULT_ROOMS_COUNT 5000
 # define LEMIN_DEFAULT_TUBES_COUNT 5000
 
-typedef struct	s_global
+typedef struct		s_global
 {
 	t_memanager		*mmng;
 	t_lrmanager		*lrmng;
