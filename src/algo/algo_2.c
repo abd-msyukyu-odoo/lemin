@@ -16,8 +16,8 @@ void				algo_add_tubes_to_best_path(void)
 {
 	t_step			*elem;
 
-	path_append(lemin->best_path, lemin->end);
-	elem = lemin->best_path->first;
+	path_append(g_lemin->best_path, g_lemin->end);
+	elem = g_lemin->best_path->first;
 	while (elem->next)
 	{
 		if (!(elem->tube = room_get_connection(elem->room, elem->next->room)))
@@ -28,17 +28,17 @@ void				algo_add_tubes_to_best_path(void)
 
 void				algo_add_best_path_to_paths(void)
 {
-	paths_append(lemin->paths, lemin->best_path);
-	lemin->best_path = NULL;
+	paths_append(g_lemin->paths, g_lemin->best_path);
+	g_lemin->best_path = NULL;
 }
 
 void				algo_add_paths_to_old_paths(int cost)
 {
 	t_paths			*paths;
 
-	if (!(paths = paths_clone(lemin->paths)) ||
+	if (!(paths = paths_clone(g_lemin->paths)) ||
 		!(paths->cost = cost) ||
-		!(ft_marray_add(lemin->old_paths, &paths)))
+		!(ft_marray_add(g_lemin->old_paths, &paths)))
 		lemin_error(LEMIN_ERR_MEM);
 }
 
@@ -47,11 +47,11 @@ void				set_negatives(void)
 	t_path			*path;
 	t_step			*step;
 
-	path = lemin->paths->first;
+	path = g_lemin->paths->first;
 	while (path)
 	{
 		step = path->first;
-		while(step->next)
+		while (step->next)
 		{
 			tube_inverse(step->tube);
 			step = step->next;
@@ -65,7 +65,7 @@ void				set_n_elems(void)
 	t_path			*path;
 	t_step			*step;
 
-	path = lemin->paths->first;
+	path = g_lemin->paths->first;
 	while (path)
 	{
 		path->size = 0;

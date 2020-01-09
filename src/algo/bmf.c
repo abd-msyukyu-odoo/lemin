@@ -20,15 +20,15 @@ static void			bmf_recursive(t_room *current, int weight)
 
 	if (!current)
 		return ;
-	if (current == lemin->end)
+	if (current == g_lemin->end)
 		return (update_path(weight));
 	if (current->visited == 1 ||
-		(lemin->n_paths < current->isset && current->weight <= weight))
+		(g_lemin->n_paths < current->isset && current->weight <= weight))
 		return ;
 	current->weight = weight;
-	current->isset = lemin->n_paths + 1;
+	current->isset = g_lemin->n_paths + 1;
 	current->visited = TRUE;
-	path_append(lemin->working_path, current);
+	path_append(g_lemin->working_path, current);
 	top = current->a_tubes.array.n_items;
 	d = 0;
 	while (d < top)
@@ -37,13 +37,13 @@ static void			bmf_recursive(t_room *current, int weight)
 		bmf_recursive(tube_navigate(t, current), weight + t->cost);
 		d++;
 	}
-	path_remove_last(lemin->working_path);
+	path_remove_last(g_lemin->working_path);
 	current->visited = FALSE;
 }
 
 void				bmf(void)
 {
-	if (!lemin->working_path)
+	if (!g_lemin->working_path)
 		return (lemin_error(LEMIN_ERR_MEM));
-	bmf_recursive(lemin->start, 0);
+	bmf_recursive(g_lemin->start, 0);
 }

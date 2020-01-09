@@ -22,7 +22,7 @@ static int			read_room_coordinate(t_lrmanager *mng)
 	{
 		mng->cur++;
 		check = mng->cur;
-	}	
+	}
 	while (ft_isdigit(mng->file[mng->cur]))
 		mng->cur++;
 	if (check == mng->cur)
@@ -69,12 +69,12 @@ int					read_room_format(t_lrmanager *mng,
 	read_room_coordinates(mng);
 	if (!room_create(&mng->file[mng->cur_line]) ||
 		LEMIN_EOL > read_end_line(mng))
-		return(LEMIN_ROOM_ILLEGAL);
+		return (LEMIN_ROOM_ILLEGAL);
 	char_memory_recover(&memory);
 	return (LEMIN_ROOM_LEGAL);
 }
 
-int				read_room(t_lrmanager *mng)
+int					read_room(t_lrmanager *mng)
 {
 	int				status;
 

@@ -28,7 +28,7 @@ int					get_cost(void)
 	t_path			*min;
 
 	set_nb_ants();
-	min = get_path_min_bridge(lemin->paths->first);
+	min = get_path_min_bridge(g_lemin->paths->first);
 	return (min->n_ants + min->size);
 }
 
@@ -65,10 +65,10 @@ void				set_nb_ants(void)
 	int				nb_path;
 
 	nb_path = 0;
-	p = lemin->paths->first;
+	p = g_lemin->paths->first;
 	max = get_max_bridge(p);
 	curr = p;
-	nb_ants = lemin->n_ants;
+	nb_ants = g_lemin->n_ants;
 	while (curr)
 	{
 		nb_path++;

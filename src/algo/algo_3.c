@@ -14,12 +14,13 @@
 
 void				update_path(int weight)
 {
-	if (lemin->end->isset == lemin->n_paths + 1 && lemin->end->weight <= weight)
-		return;
-	lemin->end->isset = lemin->n_paths + 1;
-	lemin->end->weight = weight;
-	if ((lemin->best_path = path_refill(lemin->best_path)) ||
-		!(lemin->best_path = path_clone(lemin->working_path)))
+	if (g_lemin->end->isset == g_lemin->n_paths + 1 &&
+		g_lemin->end->weight <= weight)
+		return ;
+	g_lemin->end->isset = g_lemin->n_paths + 1;
+	g_lemin->end->weight = weight;
+	if ((g_lemin->best_path = path_refill(g_lemin->best_path)) ||
+		!(g_lemin->best_path = path_clone(g_lemin->working_path)))
 		return (lemin_error(LEMIN_ERR_ALGO));
 }
 
@@ -34,9 +35,9 @@ static void			remove_in_out(void)
 	t_path			*path;
 	t_step			*step;
 
-	last_dash_to_nul(lemin->start->key.key);
-	last_dash_to_nul(lemin->end->key.key);
-	path = lemin->paths->first;
+	last_dash_to_nul(g_lemin->start->key.key);
+	last_dash_to_nul(g_lemin->end->key.key);
+	path = g_lemin->paths->first;
 	while (path)
 	{
 		step = path->first->next;
@@ -57,17 +58,17 @@ void				pop_best_paths(void)
 	t_paths			*best;
 	t_paths			*tmp;
 
-	best = *(t_paths**)ft_array_get((t_array*)lemin->old_paths, 0);
+	best = *(t_paths**)ft_array_get((t_array*)g_lemin->old_paths, 0);
 	i = 1;
-	while (i < lemin->old_paths->array.n_items)
+	while (i < g_lemin->old_paths->array.n_items)
 	{
-		tmp = *(t_paths**)ft_array_get((t_array*)lemin->old_paths, i);
+		tmp = *(t_paths**)ft_array_get((t_array*)g_lemin->old_paths, i);
 		if (tmp->cost < best->cost)
 		{
 			best = tmp;
 		}
 		i++;
 	}
-	lemin->paths = best;
+	g_lemin->paths = best;
 	remove_in_out();
 }

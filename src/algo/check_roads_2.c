@@ -81,7 +81,7 @@ static int			cr_on_other_found(t_path **path, t_path *road, t_step *cur)
 		road->cur = cur;
 		cr_exchange(path, road);
 		return (1);
-	} 
+	}
 	else if (road->cur->next != cur->next ||
 		road->cur->prev != cur->prev)
 	{
@@ -96,7 +96,7 @@ int					cr_find_other(t_path **path)
 	t_path			*road;
 	t_step			*cur;
 
-	road = lemin->paths->first;
+	road = g_lemin->paths->first;
 	while (road)
 	{
 		cur = road->first;

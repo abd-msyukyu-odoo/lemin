@@ -16,32 +16,32 @@ void		global_construct(void)
 {
 	if (!(lemin = (t_global*)malloc(sizeof(t_global))))
 		lemin_error(LEMIN_ERR_MEM);
-	lemin->lrmng = NULL;
-	lemin->rooms_tmng = NULL;
-	lemin->tubes_tmng = NULL;
-	if (!(lemin->mmng = ft_memanager_construct(MMNG_DEFAULT_SIZE_COUNT,
+	g_lemin->lrmng = NULL;
+	g_lemin->rooms_tmng = NULL;
+	g_lemin->tubes_tmng = NULL;
+	if (!(g_lemin->mmng = ft_memanager_construct(MMNG_DEFAULT_SIZE_COUNT,
 		5 * LEMIN_DEFAULT_ROOMS_COUNT,
 		500 * LEMIN_DEFAULT_ROOMS_COUNT, 1)) ||
-		!(lemin->rooms_tmng =
+		!(g_lemin->rooms_tmng =
 		ft_typemanager_construct(LEMIN_DEFAULT_ROOMS_COUNT, sizeof(t_room))) ||
-		!(lemin->tubes_tmng =
+		!(g_lemin->tubes_tmng =
 		ft_typemanager_construct(LEMIN_DEFAULT_TUBES_COUNT, sizeof(t_tube))))
 		lemin_error(LEMIN_ERR_MEM);
-	ft_typeused_initialize(&lemin->rooms_used);
-	ft_typeused_initialize(&lemin->tubes_used);
-	lemin->hm_rooms.mmng = NULL;
-	lemin->start = NULL;
-	lemin->end = NULL;
-	lemin->n_ants = 0;
-	lemin->n_paths = 0;
-	lemin->buff = ft_marray_construct(lemin->mmng, LEMIN_PRINT_BF_SIZE,
+	ft_typeused_initialize(&g_lemin->rooms_used);
+	ft_typeused_initialize(&g_lemin->tubes_used);
+	g_lemin->hm_rooms.mmng = NULL;
+	g_lemin->start = NULL;
+	g_lemin->end = NULL;
+	g_lemin->n_ants = 0;
+	g_lemin->n_paths = 0;
+	g_lemin->buff = ft_marray_construct(g_lemin->mmng, LEMIN_PRINT_BF_SIZE,
 		sizeof(char));
-	lemin->ants = NULL;
+	g_lemin->ants = NULL;
 }
 
 void		global_construct_hashmap_rooms(size_t n_rooms)
 {
-	if (!ft_mhmap_initialize(&lemin->hm_rooms, lemin->mmng, n_rooms,
+	if (!ft_mhmap_initialize(&g_lemin->hm_rooms, g_lemin->mmng, n_rooms,
 		ft_hmap_hash_ascii))
 		lemin_error(LEMIN_ERR_MEM);
 }
@@ -50,14 +50,14 @@ void		global_free(void)
 {
 	if (lemin)
 	{
-		if (lemin->tubes_tmng)
-			ft_typemanager_free(lemin->tubes_tmng);
-		if (lemin->rooms_tmng)
-			ft_typemanager_free(lemin->rooms_tmng);
-		if (lemin->lrmng)
-			lrmanager_free(lemin->lrmng);
-		if (lemin->mmng)
-			ft_memanager_free(lemin->mmng);
+		if (g_lemin->tubes_tmng)
+			ft_typemanager_free(g_lemin->tubes_tmng);
+		if (g_lemin->rooms_tmng)
+			ft_typemanager_free(g_lemin->rooms_tmng);
+		if (g_lemin->lrmng)
+			lrmanager_free(g_lemin->lrmng);
+		if (g_lemin->mmng)
+			ft_memanager_free(g_lemin->mmng);
 		free(lemin);
 	}
 }

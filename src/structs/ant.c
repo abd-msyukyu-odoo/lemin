@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -24,14 +23,15 @@
 **	@input:	a pointer on the first element of the path
 **	@out:	a pointer on the new generated ant
 */
+
 t_ant			*ant_add_new(t_ant *ant, int n, t_step *step)
 {
 	char	*s;
 	t_ant	*a;
 
-	if (!(s = ft_mitoa(n, lemin->mmng)))
+	if (!(s = ft_mitoa(n, g_lemin->mmng)))
 		lemin_error(LEMIN_ERR_MEM);
-	if (!(a = (t_ant *)ft_memanager_get(lemin->mmng, sizeof(t_ant))))
+	if (!(a = (t_ant *)ft_memanager_get(g_lemin->mmng, sizeof(t_ant))))
 		lemin_error(LEMIN_ERR_MEM);
 	a->step = step;
 	a->next = ant;
@@ -48,13 +48,14 @@ t_ant			*ant_add_new(t_ant *ant, int n, t_step *step)
 **	@input:	a pointer on the ant to remove
 **	@out:	/
 */
+
 void			ant_remove_refill(t_ant **address, t_ant *a)
 {
 	*address = a->next;
-	if (1 > ft_memanager_refill(lemin->mmng, a->key))
+	if (1 > ft_memanager_refill(g_lemin->mmng, a->key))
 		lemin_error(LEMIN_ERR_PRINT);
 	a->next = NULL;
-	if (1 > ft_memanager_refill(lemin->mmng, a))
+	if (1 > ft_memanager_refill(g_lemin->mmng, a))
 		lemin_error(LEMIN_ERR_PRINT);
 }
 
@@ -66,12 +67,13 @@ void			ant_remove_refill(t_ant **address, t_ant *a)
 **	@input:	a pointer on the ant to free
 **	@out:	NULL
 */
+
 t_ant			*ant_refill_all(t_ant *a)
 {
 	if (a->next)
 		a->next = ant_refill_all(a->next);
 	if (a->key)
-		ft_memanager_refill(lemin->mmng, a->key);
-	ft_memanager_refill(lemin->mmng, a);
+		ft_memanager_refill(g_lemin->mmng, a->key);
+	ft_memanager_refill(g_lemin->mmng, a);
 	return (NULL);
 }

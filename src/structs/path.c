@@ -23,10 +23,10 @@ t_path			*path_refill(t_path *path)
 	while (cur)
 	{
 		next = cur->next;
-		ft_memanager_refill(lemin->mmng, cur);
+		ft_memanager_refill(g_lemin->mmng, cur);
 		cur = next;
 	}
-	ft_memanager_refill(lemin->mmng, path);
+	ft_memanager_refill(g_lemin->mmng, path);
 	return (NULL);
 }
 
@@ -38,7 +38,7 @@ void			path_remove_last(t_path *path)
 		return ;
 	else if (path->last == path->first)
 	{
-		ft_memanager_refill(lemin->mmng, path->first);
+		ft_memanager_refill(g_lemin->mmng, path->first);
 		path->last = NULL;
 		path->first = NULL;
 		return ;
@@ -46,7 +46,7 @@ void			path_remove_last(t_path *path)
 	cur = path->last;
 	path->last = cur->prev;
 	path->last->next = NULL;
-	ft_memanager_refill(lemin->mmng, cur);
+	ft_memanager_refill(g_lemin->mmng, cur);
 }
 
 void			path_extract_step(t_path *path, t_step *step)
@@ -64,15 +64,15 @@ void			path_extract_step(t_path *path, t_step *step)
 	{
 		path->last = step->prev;
 		path->last->next = NULL;
-	}	
-	ft_memanager_refill(lemin->mmng, step);
+	}
+	ft_memanager_refill(g_lemin->mmng, step);
 }
 
 void			path_append(t_path *path, t_room *room)
 {
 	t_step		*step;
 
-	if (!(step = (t_step*)ft_memanager_get(lemin->mmng, sizeof(t_step))))
+	if (!(step = (t_step*)ft_memanager_get(g_lemin->mmng, sizeof(t_step))))
 		lemin_error(LEMIN_ERR_MEM);
 	step->room = room;
 	step->tube = NULL;
@@ -91,7 +91,7 @@ t_path			*path_clone(t_path *path)
 	t_step		*step;
 	t_step		*cur;
 
-	if (!(other = (t_path*)ft_memanager_get(lemin->mmng, sizeof(t_path))))
+	if (!(other = (t_path*)ft_memanager_get(g_lemin->mmng, sizeof(t_path))))
 		lemin_error(LEMIN_ERR_MEM);
 	other->first = NULL;
 	other->last = NULL;

@@ -26,18 +26,18 @@ static t_room			*room_create_extrema(char *key, unsigned int status)
 
 int						room_create_start(char *key)
 {
-	if (lemin->start)
+	if (g_lemin->start)
 		return (0);
-	lemin->start = room_create_extrema(key, LEMIN_OUT);
-	return (lemin->start != NULL);
+	g_lemin->start = room_create_extrema(key, LEMIN_OUT);
+	return (g_lemin->start != NULL);
 }
 
 int						room_create_end(char *key)
 {
-	if (lemin->end)
+	if (g_lemin->end)
 		return (0);
-	lemin->end = room_create_extrema(key, LEMIN_IN);
-	return (lemin->end != NULL);
+	g_lemin->end = room_create_extrema(key, LEMIN_IN);
+	return (g_lemin->end != NULL);
 }
 
 int						room_create_pair(char *key)

@@ -21,11 +21,12 @@
 **	@input:	the string to add to the buffer
 **	@out:	/
 */
+
 static void			add_to_buff(char *s)
 {
 	while (*s)
 	{
-		if (1 > ft_marray_add(lemin->buff, s++))
+		if (1 > ft_marray_add(g_lemin->buff, s++))
 			lemin_error(LEMIN_ERR_PRINT);
 	}
 }
@@ -39,6 +40,7 @@ static void			add_to_buff(char *s)
 **	@input:	a pointer on the ant to print and move
 **	@out:	/
 */
+
 static void			move_one_ant(t_ant *a)
 {
 	add_to_buff("L");
@@ -59,6 +61,7 @@ static void			move_one_ant(t_ant *a)
 **	@input:	a pointer on the address of the poiter on the first ant
 **	@out:	/
 */
+
 static void			move_ants(t_ant **a)
 {
 	t_ant			*actual;
@@ -90,19 +93,21 @@ static void			move_ants(t_ant **a)
 **	@input:	a pointer on the t_global structure
 **	@out:	/
 */
+
 static void			launch_ants(void)
 {
 	t_path			*path;
 	t_path			**pointer;
 
-	pointer = &(lemin->paths->first);
-	path = lemin->paths->first;
+	pointer = &(g_lemin->paths->first);
+	path = g_lemin->paths->first;
 	while (path)
 	{
-		if (lemin->n_ants && path->n_ants > 0)
+		if (g_lemin->n_ants && path->n_ants > 0)
 		{
-			lemin->ants = ant_add_new(lemin->ants, lemin->n_ants, path->first);
-			lemin->n_ants -= 1;
+			g_lemin->ants = ant_add_new(g_lemin->ants, g_lemin->n_ants,
+				path->first);
+			g_lemin->n_ants -= 1;
 			path->n_ants -= 1;
 			pointer = &(path->next);
 		}
@@ -120,20 +125,21 @@ static void			launch_ants(void)
 **	@input:	/
 **	@out:	/
 */
+
 void				print(void)
 {
-	write(1, lemin->lrmng->file, lemin->lrmng->cur_line);
+	write(1, g_lemin->lrmng->file, g_lemin->lrmng->cur_line);
 	write(1, "\n", 1);
-	while (lemin->n_ants > 0 || lemin->ants)
+	while (g_lemin->n_ants > 0 || g_lemin->ants)
 	{
-		if (lemin->n_ants > 0)
+		if (g_lemin->n_ants > 0)
 			launch_ants();
-		move_ants(&(lemin->ants));
+		move_ants(&(g_lemin->ants));
 		add_to_buff("\n");
-		if (!lemin->ants && lemin->n_ants > 0)
+		if (!g_lemin->ants && g_lemin->n_ants > 0)
 			lemin_error(LEMIN_ERR_PRINT);
 	}
-	write(1, lemin->buff->array.items, lemin->buff->array.n_items);
+	write(1, g_lemin->buff->array.items, g_lemin->buff->array.n_items);
 	global_free();
 	exit(0);
 }

@@ -124,11 +124,11 @@ int				main(void)
 	global_construct_hashmap_rooms(LEMIN_DEFAULT_ROOMS_COUNT);
 	read_lemin();
 	printf("======display lemin's room hashmap\n");
-	//display_hmap_repartition(&lemin->hm_rooms);
-	display_hm(&lemin->hm_rooms, show_room);
-	display_start(lemin->start);
-	display_end(lemin->end);
-	display_n_ants(lemin->n_ants);
+	//display_hmap_repartition(&g_lemin->hm_rooms);
+	display_hm(&g_lemin->hm_rooms, show_room);
+	display_start(g_lemin->start);
+	display_end(g_lemin->end);
+	display_n_ants(g_lemin->n_ants);
 	global_free();
 	end = clock();
 	printf("%f \n", (double)(end - start) / CLOCKS_PER_SEC);

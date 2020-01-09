@@ -19,8 +19,8 @@ static void			bfs_recursive(t_room *current, int weight)
 	t_tube			*t;
 
 	if (!current)
-		return;
-	if (current == lemin->end)
+		return ;
+	if (current == g_lemin->end)
 		return (update_path(weight));
 	if (current->visited == 1 ||
 		(current->isset && current->weight <= weight))
@@ -28,7 +28,7 @@ static void			bfs_recursive(t_room *current, int weight)
 	current->weight = weight;
 	current->isset = 1;
 	current->visited = TRUE;
-	path_append(lemin->working_path, current);
+	path_append(g_lemin->working_path, current);
 	top = current->a_tubes.array.n_items;
 	d = 0;
 	while (d < top)
@@ -37,13 +37,13 @@ static void			bfs_recursive(t_room *current, int weight)
 		bfs_recursive(tube_navigate(t, current), weight + t->cost);
 		d++;
 	}
-	path_remove_last(lemin->working_path);
+	path_remove_last(g_lemin->working_path);
 	current->visited = FALSE;
 }
 
 void				bfs(void)
 {
-	bfs_recursive(lemin->start, 0);
-	if (!(lemin->best_path))
+	bfs_recursive(g_lemin->start, 0);
+	if (!(g_lemin->best_path))
 		lemin_error(LEMIN_ERR_INSUFFICIENT_DATA);
 }

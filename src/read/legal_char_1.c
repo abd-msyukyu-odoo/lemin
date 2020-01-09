@@ -17,7 +17,6 @@ int					read_room_legal_separator(char c)
 	return (c == ' ');
 }
 
-
 int					read_tube_legal_separator(char c)
 {
 	return (c == '-');

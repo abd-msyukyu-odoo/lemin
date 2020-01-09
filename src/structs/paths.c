@@ -24,7 +24,7 @@ t_paths			*paths_clone(t_paths *paths)
 	t_path		*step;
 	t_path		*cur;
 
-	if (!(other = (t_paths*)ft_memanager_get(lemin->mmng, sizeof(t_paths))))
+	if (!(other = (t_paths*)ft_memanager_get(g_lemin->mmng, sizeof(t_paths))))
 		lemin_error(LEMIN_ERR_MEM);
 	paths_clone_initialize(other);
 	step = paths->first;

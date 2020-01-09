@@ -16,7 +16,7 @@ static int			read_ants_format(t_lrmanager *mng)
 {
 	intmax_t		result;
 
-	mng = lemin->lrmng;
+	mng = g_lemin->lrmng;
 	while (ft_isdigit(mng->file[mng->cur]))
 		mng->cur++;
 	if (mng->cur == mng->cur_line)
@@ -26,7 +26,7 @@ static int			read_ants_format(t_lrmanager *mng)
 		result == (intmax_t)0 ||
 		LEMIN_EOL > read_end_line(mng))
 		return (LEMIN_BAD_LINE);
-	lemin->n_ants = (int)result;
+	g_lemin->n_ants = (int)result;
 	return (LEMIN_ANTS_LEGAL);
 }
 

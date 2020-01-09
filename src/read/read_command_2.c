@@ -42,7 +42,7 @@ t_command_f			command_function(int command)
 	static t_command_f	commands[LEMIN_SIZE_COMMANDS] = {
 		read_command_start_room,
 		read_command_end_room};
-	
+
 	return (commands[command - 1]);
 }
 
@@ -51,6 +51,6 @@ char				*command_name(int command)
 	static char		*commands[LEMIN_SIZE_COMMANDS] = {
 		"start",
 		"end"};
-	
+
 	return (commands[command - 1]);
 }

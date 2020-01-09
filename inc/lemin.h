@@ -27,6 +27,6 @@
 # define FALSE 0
 # define TRUE 1
 
-extern t_global		*lemin;
+extern t_global		*g_lemin;
 
 #endif

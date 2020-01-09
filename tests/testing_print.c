@@ -18,9 +18,9 @@ void    printf_cleared_path()
 	t_path      *path;
 	t_step      *step;
 
-	path = lemin->paths->first;
+	path = g_lemin->paths->first;
 	printf("Paths :\n");
-	printf("- Cost: %d\n", lemin->paths->cost);
+	printf("- Cost: %d\n", g_lemin->paths->cost);
 	while (path)
 	{
 		step = path->first;
@@ -40,12 +40,12 @@ void    printf_working_path()
 {
 	t_step  *step;
 
-	if (!lemin->working_path || !lemin->working_path->first)
+	if (!g_lemin->working_path || !g_lemin->working_path->first)
 	{
 		printf("Empty working_path\n");
 		return ;
 	}
-	step = lemin->working_path->first;
+	step = g_lemin->working_path->first;
 	printf("Working path: %.1s ", step->room->key.key);
 	step = step->next;
 	while (step && step->next)
@@ -60,12 +60,12 @@ void    printf_best_path()
 {
 	t_step  *step;
 
-	if (!lemin->best_path)
+	if (!g_lemin->best_path)
 	{
 		printf("no best_path\n");
 		return ;
 	}
-	step = lemin->best_path->first;
+	step = g_lemin->best_path->first;
 	printf("Best path: %.1s ", step->room->key.key);
 	step = step->next;
 	while (step)
@@ -81,7 +81,7 @@ void    printf_paths()
 	t_path      *path;
 	t_step      *step;
 
-	path = lemin->paths->first;
+	path = g_lemin->paths->first;
 	printf("Paths :\n");
 	while (path)
 	{
@@ -110,9 +110,9 @@ void    printf_old_paths()
 
 	i = 0;
 	printf("old paths :\n");
-	while (i < lemin->old_paths->array.n_items)
+	while (i < g_lemin->old_paths->array.n_items)
 	{
-		paths = *(t_paths **)ft_array_get(&(lemin->old_paths->array), i);
+		paths = *(t_paths **)ft_array_get(&(g_lemin->old_paths->array), i);
 		printf("- Paths group :\n");
 		printf("- - Cost: %d\n", paths->cost);
 		path = paths->first;
