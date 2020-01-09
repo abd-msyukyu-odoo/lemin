@@ -14,7 +14,7 @@
 
 void		global_construct(void)
 {
-	if (!(lemin = (t_global*)malloc(sizeof(t_global))))
+	if (!(g_lemin = (t_global*)malloc(sizeof(t_global))))
 		lemin_error(LEMIN_ERR_MEM);
 	g_lemin->lrmng = NULL;
 	g_lemin->rooms_tmng = NULL;
@@ -48,7 +48,7 @@ void		global_construct_hashmap_rooms(size_t n_rooms)
 
 void		global_free(void)
 {
-	if (lemin)
+	if (g_lemin)
 	{
 		if (g_lemin->tubes_tmng)
 			ft_typemanager_free(g_lemin->tubes_tmng);
@@ -58,6 +58,6 @@ void		global_free(void)
 			lrmanager_free(g_lemin->lrmng);
 		if (g_lemin->mmng)
 			ft_memanager_free(g_lemin->mmng);
-		free(lemin);
+		free(g_lemin);
 	}
 }

@@ -94,6 +94,8 @@ else :
 					requireds.append(required)
 					results.append(j)
 				print("result c/required : " + str(j) + "/" + str(required) + (" FAIL" if j > required else ""))
+				if j == 1:
+					break
 
 		if n == 1 and visual and python_test:
 			ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)
