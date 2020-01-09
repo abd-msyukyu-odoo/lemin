@@ -30,7 +30,7 @@ os.system(" ".join([make, "-C", parent, "re"]))
 
 # si visu
 if len(sys.argv) == 1 or sys.argv[1] == "visu":
-
+	pass
 # si tests
 else :
 	fails = 0
@@ -93,6 +93,7 @@ else :
 					fails += 1
 					requireds.append(required)
 					results.append(j)
+				print("result c/required : " + str(j) + "/" + str(required) + (" FAIL" if j > required else ""))
 
 		if n == 1 and visual and python_test:
 			ants = DisplayAnts(bhandari.pathCostDistribution.ants_distribution, bhandari.pathCostDistribution.paths)
