@@ -57,8 +57,8 @@ void					algo(void)
 		if (!g_lemin->best_path)
 			break ;
 		algo_add_tubes_to_best_path();
-		check_roads();
 		algo_add_best_path_to_paths();
+		check_roads();
 		set_n_elems();
 		algo_add_paths_to_old_paths(get_cost());
 		g_lemin->n_paths++;

@@ -17,7 +17,7 @@ void				check_roads(void)
 	t_path			*cur;
 	t_tube			*t;
 
-	cur = g_lemin->best_path;
+	cur = g_lemin->paths->last;
 	cur->cur = cur->first;
 	while (cur->cur->next)
 	{
