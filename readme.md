@@ -33,7 +33,7 @@ The viewer displays little black dots ("ants") following the paths of the soluti
 
 ## Controls
 
-You can chose attach the camera to a random ant and change de speed in the menu below.
+You can chose to attach the camera to a random ant and change the speed in the menu below.
 
 You can move the camera using the mouse and `Ctrl + leftClick` or `rightClick`.
 
